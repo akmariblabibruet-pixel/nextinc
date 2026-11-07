@@ -37,17 +37,18 @@
     film: function (f, o) {
       o = o || {};
       var media = f.poster ? '<img src="' + e(f.poster) + '" alt="" loading="lazy" decoding="async">' : NEXT.art.cover(f);
-      return '<button type="button" class="film' + (f.sample ? ' is-sample' : '') + '" data-film="' + e(f.id) + '" data-cursor="Play" aria-label="Play: ' + e(f.title) + '"' + (o.reveal === false ? '' : ' data-reveal') + d(o.delay || 0) + '>' +
+      return '<button type="button" class="film' + (f.sample ? ' is-sample' : '') + '" data-film="' + e(f.id) + '" data-cursor="Play"' + (o.reveal === false ? '' : ' data-reveal') + d(o.delay || 0) + '>' +
+        '<span class="sr-only">Play' + (o.bare ? ': ' + e(f.title) + '. ' : ' ') + '</span>' +     /* part of the name, so the name always contains the visible text */
         '<span class="film__frame">' + media + '<span class="film__play" aria-hidden="true"></span><span class="film__time">' + e(f.duration || '') + '</span></span>' +
         (o.bare ? '' : '<span class="film__ttl">' + e(f.title) + '</span><span class="film__sub">' + e(f.sub || '') + '</span>') + '</button>';
     },
 
     /* programme list of films (rows) */
     reel: function (films) {
-      return '<div class="reel" role="list">' + films.map(function (f, i) {
-        return '<button type="button" class="reel__item" role="listitem" data-film="' + e(f.id) + '" data-reveal' + d(i) + '><span class="reel__no">' + pad(i + 1) + '</span>' +
-          '<span class="reel__name">' + e(f.title) + '<small>' + e(f.sub || '') + '</small></span><span class="reel__time">' + e(f.duration || '') + '</span></button>';
-      }).join('') + '</div>';
+      return '<ol class="reel">' + films.map(function (f, i) {
+        return '<li data-reveal' + d(i) + '><button type="button" class="reel__item" data-film="' + e(f.id) + '"><span class="reel__no">' + pad(i + 1) + '</span>' +
+          '<span class="reel__name">' + e(f.title) + '<small>' + e(f.sub || '') + '</small></span><span class="reel__time">' + e(f.duration || '') + '</span></button></li>';
+      }).join('') + '</ol>';
     },
 
     /* achievements as numbered references */

@@ -91,7 +91,7 @@
       var logo = p.logo ? '<img class="plate__logo" src="' + e(p.logo) + '" alt="' + e(p.title) + ' logo" width="512" height="512">' : '';
       var hero;
       if (film) {
-        hero = '<button type="button" class="plate cs-plate" data-film="' + e(film.id) + '" data-cursor="Play" aria-label="Play film: ' + e(film.title) + '"><span class="plate__frame" style="--ar:16/9">' + cover + logo +
+        hero = '<button type="button" class="plate cs-plate" data-film="' + e(film.id) + '" data-cursor="Play" aria-label="Play film: ' + e(film.title + (film.duration ? ', ' + film.duration : '')) + '"><span class="plate__frame" style="--ar:16/9">' + cover + logo +
           '<span class="film__play" aria-hidden="true"></span><span class="film__time">' + e(film.duration || '') + '</span></span></button>' +
           '<figcaption class="cap"><span class="cap__text"><b>Fig. 1.</b> ' + e(p.title) + ' &mdash; ' + e(film.title) + '.</span></figcaption>';
       } else {

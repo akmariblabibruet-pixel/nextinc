@@ -8,7 +8,7 @@
  * Writes
  *   <!-- seo -->…<!-- /seo -->        in each page's <head>: canonical, icons, manifest, Open Graph, Twitter card
  *                                     (+ Organization JSON-LD on index.html). Pages get it by containing the marker pair.
- *   <!-- seo:base -->…<!-- /seo:base --> 404.html only: makes its relative links work from any missing address.
+ *   <!-- seo:base -->…<!-- /seo:base --> 404.html only: a <base> (from the site address) so its relative links work from any missing address.
  *   <!-- roles -->…<!-- /roles -->    career.html: the open-roles list, from assets/data/roles.js
  *   sitemap.xml, robots.txt
  * Titles and descriptions are read from each page's own <title> / <meta name="description"> — edit them there.
@@ -76,9 +76,10 @@ function seoBlock(file, src) {
   return lines.join('\n');
 }
 
-/* 404.html is served for any missing address (/a/b/c), where "assets/…" would not resolve. A base element fixes that,
-   but only when the page is not being opened at its own address (so local previews keep working). */
-const baseBlock = () => `<script>(function(){if(/404\\.html$/.test(location.pathname))return;var b=document.createElement('base');b.href=${JSON.stringify(basePath)};document.head.appendChild(b);})();</script>`;
+/* 404.html is served for any missing address (/a/b/c), where "assets/…" would not resolve against the page's own address.
+   A static <base> fixes that. It must be in the HTML, not added by a script: the browser starts fetching stylesheets and fonts before any script runs.
+   The "#main" links are re-pointed at the page itself by the small script at the end of 404.html, since a <base> would send them to the home page. */
+const baseBlock = () => `<base href="${basePath}">`;
 
 function rolesBlock() {
   return (N.roles || []).map((r) => `      <li class="role" id="${esc(r.slug)}" data-reveal>

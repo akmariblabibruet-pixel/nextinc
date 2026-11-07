@@ -186,13 +186,14 @@ sup{font-size:.62em;line-height:0;vertical-align:.5em;font-weight:700;color:var(
 .site-header__in{height:100%;display:flex;align-items:center;justify-content:space-between;gap:2rem}
 .wordmark{display:inline-flex;align-items:baseline;gap:.4em;color:var(--ink);font-size:1.55rem;font-weight:700;letter-spacing:-.02em;line-height:1}
 .wordmark i{color:var(--crimson);font-weight:700;padding-inline:.02em}   /* Ne𝑥t — x, the unknown */
-.wordmark small{font-size:.5em;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);transform:translateY(-.1em)}
+.wordmark small{font-size:.5em;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);transform:translateY(-.1em)}
 .nav{display:none;align-items:center;gap:clamp(1rem,2.4vw,2.2rem)}
 .nav a{position:relative;font-size:.76rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);padding:.5rem 0}
 .nav a::after{content:"";position:absolute;left:0;right:0;bottom:.15rem;height:1px;background:var(--crimson);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease)}
 .nav a:hover::after,.nav a[aria-current="page"]::after{transform:scaleX(1)}
 .nav a[aria-current="page"]{color:var(--ink)}
 .nav .btn{padding:.85em 1.2em;color:var(--paper)}
+.nav .btn[aria-current="page"]{color:var(--paper)}
 .nav .btn::after{content:"→"}
 .nav .btn:hover::after{transform:translateX(.3em)}
 .nav .btn::before{content:none}
@@ -462,3 +463,4 @@ a.plate:hover .plate__frame>.plate__logo{transform:translate(-50%,-50%) scale(1.
 .crumbs{font-size:.74rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
 .crumbs a:hover{color:var(--crimson)}
 .crumbs span{color:var(--rule);margin-inline:.6em}
+.crumbs span.cur{color:var(--ink-2);margin-inline:0}
