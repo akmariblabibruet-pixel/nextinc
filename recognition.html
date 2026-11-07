@@ -9,6 +9,7 @@
 <link rel="preload" href="assets/fonts/cmu-serif-500-roman.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/cmu-serif-700-roman.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/pages/studio.css">
 </head>
 <body>
 <!-- shell:header -->
@@ -40,13 +41,19 @@
 </div>
 <!-- /shell:header -->
 <main id="main">
-  <!-- STUB:S5 — replace with the full Recognition page (timeline by year, filters) -->
   <section class="wrap page-head">
-    <p class="kicker kicker--crimson smcp" data-reveal>§ Recognition</p>
+    <p class="kicker kicker--crimson smcp" data-reveal>&sect; Recognition</p>
     <h1 class="h1" data-split>Cited <em>works</em> &amp; milestones.</h1>
-    <p class="lede" data-reveal style="--d:3">Awards, press and milestones, listed the way research is — numbered and referenced.</p>
+    <p class="lede" data-reveal style="--d:3">Awards, press and milestones, listed the way research is &mdash; numbered and referenced.</p>
+    <div class="filters" role="group" aria-label="Filter by type" id="filters"></div>
+    <p class="filters__count mute" id="count" aria-live="polite"></p>
   </section>
-  <section class="wrap sec--tight" style="padding-bottom:clamp(4rem,8vw,7rem)"><div data-mount="refs"></div></section>
+
+  <section class="wrap sec--tight rec" style="padding-bottom:clamp(4rem,8vw,7rem)">
+    <aside class="note rec__note" id="honest" hidden><b>&dagger; Just getting started.</b> We have not yet published verified awards or press, and we will not invent any. The entries below are placeholders marking what we are working toward &mdash; each will be replaced with a real, linkable reference.</aside>
+    <div id="groups"><noscript><p>Recognition entries are loaded with JavaScript.</p></noscript></div>
+    <div class="empty" id="empty" hidden><p class="lede">Nothing of that type yet.</p><p class="mt-s"><button class="link" type="button" data-reset>Show everything</button></p></div>
+  </section>
 </main>
 <!-- shell:footer -->
 <footer class="site-footer room">
@@ -94,5 +101,6 @@
 <script src="assets/js/art.js"></script>
 <script src="assets/js/core.js"></script>
 <script src="assets/js/render.js"></script>
+<script src="assets/js/pages/studio.js"></script>
 </body>
 </html>

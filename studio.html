@@ -9,6 +9,7 @@
 <link rel="preload" href="assets/fonts/cmu-serif-500-roman.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/cmu-serif-700-roman.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/pages/studio.css">
 </head>
 <body>
 <!-- shell:header -->
@@ -40,14 +41,80 @@
 </div>
 <!-- /shell:header -->
 <main id="main">
-  <!-- STUB:S5 — replace with the full Studio page (story, authors, hubs, values) -->
   <section class="wrap page-head">
-    <p class="kicker kicker--crimson smcp" data-reveal>§ Studio</p>
+    <p class="kicker kicker--crimson smcp" data-reveal>&sect; Studio</p>
     <h1 class="h1" data-split>A small lab with a <em>long</em> view.</h1>
-    <p class="lede" data-reveal style="--d:3">Next Inc. is an innovation lab and full-stack technology partner working across two hubs.</p>
+    <p class="lede" data-reveal style="--d:3">Next Inc. is an innovation lab and full-stack technology partner, working across two hubs.</p>
   </section>
-  <section class="wrap sec--tight"><div data-mount="authors"></div></section>
-  <section class="wrap sec"><figure><div data-mount="map"></div><figcaption class="cap mt-s"><span class="cap__text"><b>Fig. 1.</b> Two hubs, one lab.</span></figcaption></figure></section>
+
+  <section class="wrap sec--tight" id="story" aria-labelledby="story-h">
+    <div class="sec-head">
+      <span class="sec-head__no">&sect;1</span>
+      <h2 class="sec-head__title h2" id="story-h" data-split>The <em>story</em></h2>
+    </div>
+    <div class="grid">
+      <div class="c-7 prose" data-reveal>
+        <p class="dropcap">We are an innovation lab. Our job is to bridge cutting-edge research and practical application &mdash; to take an idea that is still a paper, a prototype or a hunch, and turn it into software that people can use every day.</p>
+        <p>In practice that means one team covering the whole path: websites and web apps, mobile applications, enterprise SaaS, and AI and LLM systems. Design, engineering and research sit at the same table, so what we prototype is what we ship.</p>
+        <p>We work from two hubs. Pennsylvania, USA is our operations hub; Vodra, Rajshahi, Bangladesh is our engineering and R&amp;D hub. Our flagship product is Mini Me.</p>
+      </div>
+      <aside class="c-4 s-9" aria-label="Margin note"><p class="note" data-reveal style="--d:2"><b>&dagger; Why &ldquo;lab&rdquo;?</b>Because we would rather test an idea than argue about it. Our <a class="link" href="index.html#method">method</a> starts from a hypothesis and a way to check it.</p></aside>
+    </div>
+  </section>
+
+  <section class="wrap sec" id="authors" aria-labelledby="auth-h">
+    <div class="sec-head">
+      <span class="sec-head__no">&sect;2</span>
+      <h2 class="sec-head__title h2" id="auth-h" data-split>The <em>authors</em></h2>
+      <p class="sec-head__intro">Three founders: chief executive, chief technology officer and chief operating officer.</p>
+    </div>
+    <div data-mount="authors"></div>
+  </section>
+
+  <section class="wrap sec" id="hubs" aria-labelledby="hubs-h">
+    <div class="sec-head">
+      <span class="sec-head__no">&sect;3</span>
+      <h2 class="sec-head__title h2" id="hubs-h" data-split>Two <em>hubs</em></h2>
+      <p class="sec-head__intro">Operations in the United States, engineering and research in Bangladesh.</p>
+    </div>
+    <figure class="hubs-fig" role="group" aria-label="Map of the two Next Inc. hubs: Pennsylvania, USA and Rajshahi, Bangladesh">
+      <div data-mount="map"></div>
+      <figcaption class="cap mt-s hubs-caps">
+        <span class="cap__text"><b>Fig. 1.</b> Two hubs, one lab.</span>
+        <span class="cap__text"><b>(a)</b> Pennsylvania, USA &mdash; USA Operations Hub.</span>
+        <span class="cap__text"><b>(b)</b> Vodra, Rajshahi, Bangladesh &mdash; Engineering &amp; R&amp;D Hub.</span>
+      </figcaption>
+    </figure>
+  </section>
+
+  <section class="wrap sec" id="values" aria-labelledby="val-h">
+    <div class="sec-head">
+      <span class="sec-head__no">&sect;4</span>
+      <h2 class="sec-head__title h2" id="val-h" data-split>How we <em>hold ourselves</em></h2>
+      <p class="sec-head__intro">Four principles, and what each one means in practice.</p>
+    </div>
+    <div class="tabwrap" data-reveal>
+      <table class="tab values">
+        <thead><tr><th scope="col">Principle</th><th scope="col">What it means in practice</th></tr></thead>
+        <tbody>
+          <tr><th scope="row" class="values__p">Evidence over opinion</th><td>We prototype first and put it in front of real users, so a decision rests on what we observed rather than on what we assumed.</td></tr>
+          <tr><th scope="row" class="values__p">Built to be handed over</th><td>Code is tested and documented, with monitoring in place, so any competent engineer can pick it up &mdash; including you.</td></tr>
+          <tr><th scope="row" class="values__p">One team, end to end</th><td>Design, engineering and AI research are done by the same people, so nothing is lost between a brief and a release.</td></tr>
+          <tr><th scope="row" class="values__p">Two hubs, one standard</th><td>Operations in Pennsylvania and engineering in Rajshahi work to the same process and the same definition of done.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note table-cap"><b>Table 1.</b> Principles and practice.</p>
+  </section>
+
+  <section class="wrap sec cta" aria-labelledby="cta-h">
+    <h2 class="h2" id="cta-h">Want to work <em>with us?</em></h2>
+    <div class="flex mt-m">
+      <a class="btn" href="contact.html">Start a project</a>
+      <a class="btn btn--ghost" href="career.html">See open roles</a>
+      <a class="link link--arrow" href="work.html">See our work</a>
+    </div>
+  </section>
 </main>
 <!-- shell:footer -->
 <footer class="site-footer room">
@@ -95,5 +162,6 @@
 <script src="assets/js/art.js"></script>
 <script src="assets/js/core.js"></script>
 <script src="assets/js/render.js"></script>
+<script src="assets/js/pages/studio.js"></script>
 </body>
 </html>

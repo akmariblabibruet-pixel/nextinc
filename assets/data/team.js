@@ -3,6 +3,8 @@
    Photos were extracted from the old index.html (assets/img/team/*).
    ========================================================================== */
 window.NEXT = window.NEXT || {};
+/* Optional per-person `bio` (1–2 true sentences) is shown under the portrait on studio.html.
+   Leave it out until you have real text — nothing is invented. e.g.  bio: "…" */
 NEXT.team = [
   { name: "Arib Labib",       role: "Founder & CEO",      photo: "assets/img/team/arib-labib.jpg",       webp: "assets/img/team/arib-labib.webp" },
   { name: "Shuaib Islam",     role: "Co-Founder & CTO",   photo: "assets/img/team/shuaib-islam.jpg",     webp: "assets/img/team/shuaib-islam.webp" },
