@@ -8,7 +8,7 @@
 .hero .toc{margin-top:.3rem}
 @media(min-width:860px){.hero .toc{margin-left:auto}}
 .hero__fig{margin-top:clamp(2.4rem,5vw,4rem);margin-bottom:0}
-.hero__plate{display:block;width:100%;text-align:left;cursor:pointer}
+.hero__plate{display:block;width:100%;text-align:left}
 .hero__plate .plate__frame{--ar:21/9;background:var(--room)}
 @media(max-width:700px){.hero__plate .plate__frame{--ar:4/3}}
 .hero__art{position:absolute;inset:-9% 0;display:block}

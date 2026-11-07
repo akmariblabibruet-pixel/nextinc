@@ -281,7 +281,7 @@
   /* ------------------------------------------------------------------ go */
   function start() {
     if (!films.length) {
-      var h = $('#feat-film'); if (h) h.innerHTML = '<p class="lede">No films yet. Add one in <span class="mono">assets/data/films.js</span>.</p>';
+      var h = $('#feat-film'); if (h) h.innerHTML = '<p class="lede">No films yet. We will publish them here when they are ready.</p>';
       var s = $('#all'); if (s) s.hidden = true; document.documentElement.classList.add('films-ready'); return;
     }
     try { renderFeatured(); renderGroups(); } finally { document.documentElement.classList.add('films-ready'); }   /* see films.css: the parts below the head stay unpainted until now */

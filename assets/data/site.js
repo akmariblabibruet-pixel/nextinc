@@ -1,6 +1,6 @@
 /* ==========================================================================
    Site-wide facts. Owned by S1.  Edit text here, not in the HTML pages.
-   `sample: true` marks placeholder content — scripts/check-samples.mjs
+   a `sample` flag marks placeholder content — scripts/check-samples.mjs
    fails the pre-launch check while any remain.
    ========================================================================== */
 window.NEXT = window.NEXT || {};
@@ -50,12 +50,12 @@ NEXT.site = {
     ]
   },
 
-  /* Honest facts first. The last one is a SAMPLE figure — replace with real numbers. */
+  /* Honest facts only. Update a number when it changes. */
   stats: [
     { n: 2,  label: "Operating hubs",   tag: "USA · Bangladesh" },
     { n: 3,  label: "Founders",         tag: "CEO · CTO · COO" },
     { n: 4,  label: "Disciplines",      tag: "Web · AI · SaaS · R&D" },
-    { n: 12, suffix: "+", label: "Projects shipped", tag: "Sample figure", sample: true }
+    { n: 2,  label: "Public prototypes", tag: "SPHEREx · MiniLocker" }
   ],
 
   marquee: ["Websites & web apps", "Mobile applications", "Enterprise SaaS", "AI & LLM systems", "Agents & automation", "Research & prototyping", "Design systems"]

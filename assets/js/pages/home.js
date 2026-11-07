@@ -28,4 +28,20 @@
     var f = NEXT.films.filter(function (x) { return x.featured; })[0] || NEXT.films[0];
     if (f) { ff.innerHTML = R.film(f, {}); NEXT.init(ff); }
   }
+
+  /* §2 — no films yet: say so instead of showing an empty screen */
+  if (ff && !(NEXT.films || []).length) {
+    ff.innerHTML = '<p class="lede">No films yet. We will publish them here when they are ready.</p>';
+    var reel = document.querySelector('#films [data-mount="reel"]'); if (reel) reel.__mounted = 1;
+    var all = document.querySelector('#films .room-cta'); if (all) all.hidden = true;
+  }
+
+  /* §6 — recognition: while there is nothing true to cite, say so instead of showing an empty list */
+  var rec = document.querySelector('#recognition [data-mount="refs"]');
+  if (rec && !(NEXT.recognition || []).length) {
+    rec.__mounted = 1;
+    rec.innerHTML = '<p class="lede">Nothing to cite yet. We will list verified awards, press and milestones here, and we will not invent any.</p>';
+    var more = document.querySelector('#recognition a[href="recognition.html"]');
+    if (more && more.parentNode) more.parentNode.hidden = true;
+  }
 })();

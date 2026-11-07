@@ -27,7 +27,7 @@ Pages (seo/roles markers, descriptions, footer h2, menu foot inside nav, preload
 
 ## Decisions
 - `<base href="/">` is static in 404.html (generated); assumes the site is served at the domain root.
-- Sample projects, films and recognition entries stay in the data (marked `sample: true`) until the owner replaces them; they are excluded from the sitemap. `npm run prelaunch` fails on them on purpose.
+- All sample content is gone: the sample projects, films and recognition entries were deleted, and the "12+ projects shipped" stat became "2 Public prototypes". `npm run prelaunch` now fails only if a file the data points to is missing.
 - Public email left as `ariblabib360@gmail.com` pending owner confirmation.
 - The two new projects are marked `prototype` (spherex-blink's README calls itself one; MiniLocker has no public live URL). They have no `role` and MiniLocker has no `year`, because the READMEs do not say; no screenshots yet, so both use the generated cover art.
 - Firefox and Safari could not be run (only Chromium is installable in the sandbox); compatibility was checked from the code and a support table only.
@@ -36,8 +36,8 @@ Pages (seo/roles markers, descriptions, footer h2, menu foot inside nav, preload
 Nothing a model can do. Only the owner items below remain before launch.
 
 ## Requests
-- Owner, content: replace or remove the 17 sample placeholders (5 projects, 6 films, 4 recognition entries, the "12+ projects shipped" stat) so `npm run prelaunch` passes.
-- Owner, projects: for `spherex-blink` and `minilocker`, add `role` (what Next Inc. did), `year` for MiniLocker, and screenshots (`cover` / `gallery`); decide whether to set `featured: true`.
+- Film: none for now (the MiniLocker mp4 is over 100 MB, so it is skipped). `films.js` is empty on purpose and the home page and `films.html` show an honest note. To add one later, upload to YouTube and add an entry (guide in `assets/js/pages/films.js`).
+- Projects: `spherex-blink` and `minilocker` have covers and figures taken from their own repos, no `role` (credited to the team), `year` 2026 for MiniLocker, and `featured: true`. Recognition is empty on purpose until there is something true to list.
 - Owner, accounts: restrict the Web3Forms access key to `www.wearenext.tech`; send one real message from `contact.html` and one from `apply.html` on the live domain; confirm `ariblabib360@gmail.com` is the public address.
 - Owner, deploy: publish only the site files (`*.html`, `assets/`, `favicon.ico`, `site.webmanifest`, `robots.txt`, `sitemap.xml`, `404.html`) at the domain root, not `docs/`, `ledger/`, `scripts/`, `patches/` or the stray `S7-polish-launch.patch` at the repo root.
 - Owner, optional: test in real Firefox and Safari/iOS before announcing.
