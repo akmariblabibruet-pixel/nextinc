@@ -60,8 +60,14 @@
       Array.prototype.slice.call(node.childNodes).forEach(function (n) {
         if (n.nodeType === 3) {
           var frag = d.createDocumentFragment();
-          n.textContent.split(/(\s+)/).forEach(function (tok) {
+          var prev = n.previousSibling;
+          n.textContent.split(/(\s+)/).forEach(function (tok, idx) {
             if (!tok) return;
+            /* punctuation right after an <em> sticks to that word (no stray line break before a comma) */
+            if (idx === 0 && prev && prev.nodeType === 1 && /^[,.;:!?)\]”’]+$/.test(tok)) {
+              var ws = prev.querySelectorAll('.w'), last = ws[ws.length - 1];
+              if (last) { var pu = d.createElement('span'); pu.className = 'p'; pu.textContent = tok; last.firstChild.appendChild(pu); return; }
+            }
             if (/^\s+$/.test(tok)) { frag.appendChild(d.createTextNode(' ')); return; }
             var w = d.createElement('span'), s = d.createElement('span');
             w.className = 'w'; w.setAttribute('aria-hidden', 'true'); s.textContent = tok; s.style.setProperty('--i', i++); w.appendChild(s); frag.appendChild(w);
