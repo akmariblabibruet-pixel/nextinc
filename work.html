@@ -4,11 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Work — Next Inc.</title>
-<meta name="description" content="Selected projects by Next Inc.: websites, apps, SaaS platforms and AI systems.">
+<meta name="description" content="Selected projects by Next Inc.: websites, mobile apps, SaaS platforms and AI systems — each with a short case study.">
 <meta name="theme-color" content="#F5F0E6">
 <link rel="preload" href="assets/fonts/cmu-serif-500-roman.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/cmu-serif-700-roman.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/pages/work.css">
 </head>
 <body>
 <!-- shell:header -->
@@ -40,14 +41,27 @@
 </div>
 <!-- /shell:header -->
 <main id="main">
-  <!-- STUB:S3 — replace with the full Work page (filters, featured plate, empty state) -->
   <section class="wrap page-head">
-    <p class="kicker kicker--crimson smcp" data-reveal>§ Work</p>
+    <p class="kicker kicker--crimson smcp" data-reveal>&sect; Work</p>
     <h1 class="h1" data-split>Selected <em>work</em>, plate by plate.</h1>
     <p class="lede" data-reveal style="--d:3">Websites, apps, platforms and AI systems we have designed and built. Every plate opens a short case study.</p>
   </section>
-  <section class="wrap sec--tight" style="padding-bottom:clamp(4rem,8vw,7rem)">
-    <div class="grid" data-mount="plates" style="row-gap:clamp(2.5rem,5vw,4.5rem)"></div>
+
+  <section class="wrap" aria-label="Projects">
+    <div class="filters" role="group" aria-label="Filter projects by category" id="filters"></div>
+    <p class="filters__count mute" id="count" aria-live="polite"></p>
+    <div id="lead"></div>
+    <div class="grid work-list" id="list"></div>
+    <div class="empty" id="empty" hidden>
+      <p class="h3">Nothing filed under this heading <em>yet.</em></p>
+      <p class="lede mt-s">We have not published a project in this category. <button type="button" class="link" data-reset>Show all work</button> or <a class="link" href="contact.html">tell us what you want to build</a>.</p>
+    </div>
+    <noscript><p class="lede">This page lists our projects with JavaScript. <a class="link" href="contact.html">Contact us</a> to see our portfolio.</p></noscript>
+  </section>
+
+  <section class="wrap cta">
+    <p class="h2">Have something <em>similar</em> in mind?</p>
+    <p class="mt-s"><a class="btn" href="contact.html">Start a project</a></p>
   </section>
 </main>
 <!-- shell:footer -->
@@ -96,5 +110,6 @@
 <script src="assets/js/art.js"></script>
 <script src="assets/js/core.js"></script>
 <script src="assets/js/render.js"></script>
+<script src="assets/js/pages/work.js"></script>
 </body>
 </html>

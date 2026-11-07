@@ -11,9 +11,16 @@
      palette   crimson|ink|indigo|ochre|forest|paper   (generative cover colours)
      motif     nodes|orbits|bars|waves|tiles|rings     (generative cover shape)
      cover     optional image path (overrides generated art)   logo  optional
-     video     optional film id from films.js
+     video     optional film id from films.js (also: any film in films.js whose
+               `project` equals this slug is listed on the case-study page)
      links     { live, repo }         featured  show on home (max 4)
      sample    true = placeholder, shows an ochre SAMPLE tag
+   Case-study fields (all optional — missing ones are simply not shown):
+     brief     what the client needed / the problem        (1–3 sentences)
+     approach  what we did and why                         (1–3 sentences)
+     outcome   what changed — only measurable, true things (1–3 sentences)
+     gallery   [{ src, alt, caption }]  images in assets/img/projects/<slug>/ (1600px wide WebP/JPG)
+               or [{ art:{ motif, palette }, caption }] to show generated art
    ========================================================================== */
 window.NEXT = window.NEXT || {};
 NEXT.projects = [
@@ -26,6 +33,11 @@ NEXT.projects = [
   { slug: "meridian", title: "Meridian", year: 2026, category: "web", status: "live", featured: true, sample: true,
     summary: "A booking and scheduling platform for a multi-branch clinic.",
     abstract: "Sample entry. Replace with a real web project: what the client needed, what you built, and what changed for them.",
+    brief: "Sample text. Describe the problem in the client's own terms: who was struggling, with what, and why it mattered.",
+    approach: "Sample text. Explain the key decisions — what we tested first, what we built, what we deliberately left out.",
+    outcome: "Sample text. Only true, measurable results belong here. If there are none yet, say what happens next.",
+    gallery: [ { art: { motif: "tiles", palette: "indigo" }, caption: "Sample figure — replace with a real screenshot." },
+               { art: { motif: "bars", palette: "ochre" }, caption: "Sample figure — a second screen or detail." } ],
     role: "Design & full-stack build", tags: ["web app", "scheduling", "dashboard"],
     palette: "indigo", motif: "tiles", links: {} },
 

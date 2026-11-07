@@ -3,12 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Project — Next Inc.</title>
+<title>Case study — Next Inc.</title>
 <meta name="description" content="A Next Inc. case study.">
 <meta name="theme-color" content="#F5F0E6">
 <link rel="preload" href="assets/fonts/cmu-serif-500-roman.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/cmu-serif-700-roman.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/pages/work.css">
 </head>
 <body>
 <!-- shell:header -->
@@ -40,12 +41,10 @@
 </div>
 <!-- /shell:header -->
 <main id="main">
-  <!-- STUB:S3 — replace with the full case-study template; reads ?p=<slug> from assets/data/projects.js -->
-  <section class="wrap page-head" id="project-root">
-    <p class="crumbs"><a href="work.html">Work</a><span>/</span><span style="color:inherit;margin:0" id="crumb">Project</span></p>
-    <h1 class="h1" id="p-title">Project</h1>
-    <p class="lede" id="p-sum"></p>
-  </section>
+  <article id="case" aria-live="polite">
+    <section class="wrap page-head"><p class="lede">Loading…</p></section>
+    <noscript><section class="wrap page-head"><p class="lede">This case study needs JavaScript. <a class="link" href="work.html">Back to all work</a>.</p></section></noscript>
+  </article>
 </main>
 <!-- shell:footer -->
 <footer class="site-footer room">
@@ -93,11 +92,6 @@
 <script src="assets/js/art.js"></script>
 <script src="assets/js/core.js"></script>
 <script src="assets/js/render.js"></script>
-<script>
-(function(){var s=new URLSearchParams(location.search).get('p');var p=(NEXT.projects||[]).filter(function(x){return x.slug===s})[0];
-if(!p){document.getElementById('p-title').textContent='Project not found';return}
-document.title=p.title+' — Next Inc.';document.getElementById('crumb').textContent=p.title;
-document.getElementById('p-title').textContent=p.title;document.getElementById('p-sum').textContent=p.summary||''})();
-</script>
+<script src="assets/js/pages/work.js"></script>
 </body>
 </html>
