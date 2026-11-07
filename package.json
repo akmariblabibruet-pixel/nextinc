@@ -8,6 +8,8 @@
     "ledger": "node scripts/ledger.mjs",
     "check": "node scripts/sync-shell.mjs --check && node scripts/sync-site.mjs --check && node scripts/check-samples.mjs",
     "prelaunch": "node scripts/sync-shell.mjs --check && node scripts/sync-site.mjs --check && node scripts/check-launch.mjs && node scripts/check-samples.mjs --strict",
-    "brand": "node scripts/brand/make-brand.mjs"
+    "brand": "node scripts/brand/make-brand.mjs",
+    "hooks": "git config core.hooksPath .githooks",
+    "check:attribution": "node scripts/check-attribution.mjs"
   }
 }

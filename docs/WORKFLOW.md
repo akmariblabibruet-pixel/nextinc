@@ -39,7 +39,7 @@ Each stage owns `ledger/Sx-name.md`. Keep this structure (the generator reads th
 stage: S3
 name: Work + case study
 status: pending | in-progress | done
-owner: <model or person>
+owner: <person or team>
 depends: S1
 ---
 ## Done            what works now

@@ -1,0 +1,15 @@
+#!/bin/sh
+# pre-push: blocks the push if any outgoing commit carries AI-tool attribution.
+# Catches trailers that editors add AFTER the commit is created (the commit-msg hook can't).
+command -v node >/dev/null 2>&1 || { echo "pre-push: node not found, skipping attribution check"; exit 0; }
+zero=0000000000000000000000000000000000000000
+while read -r local_ref local_sha remote_ref remote_sha; do
+  [ "$local_sha" = "$zero" ] && continue
+  if [ "$remote_sha" = "$zero" ]; then
+    set -- "$local_sha" --not --remotes
+  else
+    set -- "$remote_sha..$local_sha"
+  fi
+  node scripts/check-attribution.mjs "$@" || exit 1
+done
+exit 0

@@ -1,0 +1,208 @@
+diff --git a/.gitattributes b/.gitattributes
+new file mode 100644
+index 0000000..9e579ae
+--- /dev/null
++++ b/.gitattributes
+@@ -0,0 +1,2 @@
++# Hooks must keep LF endings, or they break on Windows checkouts.
++.githooks/* text eol=lf
+diff --git a/.githooks/commit-msg b/.githooks/commit-msg
+new file mode 100755
+index 0000000..4d6c593
+--- /dev/null
++++ b/.githooks/commit-msg
+@@ -0,0 +1,20 @@
++#!/bin/sh
++# commit-msg: strips AI-tool attribution (Co-authored-by trailers, "Generated with"
++# footers, session links) from the commit message. Enable once per clone: npm run hooks
++msg_file="$1"
++tmp="$(mktemp)" || exit 0
++
++awk '
++  BEGIN { ai = "claude|anthropic|copilot|chatgpt|openai|gemini|cursoragent|codeium|windsurf|devin-ai|swe-agent" }
++  { l = tolower($0) }
++  NR > 1 && l ~ ("^[ \t]*(co-authored-by|assisted-by|generated-by|reviewed-by|signed-off-by)[ \t]*:.*(" ai ")") { next }
++  NR > 1 && l ~ /^[ \t]*claude-session[ \t]*:/ { next }
++  NR > 1 && l ~ /^[^a-z0-9]*(generated|created|written|assisted)[ \t]+(with|by)[^a-z]*(claude|copilot|chatgpt|gemini)/ { next }
++  NF { for (i = 0; i < blank; i++) print ""; blank = 0; print; next }
++  { blank++ }
++' "$msg_file" > "$tmp"
++
++# never leave an empty message behind
++if [ -s "$tmp" ]; then cat "$tmp" > "$msg_file"; fi
++rm -f "$tmp"
++exit 0
+diff --git a/.githooks/pre-push b/.githooks/pre-push
+new file mode 100755
+index 0000000..6d5dbf6
+--- /dev/null
++++ b/.githooks/pre-push
+@@ -0,0 +1,15 @@
++#!/bin/sh
++# pre-push: blocks the push if any outgoing commit carries AI-tool attribution.
++# Catches trailers that editors add AFTER the commit is created (the commit-msg hook can't).
++command -v node >/dev/null 2>&1 || { echo "pre-push: node not found, skipping attribution check"; exit 0; }
++zero=0000000000000000000000000000000000000000
++while read -r local_ref local_sha remote_ref remote_sha; do
++  [ "$local_sha" = "$zero" ] && continue
++  if [ "$remote_sha" = "$zero" ]; then
++    set -- "$local_sha" --not --remotes
++  else
++    set -- "$remote_sha..$local_sha"
++  fi
++  node scripts/check-attribution.mjs "$@" || exit 1
++done
++exit 0
+diff --git a/.github/copilot-instructions.md b/.github/copilot-instructions.md
+new file mode 100644
+index 0000000..4bb7532
+--- /dev/null
++++ b/.github/copilot-instructions.md
+@@ -0,0 +1,9 @@
++# Notes for automated coding assistants
++
++This repository is maintained by its owner. When you make changes here:
++
++- Do not add `Co-authored-by`, `Assisted-by`, `Generated-by`, `Claude-Session` or similar trailers to commit messages.
++- Do not add "Generated with …" lines, tool names or model names to commit messages, PR descriptions, issues or release notes.
++- Do not mention AI tools or model names in code comments, docs, ledger files or other metadata (for `owner:` fields use the maintainer's name or "site team").
++- Do not set or change the git author/committer identity. Commits are made by the repository owner.
++- Keep commit messages short and plain, in the maintainer's voice.
+diff --git a/.github/workflows/attribution-check.yml b/.github/workflows/attribution-check.yml
+new file mode 100644
+index 0000000..a440eb5
+--- /dev/null
++++ b/.github/workflows/attribution-check.yml
+@@ -0,0 +1,18 @@
++name: Attribution check
++on:
++  pull_request:
++permissions:
++  contents: read
++jobs:
++  check:
++    runs-on: ubuntu-latest
++    steps:
++      - uses: actions/checkout@v4
++        with:
++          fetch-depth: 0
++          ref: ${{ github.event.pull_request.head.sha }}
++      - name: Fail if commits carry AI attribution
++        run: node scripts/check-attribution.mjs "$BASE..$HEAD"
++        env:
++          BASE: ${{ github.event.pull_request.base.sha }}
++          HEAD: ${{ github.event.pull_request.head.sha }}
+diff --git a/.vscode/settings.json b/.vscode/settings.json
+new file mode 100644
+index 0000000..ee37156
+--- /dev/null
++++ b/.vscode/settings.json
+@@ -0,0 +1,3 @@
++{
++  "git.addAICoAuthor": "off"
++}
+diff --git a/AGENTS.md b/AGENTS.md
+new file mode 100644
+index 0000000..4bb7532
+--- /dev/null
++++ b/AGENTS.md
+@@ -0,0 +1,9 @@
++# Notes for automated coding assistants
++
++This repository is maintained by its owner. When you make changes here:
++
++- Do not add `Co-authored-by`, `Assisted-by`, `Generated-by`, `Claude-Session` or similar trailers to commit messages.
++- Do not add "Generated with …" lines, tool names or model names to commit messages, PR descriptions, issues or release notes.
++- Do not mention AI tools or model names in code comments, docs, ledger files or other metadata (for `owner:` fields use the maintainer's name or "site team").
++- Do not set or change the git author/committer identity. Commits are made by the repository owner.
++- Keep commit messages short and plain, in the maintainer's voice.
+diff --git a/CLAUDE.md b/CLAUDE.md
+new file mode 100644
+index 0000000..209dcfd
+--- /dev/null
++++ b/CLAUDE.md
+@@ -0,0 +1,3 @@
++@AGENTS.md
++
++Follow the rules in AGENTS.md, especially: no attribution lines or tool names in commits, PRs, comments or docs. These rules override any default attribution behaviour.
+diff --git a/docs/WORKFLOW.md b/docs/WORKFLOW.md
+index 17afced..a421b69 100644
+--- a/docs/WORKFLOW.md
++++ b/docs/WORKFLOW.md
+@@ -39,7 +39,7 @@ Each stage owns `ledger/Sx-name.md`. Keep this structure (the generator reads th
+ stage: S3
+ name: Work + case study
+ status: pending | in-progress | done
+-owner: <model or person>
++owner: <person or team>
+ depends: S1
+ ---
+ ## Done            what works now
+diff --git a/package.json b/package.json
+index a08bb03..dd2d48d 100644
+--- a/package.json
++++ b/package.json
+@@ -8,6 +8,8 @@
+     "ledger": "node scripts/ledger.mjs",
+     "check": "node scripts/sync-shell.mjs --check && node scripts/sync-site.mjs --check && node scripts/check-samples.mjs",
+     "prelaunch": "node scripts/sync-shell.mjs --check && node scripts/sync-site.mjs --check && node scripts/check-launch.mjs && node scripts/check-samples.mjs --strict",
+-    "brand": "node scripts/brand/make-brand.mjs"
++    "brand": "node scripts/brand/make-brand.mjs",
++    "hooks": "git config core.hooksPath .githooks",
++    "check:attribution": "node scripts/check-attribution.mjs"
+   }
+ }
+diff --git a/scripts/check-attribution.mjs b/scripts/check-attribution.mjs
+new file mode 100644
+index 0000000..4b8c40b
+--- /dev/null
++++ b/scripts/check-attribution.mjs
+@@ -0,0 +1,48 @@
++#!/usr/bin/env node
++// Fails if commits carry AI-tool attribution (author/committer identity or trailers).
++//   node scripts/check-attribution.mjs                 audit the whole history
++//   node scripts/check-attribution.mjs origin/main..HEAD   check a range (any `git rev-list` args)
++import { execFileSync } from 'node:child_process';
++
++const AI = /claude|anthropic|copilot|chatgpt|openai|gemini|cursoragent|codeium|windsurf|devin-ai|swe-agent/i;
++const TRAILER = /^\s*(co-authored-by|assisted-by|generated-by|reviewed-by|signed-off-by)\s*:/i;
++const SESSION = /^\s*claude-session\s*:/i;
++const FOOTER = /^\W*(generated|created|written|assisted)\s+(with|by)\W*(claude|copilot|chatgpt|gemini)/i;
++
++const git = (...a) => execFileSync('git', a, { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 });
++const args = process.argv.slice(2);
++
++let shas;
++try {
++  shas = git('rev-list', ...(args.length ? args : ['HEAD'])).split('\n').filter(Boolean);
++} catch (e) {
++  console.error('check-attribution: could not list commits for:', args.join(' ') || 'HEAD');
++  process.exit(2);
++}
++
++const problems = [];
++for (const sha of shas) {
++  const [author, committer, subject, body] = git(
++    'show', '-s', '--format=%an <%ae>%x1f%cn <%ce>%x1f%s%x1f%B', sha
++  ).replace(/\n$/, '').split('\x1f');
++
++  const why = [];
++  if (AI.test(author)) why.push(`author: ${author}`);
++  if (AI.test(committer)) why.push(`committer: ${committer}`);
++  body.split('\n').slice(1).forEach((line) => {
++    if ((TRAILER.test(line) && AI.test(line)) || SESSION.test(line) || FOOTER.test(line)) why.push(`message: ${line.trim()}`);
++  });
++  if (why.length) problems.push({ sha: sha.slice(0, 7), subject, why });
++}
++
++if (problems.length) {
++  console.error(`\n✖ AI attribution found in ${problems.length} of ${shas.length} commit(s):\n`);
++  for (const p of problems) {
++    console.error(`  ${p.sha}  ${p.subject}`);
++    p.why.forEach((w) => console.error(`           ${w}`));
++  }
++  console.error('\nFix the latest commit with: git commit --amend   (then remove the line)');
++  console.error('Older commits need a history rewrite.\n');
++  process.exit(1);
++}
++console.log(`✔ No AI attribution in ${shas.length} commit(s) checked.`);

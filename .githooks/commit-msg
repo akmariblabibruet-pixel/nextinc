@@ -1,0 +1,20 @@
+#!/bin/sh
+# commit-msg: strips AI-tool attribution (Co-authored-by trailers, "Generated with"
+# footers, session links) from the commit message. Enable once per clone: npm run hooks
+msg_file="$1"
+tmp="$(mktemp)" || exit 0
+
+awk '
+  BEGIN { ai = "claude|anthropic|copilot|chatgpt|openai|gemini|cursoragent|codeium|windsurf|devin-ai|swe-agent" }
+  { l = tolower($0) }
+  NR > 1 && l ~ ("^[ \t]*(co-authored-by|assisted-by|generated-by|reviewed-by|signed-off-by)[ \t]*:.*(" ai ")") { next }
+  NR > 1 && l ~ /^[ \t]*claude-session[ \t]*:/ { next }
+  NR > 1 && l ~ /^[^a-z0-9]*(generated|created|written|assisted)[ \t]+(with|by)[^a-z]*(claude|copilot|chatgpt|gemini)/ { next }
+  NF { for (i = 0; i < blank; i++) print ""; blank = 0; print; next }
+  { blank++ }
+' "$msg_file" > "$tmp"
+
+# never leave an empty message behind
+if [ -s "$tmp" ]; then cat "$tmp" > "$msg_file"; fi
+rm -f "$tmp"
+exit 0
