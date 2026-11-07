@@ -13,7 +13,7 @@
      cover     optional image path (overrides generated art)   logo  optional
      video     optional film id from films.js (also: any film in films.js whose
                `project` equals this slug is listed on the case-study page)
-     links     { live, repo }         featured  show on home (max 4)
+     links     { live, repo, docs, more }   see "Motion and extras" below      featured  show on home (max 4)
      sample    true = placeholder, shows an ochre SAMPLE tag
    Case-study fields (all optional — missing ones are simply not shown):
      brief     what the client needed / the problem        (1–3 sentences)
@@ -21,6 +21,14 @@
      outcome   what changed — only measurable, true things (1–3 sentences)
      gallery   [{ src, alt, caption }]  images in assets/img/projects/<slug>/ (1600px wide WebP/JPG)
                or [{ art:{ motif, palette }, caption }] to show generated art
+   Motion and extras (S8 — all optional; missing means nothing is rendered, no placeholder, no empty block)
+     preview   { mp4, webm }  a 3-5 s muted hover loop: assets/previews/<slug>.mp4 (+ .webm), 640 px wide, max 500 KB.
+               Without it the plate stays a still image. Played only on hover/focus of a desktop pointer (S10).
+     links     live -> "Visit" · repo -> "View on GitHub" · docs -> "Documentation" · more -> [{ label, url }]
+     sections  [{ title, body: "a paragraph" | ["p1","p2"], list: ["item", ...] }]  extra editorial blocks on the case-study page
+     Films     a film in films.js whose `project` equals the slug belongs to this project; they list in array order.
+     Budgets   cover 120 KB · preview 500 KB · film poster 100 KB · screenshot 200 KB · max 4 featured.
+               `npm run check` (scripts/check-media.mjs) enforces them and fails on a missing file.
    ========================================================================== */
 window.NEXT = window.NEXT || {};
 NEXT.projects = [

@@ -35,12 +35,12 @@ Grow the site from two public prototypes to four showcased projects, with motion
 ## The lineup (order on the home page)
 | # | Project | slug | Exists in `projects.js` | Thumbnail | Hover loop | Films | Links |
 |---|---|---|---|---|---|---|---|
-| 1 | Mini Me | `mini-me` | yes, text only | logo art today; needs a real cover | owner cuts from demo | demo video (owner has) | none confirmed |
+| 1 | Mini Me | `mini-me` | yes, text only | logo art today; needs a real cover | owner cuts from demo | demo video (owner has) | none, by decision |
 | 2 | SPHEREx Blink Comparator | `spherex-blink` | yes, complete | yes | none yet, thumbnail only | none yet | live + repo |
 | 3 | MiniLocker | `minilocker` | yes, complete | yes | owner cuts from motion video | YouTube film exists | repo |
-| 4 | Next Inc. Immersive (3D showcase build) | `next-inc-immersive` | **new** | needs a screenshot | none yet | none yet | repo (live URL if any) |
+| 4 | Next Inc. Immersive (3D showcase build) | `next-inc-immersive` | **new** | needs a screenshot | none yet | none yet | repo + live |
 
-"Next Inc. Immersive" is the default name for the 3D version. Alternatives: "Next Inc. 3D", "Next Inc. Showcase". Decide in S9 and change it in one place (`projects.js`).
+"Next Inc. Immersive" is the chosen name for the 3D version (decided 8 Nov 2026). It lives in one place, `projects.js`.
 
 ## What the owner supplies (in parallel with the stages)
 | Asset | Spec |
@@ -68,10 +68,12 @@ S10 reads what S9 produces, so do them in this order. Previews, films and screen
 - The screening room cycles through every project with a film, pauses on hover and focus, and has a pause button.
 - `npm run check` and `npm run prelaunch` pass, budgets are met, `npm run sync` has refreshed the sitemap, the three ledgers are `done`.
 
-## Open questions for the owner
-1. **Mini Me status** — `coming-soon`, `prototype` or `beta`? The feature guide marks parts as Available, Partially wired and Planned. The page may only present Available parts as working.
-2. **Name** of the 3D build (default above).
-3. **Mini Me links** — the book site `minimebook.vercel.app` is the team's internal atlas; link it only if you want it public.
-4. **Next Inc. Immersive** — is it deployed anywhere? Is the repo public? Its README is the Vite template and should be written before the repo is linked.
-5. **MiniLocker** — is the "motion video" the same film as the YouTube one, or a different clip?
-6. **Reel hosting** — YouTube (default) or a self-hosted MP4?
+## Decisions (8 Nov 2026)
+1. **Mini Me** — status `coming-soon`. The page is an overview only: no feature lists, no tab-by-tab description.
+2. **3D build name** — "Next Inc. Immersive".
+3. **Mini Me links** — none. Do not link the book site (`minimebook.vercel.app`) and do not add a GitHub repo or a domain until one exists.
+4. **Next Inc. Immersive** — public repo link (`https://github.com/shaikh-dotcom/Next-In-C`) and live link (`https://next-in-c.onrender.com/`) are both shown. Its README is still the Vite template; writing a real one is on the owner's list, because the repo is now linked.
+5. **MiniLocker** — the YouTube film is the full motion film. The short hover loop will be cut later; until then the plate is a still.
+6. **Hosting** — YouTube (unlisted) for full films. The MiniLocker film stays in the hero until the company reel exists (S10 swaps it).
+
+Still open: the company reel itself (what it shows, who cuts it, its YouTube id). S10 does not need it to be finished: the hero figure just keeps the MiniLocker film until the reel is added.

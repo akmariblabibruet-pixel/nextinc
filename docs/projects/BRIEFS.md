@@ -10,16 +10,16 @@ Order on the home page: 1 Mini Me · 2 SPHEREx Blink Comparator · 3 MiniLocker 
 
 ## 1. Mini Me — `mini-me`
 **Source:** the Mini Me book repo (`Unavailable4u/minime_book`), mainly `docs/minime_feature_guide.md`. That repo is *about* Mini Me; it is not the product.
-**Status:** owner decides (open question 1). Keep the existing `coming-soon` until then, but show the demo film.
+**Status:** `coming-soon` (decided). Show the demo film. **Overview only:** keep the abstract short and do not describe features one by one.
 
 **What it is (usable, plain):** a personal, workspace-centred AI operating environment. It combines persistent chats, workspaces that hold context, sources, notes and generated work, a roster of specialised agents (research, reasoning, writing, review, testing, design), notebooks, staged project execution (research → plan → build → test → growth), a code workbench with review gates, knowledge graphs, and live progress with usage accounting.
 **Stack (stated in the guide):** Next.js frontend, FastAPI backend, Supabase authentication.
 **Ecosystem:** Mini Me Web is the flagship surface of three products sharing one account: **M2C** (terminal and editor coding agent, "Minime to Code") and **Menux** (local-first personal automation agent).
 **Status words:** the guide marks each feature Available, Partially wired or Planned. Write only the Available ones as working. Never present Planned items as shipped.
 
-**Suggested extra sections** (`sections`): "One system, three surfaces" (Mini Me Web, M2C, Menux — one line each) · "How a project moves" (the five stages, one line each).
+**Extra sections:** none. The facts above are background for writing the overview; they are not a feature list for the page.
 **Needs from the owner:** demo film (YouTube id, duration, title), a poster frame, a 3–5 s loop, 3–6 screenshots with captions, a real cover (the logo art is not a thumbnail).
-**Links:** none confirmed. Do not invent a product URL.
+**Links:** none (decided): no repo, no domain, and not the book site. Do not invent a product URL.
 
 ---
 
@@ -35,8 +35,8 @@ Order on the home page: 1 Mini Me · 2 SPHEREx Blink Comparator · 3 MiniLocker 
 ## 3. MiniLocker — `minilocker`
 **Source:** `shaikh-dotcom/MiniLocker`. The entry already matches its README.
 **Status:** `prototype`. Keep the sentence that the credential broker has only been exercised against a recorded upstream.
-**Films:** "Blast Radius Zero" (YouTube, 2:50) is already in `films.js`. Add any further motion video as another film with `project: "minilocker"`.
-**Needs from the owner:** a 3–5 s loop (cut from the motion video) for the hover preview; screenshots (the repo's `images/browser` and `docs/assets` are starting points) with captions.
+**Films:** "Blast Radius Zero" (YouTube, 2:50) is already in `films.js` and is the full motion film (confirmed). Add any further video as another film with `project: "minilocker"`.
+**Needs from the owner:** a 3–5 s loop (cut later from the film) for the hover preview. Until it exists the plate is a still; screenshots (the repo's `images/browser` and `docs/assets` are starting points) with captions.
 **Links:** repo only. No live URL exists; do not add a "Visit" button.
 **Suggested extra section:** "Attack Lab" — 15 scripted attacks run against the real sandbox, each reported as contained, breached or inconclusive (already in the abstract; add only if the page needs more room).
 
@@ -49,7 +49,8 @@ Order on the home page: 1 Mini Me · 2 SPHEREx Blink Comparator · 3 MiniLocker 
 **What it appears to contain (component names):** a preloader, a hero with a 3D backdrop, an interactive Earth/globe with stats, a founders section, a Mini Me section, tech icons, lazy-loaded canvases.
 **Category / status:** `web` / `prototype`.
 **Never embed it** in this site: it is a WebGL app and would break every budget. The site shows a thumbnail, a film (when one exists) and a link.
-**Needs from the owner:** a thumbnail (a still of the hero scene), later a screen-recorded flythrough, a live URL if it is deployed, and a real README in that repo before it is linked.
+**Links (decided):** `repo` = `https://github.com/shaikh-dotcom/Next-In-C` (public), `live` = `https://next-in-c.onrender.com/`. The page may say it is a showcase build, but must still say it is not our production site.
+**Needs from the owner:** a thumbnail (a still of the hero scene), later a screen-recorded flythrough, and a real README in that repo now that it is linked.
 
 ---
 

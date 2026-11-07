@@ -5,7 +5,7 @@
 Make adding a thumbnail, hover loop, film or screenshot a **data edit that cannot break the weight budget**. No visible change to any page in this stage.
 
 ## You own
-`assets/data/projects.js` (header comment only), `assets/css/site.css` (one small rule group), `scripts/check-media.mjs` (new), `scripts/ledger.mjs`, `package.json` (`check` and `prelaunch` scripts), `assets/previews/.gitkeep`, `ledger/S8-media-and-budget.md`.
+`assets/data/projects.js` (header comment only), `assets/css/site.css` (one small rule group), `scripts/check-media.mjs` (new), `scripts/ledger.mjs`, `package.json` (`check`, `prelaunch`, new `check:media`), `assets/previews/.gitkeep`, `ledger/S8-media-and-budget.md`.
 
 ## 1. Folders and names
 ```
@@ -37,9 +37,9 @@ No new colours, no new variables.
 ## 4. Budget gate — `scripts/check-media.mjs`
 Load `assets/data/*.js` the way `scripts/check-samples.mjs` reads them, then check:
 - **Errors (exit 1):** a referenced file is missing (`cover`, `logo`, `preview.*`, `gallery[].src`, film `poster`, self-hosted film `src`/`webm`); a film has no `poster`; a file is over budget (preview 500 KB, cover 120 KB, poster 100 KB, screenshot 200 KB, self-hosted film 10 MB); more than four `featured` projects.
-- **Warnings (printed; exit 1 only with `--strict`):** a file in `assets/previews/` or `assets/img/**` that no data entry uses; a self-hosted film over 5 MB.
+- **Warnings (printed; exit 1 only with `--strict`):** a file in `assets/previews/`, `assets/img/projects/`, `assets/img/films/` or `assets/films/` that no data entry or page mentions; a self-hosted film over 5 MB.
 - Print one line per checked file with its size, so a human sees how close each one is.
-Wire it into `npm run check` and, with `--strict`, into `npm run prelaunch`.
+It runs at the end of `npm run check` and, with `--strict`, of `npm run prelaunch`; `npm run check:media` runs it alone.
 
 ## 5. Ledger order
 `scripts/ledger.mjs` sorts file names as text, so `S10` would list before `S8`. Sort numerically (stage number first, then name).

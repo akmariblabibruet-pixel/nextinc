@@ -9,8 +9,8 @@ Four projects with real content, and one case-study layout that shows **only wha
 
 ## 1. Project entries
 - Write or refresh the four entries from `docs/projects/BRIEFS.md`. Array order is the home order: `mini-me`, `spherex-blink`, `minilocker`, `next-inc-immersive`. `featured: true` on all four.
-- `mini-me`: keep the slug and logo. Add `cover` once supplied. `brief` / `approach` / `outcome` / `sections` only from the feature guide, and only Available features as working. No `links` until the owner confirms one.
-- `next-inc-immersive` is new: `category: "web"`, `status: "prototype"`, `links.repo`, and `links.live` only if it is deployed. Its abstract says plainly that it is a showcase build of our website for 3D and high-graphics animation, not our production site. Pick a `palette` and `motif` the other three do not use (for example `crimson` and `waves`); they only show until the real cover arrives.
+- `mini-me`: keep the slug and logo. Add `cover` once supplied. Status stays `coming-soon`. Overview only: a short `abstract`, at most one short `brief`, no `sections`, no feature lists. Nothing the feature guide marks Planned is written as working. **No `links` at all** (no repo, no domain, not the book site).
+- `next-inc-immersive` is new: `category: "web"`, `status: "prototype"`, `links.repo` = `https://github.com/shaikh-dotcom/Next-In-C` and `links.live` = `https://next-in-c.onrender.com/`. Its abstract says plainly that it is a showcase build of our website for 3D and high-graphics animation, not our production site. Pick a `palette` and `motif` the other three do not use (for example `crimson` and `waves`); they only show until the real cover arrives.
 - Add `preview`, `cover` and `gallery` entries **only when the file exists** (S8's check fails otherwise).
 
 ## 2. Films

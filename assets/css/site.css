@@ -234,6 +234,9 @@ main{padding-top:var(--header-h);display:block}
 .plate__frame{position:relative;display:block;overflow:hidden;background:var(--ink);aspect-ratio:var(--ar,4/3);border:1px solid var(--ink)}
 .plate__frame>.cover,.plate__frame>img,.plate__frame>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.1s var(--ease)}
 a.plate:hover .plate__frame>.cover,a.plate:hover .plate__frame>img{transform:scale(1.045)}
+/* optional hover loop (S8/S10): sits under the plate labels (z 2-3), ignores the pointer, fades in once it is playing */
+.plate__frame>video.plate__preview{z-index:1;opacity:0;pointer-events:none;transition:opacity .5s}
+.plate__frame>video.plate__preview.is-on{opacity:1}
 /* printer's crop marks around the frame */
 .plate__frame::after,.plate::before{content:"";position:absolute;pointer-events:none}
 .plate::before{inset:-9px;z-index:2;opacity:.85;

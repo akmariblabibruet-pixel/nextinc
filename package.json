@@ -6,10 +6,11 @@
     "serve": "node scripts/serve.mjs",
     "sync": "node scripts/sync-shell.mjs && node scripts/sync-site.mjs",
     "ledger": "node scripts/ledger.mjs",
-    "check": "node scripts/sync-shell.mjs --check && node scripts/sync-site.mjs --check && node scripts/check-samples.mjs",
-    "prelaunch": "node scripts/sync-shell.mjs --check && node scripts/sync-site.mjs --check && node scripts/check-launch.mjs && node scripts/check-samples.mjs --strict",
+    "check": "node scripts/sync-shell.mjs --check && node scripts/sync-site.mjs --check && node scripts/check-samples.mjs && node scripts/check-media.mjs",
+    "prelaunch": "node scripts/sync-shell.mjs --check && node scripts/sync-site.mjs --check && node scripts/check-launch.mjs && node scripts/check-samples.mjs --strict && node scripts/check-media.mjs --strict",
     "brand": "node scripts/brand/make-brand.mjs",
     "hooks": "git config core.hooksPath .githooks",
-    "check:attribution": "node scripts/check-attribution.mjs"
+    "check:attribution": "node scripts/check-attribution.mjs",
+    "check:media": "node scripts/check-media.mjs"
   }
 }
