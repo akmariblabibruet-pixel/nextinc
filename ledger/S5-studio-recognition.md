@@ -6,8 +6,9 @@ owner: Claude (Sonnet 5.5)
 depends: S1
 ---
 ## Done
-- `studio.html`: page head · §1 Story (drop cap, margin note) · §2 Authors (shared renderer; optional `bio` shown when present) · §3 Two hubs (dot-matrix map as Fig. 1, captions (a)/(b), screen-reader group label) · §4 Principles in a booktabs table · CTA (contact / careers / work).
-- `recognition.html`: references grouped by year (descending) with year headers, continuous `[n]` numbering, filter by kind (with counts, hash memory e.g. `#award`), items with `url` link out, empty state, and an honest "Just getting started" note shown automatically while every entry is `sample: true`.
+- `studio.html`: page head with contents list · §1 Story (drop cap, larger opening line, facts table + margin note) · §2 Authors (shared renderer; optional `bio` shown when present) · §3 Two hubs (dot-matrix map as Fig. 1, captions (a)/(b), two hub cards with coordinates, screen-reader group label) · §4 Principles in a booktabs table with roman numerals · CTA (contact / careers / work).
+- `recognition.html`: references grouped by year (descending) with year headers, continuous `[n]` numbering, filter by kind (with counts, hash memory e.g. `#award`), items with `url` link out, empty state, "jump to year" links, and an honest "Just getting started" callout (with a legend of what will be listed) shown automatically while every entry is `sample: true`.
+- Mobile: founders stack full-width (no orphan third card).
 - Verified in headless Chrome at 1440 and 390: no console errors, no horizontal overflow.
 
 ## Changed

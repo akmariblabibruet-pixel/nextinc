@@ -1,0 +1,310 @@
+From d8b850a311e1a091f7c762181f8b4b67f8cd22f7 Mon Sep 17 00:00:00 2001
+From: "Claude (S1 Foundation)" <noreply@anthropic.com>
+Date: Sat, 7 Nov 2026 17:37:36 +0600
+Subject: [PATCH] S5: studio and recognition pages
+
+Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01GwkPXhh2Atc1k751p3zZuQ
+---
+ assets/css/pages/studio.css     | 27 ++++++++++++
+ assets/data/team.js             |  2 +
+ assets/js/pages/studio.js       | 50 +++++++++++++++++++++
+ ledger/S5-studio-recognition.md | 20 +++++++--
+ recognition.html                | 16 +++++--
+ studio.html                     | 78 ++++++++++++++++++++++++++++++---
+ 6 files changed, 180 insertions(+), 13 deletions(-)
+ create mode 100644 assets/css/pages/studio.css
+ create mode 100644 assets/js/pages/studio.js
+
+diff --git a/assets/css/pages/studio.css b/assets/css/pages/studio.css
+new file mode 100644
+index 0000000..6d296bd
+--- /dev/null
++++ b/assets/css/pages/studio.css
+@@ -0,0 +1,27 @@
++/* studio.html + recognition.html — owned by S5 */
++.prose p{margin:0 0 1.1em;max-width:36em;font-size:var(--s-0)}
++.prose p:last-child{margin-bottom:0}
++.author__bio{margin-top:.8rem;font-size:.95rem;line-height:1.5;color:var(--ink-2)}
++.hubs-caps{max-width:52em}
++.tabwrap{overflow-x:auto}
++.values th.values__p{font-size:var(--s-0);letter-spacing:0;text-transform:none;font-weight:700;color:var(--ink);border-bottom:1px solid var(--rule);padding:1.15rem 1.2rem 1.15rem 0;width:30%;min-width:9rem;vertical-align:top}
++.values tr:last-child th.values__p{border-bottom:0}
++.table-cap{margin-top:1rem}
++.cta .flex{gap:1rem 1.4rem;align-items:center;flex-wrap:wrap}
++
++/* recognition */
++.filters{display:flex;flex-wrap:wrap;gap:.5rem .6rem;margin-top:clamp(1.5rem,3vw,2.5rem)}
++.filter{font:inherit;font-size:.82rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.6em 1.05em;border:1px solid var(--rule);border-radius:99px;background:transparent;color:var(--ink-2);cursor:pointer;transition:background .25s,color .25s,border-color .25s}
++.filter sup{font-family:var(--mono);font-size:.7em;margin-left:.4em;color:var(--ink-3);vertical-align:baseline}
++.filter:hover{border-color:var(--ink);color:var(--ink)}
++.filter[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
++.filter[aria-pressed=true] sup{color:var(--crimson-hi)}
++.filters__count{margin-top:.9rem;font-family:var(--mono);font-size:.78rem}
++.rec__note{max-width:42em;margin-bottom:2.5rem}
++.rec__note[hidden],.empty[hidden]{display:none}
++.rec__year{display:flex;align-items:baseline;gap:1rem;margin:clamp(2rem,4vw,3.5rem) 0 1rem;font-size:var(--s-2);font-weight:700;letter-spacing:-.015em;line-height:1}
++.rec__year::after{content:"";flex:1;border-top:1px solid var(--rule)}
++.rec__year:first-child{margin-top:0}
++.rec .refs{border-top:0}
++.empty{padding:3rem 0;text-align:center}
++.rec .refs__year{display:none}@media(min-width:860px){.rec .refs__item{grid-template-columns:3.2rem 1fr 11rem}}
+diff --git a/assets/data/team.js b/assets/data/team.js
+index 08cf680..2b2f903 100644
+--- a/assets/data/team.js
++++ b/assets/data/team.js
+@@ -3,6 +3,8 @@
+    Photos were extracted from the old index.html (assets/img/team/*).
+    ========================================================================== */
+ window.NEXT = window.NEXT || {};
++/* Optional per-person `bio` (1–2 true sentences) is shown under the portrait on studio.html.
++   Leave it out until you have real text — nothing is invented. e.g.  bio: "…" */
+ NEXT.team = [
+   { name: "Arib Labib",       role: "Founder & CEO",      photo: "assets/img/team/arib-labib.jpg",       webp: "assets/img/team/arib-labib.webp" },
+   { name: "Shuaib Islam",     role: "Co-Founder & CTO",   photo: "assets/img/team/shuaib-islam.jpg",     webp: "assets/img/team/shuaib-islam.webp" },
+diff --git a/assets/js/pages/studio.js b/assets/js/pages/studio.js
+new file mode 100644
+index 0000000..75bb6fd
+--- /dev/null
++++ b/assets/js/pages/studio.js
+@@ -0,0 +1,50 @@
++/* studio.html + recognition.html — owned by S5. Needs core.js + render.js (loaded first). */
++(function () {
++  'use strict';
++  var NEXT = window.NEXT, R = NEXT.render, e = NEXT.esc, d = document;
++
++  /* ---- studio: optional bio under each founder (team.js `bio`), added after the shared renderer ---- */
++  var auth = d.querySelector('[data-mount="authors"]');
++  if (auth && NEXT.team) {
++    NEXT.$$('.author', auth).forEach(function (a, i) {
++      var t = NEXT.team[i];
++      if (t && t.bio) { var p = d.createElement('p'); p.className = 'author__bio'; p.textContent = t.bio; a.appendChild(p); }
++    });
++  }
++
++  /* ---- recognition: filter by kind, group by year (descending), numbered [n] across groups ---- */
++  var groups = d.getElementById('groups');
++  if (!groups) return;
++  var filters = d.getElementById('filters'), count = d.getElementById('count'), empty = d.getElementById('empty'), honest = d.getElementById('honest');
++  var all = (NEXT.recognition || []).slice().sort(function (a, b) { return b.year - a.year; });
++  var KIND = { award: 'Award', press: 'Press', grant: 'Grant', certification: 'Certification', milestone: 'Milestone' };
++  var kinds = Object.keys(KIND).filter(function (k) { return all.some(function (x) { return x.kind === k; }); });
++  honest.hidden = !(all.length === 0 || all.every(function (x) { return x.sample; }));
++
++  filters.innerHTML = ['all'].concat(kinds).map(function (k) {
++    var n = k === 'all' ? all.length : all.filter(function (x) { return x.kind === k; }).length;
++    return '<button type="button" class="filter" data-kind="' + k + '" aria-pressed="false">' + (k === 'all' ? 'All' : e(KIND[k])) + '<sup class="num">' + n + '</sup></button>';
++  }).join('');
++  if (kinds.length < 2) filters.hidden = true;
++
++  function render(kind, push) {
++    var items = kind === 'all' ? all : all.filter(function (x) { return x.kind === kind; });
++    NEXT.$$('.filter', filters).forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-kind') === kind ? 'true' : 'false'); });
++    if (push) { try { history.replaceState(null, '', kind === 'all' ? location.pathname : '#' + kind); } catch (x) {} }
++    var years = [], by = {};
++    items.forEach(function (x) { if (!by[x.year]) { by[x.year] = []; years.push(x.year); } by[x.year].push(x); });
++    var n = 0;
++    groups.innerHTML = years.map(function (y) {
++      var html = '<h2 class="rec__year" id="y' + y + '">' + y + '</h2>' + R.refs(by[y]).replace('<ol class="refs">', '<ol class="refs" aria-labelledby="y' + y + '" style="counter-reset:ref ' + n + '">');
++      n += by[y].length; return html;
++    }).join('');
++    empty.hidden = items.length > 0;
++    count.textContent = items.length + (items.length === 1 ? ' reference' : ' references') + (kind === 'all' ? '' : ' · ' + KIND[kind]);
++    NEXT.init(groups);
++  }
++  filters.addEventListener('click', function (ev) { var b = ev.target.closest('.filter'); if (b) render(b.getAttribute('data-kind'), true); });
++  d.addEventListener('click', function (ev) { if (ev.target.closest('[data-reset]')) render('all', true); });
++  function fromHash() { var h = location.hash.replace('#', ''); render(kinds.indexOf(h) > -1 ? h : 'all', false); }
++  window.addEventListener('hashchange', fromHash);
++  fromHash();
++})();
+diff --git a/ledger/S5-studio-recognition.md b/ledger/S5-studio-recognition.md
+index 3c181b5..c94b5f0 100644
+--- a/ledger/S5-studio-recognition.md
++++ b/ledger/S5-studio-recognition.md
+@@ -1,18 +1,30 @@
+ ---
+ stage: S5
+ name: Studio + Recognition
+-status: pending
+-owner: —
++status: done
++owner: Claude (Sonnet 5.5)
+ depends: S1
+ ---
+ ## Done
+-(nothing yet)
++- `studio.html`: page head · §1 Story (drop cap, margin note) · §2 Authors (shared renderer; optional `bio` shown when present) · §3 Two hubs (dot-matrix map as Fig. 1, captions (a)/(b), screen-reader group label) · §4 Principles in a booktabs table · CTA (contact / careers / work).
++- `recognition.html`: references grouped by year (descending) with year headers, continuous `[n]` numbering, filter by kind (with counts, hash memory e.g. `#award`), items with `url` link out, empty state, and an honest "Just getting started" note shown automatically while every entry is `sample: true`.
++- Verified in headless Chrome at 1440 and 390: no console errors, no horizontal overflow.
+ 
+ ## Changed
++- `studio.html`, `recognition.html`, `assets/css/pages/studio.css` (used by both pages), `assets/js/pages/studio.js` (both pages), `assets/data/team.js` (comment documenting optional `bio`), this ledger.
+ 
+ ## Decisions
++- Founder bios are **not** invented: add `bio: "…"` to a person in `team.js` and it appears under the portrait.
++- The shared `render.js` was not touched; bios are appended by `studio.js` after mount.
++- Story copy uses only facts from the old site (innovation lab, bridging research and application, web/mobile/SaaS/AI-LLM, two hubs, Mini Me flagship). Wording is mine — please read it.
++- **Principles table is my wording**, derived from the Method on the home page (prototype + user testing; tested, documented code; one team; two hubs). Please confirm each is true of how you work, or edit the rows in `studio.html`.
++- Recognition shows the year once (group header), so the per-row year column is hidden on this page only.
+ 
+ ## Left to do
+-See docs/stages/S5-studio-recognition.md
++- Replace the four sample recognition entries with real ones (or leave the honest note until there are some).
++- Add real founder bios / photos if wanted.
++- Confirm story + principles copy.
+ 
+ ## Requests
++- Any real awards, press, grants, certifications or milestones (title, organisation, year, link).
++- One or two true sentences about each founder (optional).
+diff --git a/recognition.html b/recognition.html
+index 7d3ef57..df0bcdb 100644
+--- a/recognition.html
++++ b/recognition.html
+@@ -9,6 +9,7 @@
+ <link rel="preload" href="assets/fonts/cmu-serif-500-roman.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="preload" href="assets/fonts/cmu-serif-700-roman.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="stylesheet" href="assets/css/site.css">
++<link rel="stylesheet" href="assets/css/pages/studio.css">
+ </head>
+ <body>
+ <!-- shell:header -->
+@@ -40,13 +41,19 @@
+ </div>
+ <!-- /shell:header -->
+ <main id="main">
+-  <!-- STUB:S5 — replace with the full Recognition page (timeline by year, filters) -->
+   <section class="wrap page-head">
+-    <p class="kicker kicker--crimson smcp" data-reveal>§ Recognition</p>
++    <p class="kicker kicker--crimson smcp" data-reveal>&sect; Recognition</p>
+     <h1 class="h1" data-split>Cited <em>works</em> &amp; milestones.</h1>
+-    <p class="lede" data-reveal style="--d:3">Awards, press and milestones, listed the way research is — numbered and referenced.</p>
++    <p class="lede" data-reveal style="--d:3">Awards, press and milestones, listed the way research is &mdash; numbered and referenced.</p>
++    <div class="filters" role="group" aria-label="Filter by type" id="filters"></div>
++    <p class="filters__count mute" id="count" aria-live="polite"></p>
++  </section>
++
++  <section class="wrap sec--tight rec" style="padding-bottom:clamp(4rem,8vw,7rem)">
++    <aside class="note rec__note" id="honest" hidden><b>&dagger; Just getting started.</b> We have not yet published verified awards or press, and we will not invent any. The entries below are placeholders marking what we are working toward &mdash; each will be replaced with a real, linkable reference.</aside>
++    <div id="groups"><noscript><p>Recognition entries are loaded with JavaScript.</p></noscript></div>
++    <div class="empty" id="empty" hidden><p class="lede">Nothing of that type yet.</p><p class="mt-s"><button class="link" type="button" data-reset>Show everything</button></p></div>
+   </section>
+-  <section class="wrap sec--tight" style="padding-bottom:clamp(4rem,8vw,7rem)"><div data-mount="refs"></div></section>
+ </main>
+ <!-- shell:footer -->
+ <footer class="site-footer room">
+@@ -94,5 +101,6 @@
+ <script src="assets/js/art.js"></script>
+ <script src="assets/js/core.js"></script>
+ <script src="assets/js/render.js"></script>
++<script src="assets/js/pages/studio.js"></script>
+ </body>
+ </html>
+diff --git a/studio.html b/studio.html
+index 3f2008c..b0d78ed 100644
+--- a/studio.html
++++ b/studio.html
+@@ -9,6 +9,7 @@
+ <link rel="preload" href="assets/fonts/cmu-serif-500-roman.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="preload" href="assets/fonts/cmu-serif-700-roman.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="stylesheet" href="assets/css/site.css">
++<link rel="stylesheet" href="assets/css/pages/studio.css">
+ </head>
+ <body>
+ <!-- shell:header -->
+@@ -40,14 +41,80 @@
+ </div>
+ <!-- /shell:header -->
+ <main id="main">
+-  <!-- STUB:S5 — replace with the full Studio page (story, authors, hubs, values) -->
+   <section class="wrap page-head">
+-    <p class="kicker kicker--crimson smcp" data-reveal>§ Studio</p>
++    <p class="kicker kicker--crimson smcp" data-reveal>&sect; Studio</p>
+     <h1 class="h1" data-split>A small lab with a <em>long</em> view.</h1>
+-    <p class="lede" data-reveal style="--d:3">Next Inc. is an innovation lab and full-stack technology partner working across two hubs.</p>
++    <p class="lede" data-reveal style="--d:3">Next Inc. is an innovation lab and full-stack technology partner, working across two hubs.</p>
++  </section>
++
++  <section class="wrap sec--tight" id="story" aria-labelledby="story-h">
++    <div class="sec-head">
++      <span class="sec-head__no">&sect;1</span>
++      <h2 class="sec-head__title h2" id="story-h" data-split>The <em>story</em></h2>
++    </div>
++    <div class="grid">
++      <div class="c-7 prose" data-reveal>
++        <p class="dropcap">We are an innovation lab. Our job is to bridge cutting-edge research and practical application &mdash; to take an idea that is still a paper, a prototype or a hunch, and turn it into software that people can use every day.</p>
++        <p>In practice that means one team covering the whole path: websites and web apps, mobile applications, enterprise SaaS, and AI and LLM systems. Design, engineering and research sit at the same table, so what we prototype is what we ship.</p>
++        <p>We work from two hubs. Pennsylvania, USA is our operations hub; Vodra, Rajshahi, Bangladesh is our engineering and R&amp;D hub. Our flagship product is Mini Me.</p>
++      </div>
++      <aside class="c-4 s-9" aria-label="Margin note"><p class="note" data-reveal style="--d:2"><b>&dagger; Why &ldquo;lab&rdquo;?</b>Because we would rather test an idea than argue about it. Our <a class="link" href="index.html#method">method</a> starts from a hypothesis and a way to check it.</p></aside>
++    </div>
++  </section>
++
++  <section class="wrap sec" id="authors" aria-labelledby="auth-h">
++    <div class="sec-head">
++      <span class="sec-head__no">&sect;2</span>
++      <h2 class="sec-head__title h2" id="auth-h" data-split>The <em>authors</em></h2>
++      <p class="sec-head__intro">Three founders: chief executive, chief technology officer and chief operating officer.</p>
++    </div>
++    <div data-mount="authors"></div>
++  </section>
++
++  <section class="wrap sec" id="hubs" aria-labelledby="hubs-h">
++    <div class="sec-head">
++      <span class="sec-head__no">&sect;3</span>
++      <h2 class="sec-head__title h2" id="hubs-h" data-split>Two <em>hubs</em></h2>
++      <p class="sec-head__intro">Operations in the United States, engineering and research in Bangladesh.</p>
++    </div>
++    <figure class="hubs-fig" role="group" aria-label="Map of the two Next Inc. hubs: Pennsylvania, USA and Rajshahi, Bangladesh">
++      <div data-mount="map"></div>
++      <figcaption class="cap mt-s hubs-caps">
++        <span class="cap__text"><b>Fig. 1.</b> Two hubs, one lab.</span>
++        <span class="cap__text"><b>(a)</b> Pennsylvania, USA &mdash; USA Operations Hub.</span>
++        <span class="cap__text"><b>(b)</b> Vodra, Rajshahi, Bangladesh &mdash; Engineering &amp; R&amp;D Hub.</span>
++      </figcaption>
++    </figure>
++  </section>
++
++  <section class="wrap sec" id="values" aria-labelledby="val-h">
++    <div class="sec-head">
++      <span class="sec-head__no">&sect;4</span>
++      <h2 class="sec-head__title h2" id="val-h" data-split>How we <em>hold ourselves</em></h2>
++      <p class="sec-head__intro">Four principles, and what each one means in practice.</p>
++    </div>
++    <div class="tabwrap" data-reveal>
++      <table class="tab values">
++        <thead><tr><th scope="col">Principle</th><th scope="col">What it means in practice</th></tr></thead>
++        <tbody>
++          <tr><th scope="row" class="values__p">Evidence over opinion</th><td>We prototype first and put it in front of real users, so a decision rests on what we observed rather than on what we assumed.</td></tr>
++          <tr><th scope="row" class="values__p">Built to be handed over</th><td>Code is tested and documented, with monitoring in place, so any competent engineer can pick it up &mdash; including you.</td></tr>
++          <tr><th scope="row" class="values__p">One team, end to end</th><td>Design, engineering and AI research are done by the same people, so nothing is lost between a brief and a release.</td></tr>
++          <tr><th scope="row" class="values__p">Two hubs, one standard</th><td>Operations in Pennsylvania and engineering in Rajshahi work to the same process and the same definition of done.</td></tr>
++        </tbody>
++      </table>
++    </div>
++    <p class="note table-cap"><b>Table 1.</b> Principles and practice.</p>
++  </section>
++
++  <section class="wrap sec cta" aria-labelledby="cta-h">
++    <h2 class="h2" id="cta-h">Want to work <em>with us?</em></h2>
++    <div class="flex mt-m">
++      <a class="btn" href="contact.html">Start a project</a>
++      <a class="btn btn--ghost" href="career.html">See open roles</a>
++      <a class="link link--arrow" href="work.html">See our work</a>
++    </div>
+   </section>
+-  <section class="wrap sec--tight"><div data-mount="authors"></div></section>
+-  <section class="wrap sec"><figure><div data-mount="map"></div><figcaption class="cap mt-s"><span class="cap__text"><b>Fig. 1.</b> Two hubs, one lab.</span></figcaption></figure></section>
+ </main>
+ <!-- shell:footer -->
+ <footer class="site-footer room">
+@@ -95,5 +162,6 @@
+ <script src="assets/js/art.js"></script>
+ <script src="assets/js/core.js"></script>
+ <script src="assets/js/render.js"></script>
++<script src="assets/js/pages/studio.js"></script>
+ </body>
+ </html>
+-- 
+2.43.0
+

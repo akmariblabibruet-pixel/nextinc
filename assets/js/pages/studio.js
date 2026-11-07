@@ -38,6 +38,8 @@
       var html = '<h2 class="rec__year" id="y' + y + '">' + y + '</h2>' + R.refs(by[y]).replace('<ol class="refs">', '<ol class="refs" aria-labelledby="y' + y + '" style="counter-reset:ref ' + n + '">');
       n += by[y].length; return html;
     }).join('');
+    var yj = d.getElementById('yearjump');
+    if (yj) yj.innerHTML = years.length > 1 ? ' &nbsp;&middot;&nbsp; jump to ' + years.map(function (y) { return '<a class="link" href="#y' + y + '" data-yr="' + y + '">' + y + '</a>'; }).join(', ') : '';
     empty.hidden = items.length > 0;
     count.textContent = items.length + (items.length === 1 ? ' reference' : ' references') + (kind === 'all' ? '' : ' · ' + KIND[kind]);
     NEXT.init(groups);
@@ -45,6 +47,10 @@
   filters.addEventListener('click', function (ev) { var b = ev.target.closest('.filter'); if (b) render(b.getAttribute('data-kind'), true); });
   d.addEventListener('click', function (ev) { if (ev.target.closest('[data-reset]')) render('all', true); });
   function fromHash() { var h = location.hash.replace('#', ''); render(kinds.indexOf(h) > -1 ? h : 'all', false); }
-  window.addEventListener('hashchange', fromHash);
+  d.addEventListener('click', function (ev) {
+    var a = ev.target.closest('[data-yr]'); if (!a) return;
+    ev.preventDefault(); var t = d.getElementById('y' + a.getAttribute('data-yr')); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  window.addEventListener('hashchange', function () { if (/^#y\d+$/.test(location.hash)) return; fromHash(); });
   fromHash();
 })();

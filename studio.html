@@ -45,6 +45,13 @@
     <p class="kicker kicker--crimson smcp" data-reveal>&sect; Studio</p>
     <h1 class="h1" data-split>A small lab with a <em>long</em> view.</h1>
     <p class="lede" data-reveal style="--d:3">Next Inc. is an innovation lab and full-stack technology partner, working across two hubs.</p>
+    <nav class="toc studio-toc" aria-label="Contents of this page" data-reveal style="--d:4">
+      <div class="toc__title">Contents</div>
+      <a href="#story"><b>1</b><span>Story</span><span>01</span></a>
+      <a href="#authors"><b>2</b><span>Authors</span><span>02</span></a>
+      <a href="#hubs"><b>3</b><span>Two hubs</span><span>03</span></a>
+      <a href="#values"><b>4</b><span>Principles</span><span>04</span></a>
+    </nav>
   </section>
 
   <section class="wrap sec--tight" id="story" aria-labelledby="story-h">
@@ -54,11 +61,19 @@
     </div>
     <div class="grid">
       <div class="c-7 prose" data-reveal>
-        <p class="dropcap">We are an innovation lab. Our job is to bridge cutting-edge research and practical application &mdash; to take an idea that is still a paper, a prototype or a hunch, and turn it into software that people can use every day.</p>
+        <p class="dropcap prose__lede">We are an innovation lab. Our job is to bridge cutting-edge research and practical application &mdash; to take an idea that is still a paper, a prototype or a hunch, and turn it into software that people can use every day.</p>
         <p>In practice that means one team covering the whole path: websites and web apps, mobile applications, enterprise SaaS, and AI and LLM systems. Design, engineering and research sit at the same table, so what we prototype is what we ship.</p>
         <p>We work from two hubs. Pennsylvania, USA is our operations hub; Vodra, Rajshahi, Bangladesh is our engineering and R&amp;D hub. Our flagship product is Mini Me.</p>
       </div>
-      <aside class="c-4 s-9" aria-label="Margin note"><p class="note" data-reveal style="--d:2"><b>&dagger; Why &ldquo;lab&rdquo;?</b>Because we would rather test an idea than argue about it. Our <a class="link" href="index.html#method">method</a> starts from a hypothesis and a way to check it.</p></aside>
+      <aside class="c-4 s-9 story-side" aria-label="Margin notes">
+        <dl class="facts" data-reveal style="--d:1">
+          <div><dt>Founded as</dt><dd>Innovation lab &amp; full-stack technology partner</dd></div>
+          <div><dt>Disciplines</dt><dd>Web &middot; Mobile &middot; SaaS &middot; AI &amp; LLM</dd></div>
+          <div><dt>Hubs</dt><dd>Pennsylvania, USA &middot; Rajshahi, Bangladesh</dd></div>
+          <div><dt>Flagship</dt><dd><a class="link" href="project.html?p=mini-me">Mini Me</a></dd></div>
+        </dl>
+        <p class="note" data-reveal style="--d:2"><b>&dagger; Why &ldquo;lab&rdquo;?</b>Because we would rather test an idea than argue about it. Our <a class="link" href="index.html#method">method</a> starts from a hypothesis and a way to check it.</p>
+      </aside>
     </div>
   </section>
 
@@ -85,6 +100,10 @@
         <span class="cap__text"><b>(b)</b> Vodra, Rajshahi, Bangladesh &mdash; Engineering &amp; R&amp;D Hub.</span>
       </figcaption>
     </figure>
+    <div class="grid hub-cards">
+      <article class="c-6 hub-card" data-reveal><p class="smcp mute">(a) USA Operations Hub</p><h3 class="h3">Pennsylvania, USA</h3><p class="mono mute">40.9&deg;N &nbsp;77.8&deg;W</p></article>
+      <article class="c-6 hub-card" data-reveal style="--d:1"><p class="smcp mute">(b) Engineering &amp; R&amp;D Hub</p><h3 class="h3">Vodra, Rajshahi, Bangladesh</h3><p class="mono mute">24.4&deg;N &nbsp;88.6&deg;E</p></article>
+    </div>
   </section>
 
   <section class="wrap sec" id="values" aria-labelledby="val-h">

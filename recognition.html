@@ -46,11 +46,20 @@
     <h1 class="h1" data-split>Cited <em>works</em> &amp; milestones.</h1>
     <p class="lede" data-reveal style="--d:3">Awards, press and milestones, listed the way research is &mdash; numbered and referenced.</p>
     <div class="filters" role="group" aria-label="Filter by type" id="filters"></div>
-    <p class="filters__count mute" id="count" aria-live="polite"></p>
+    <p class="filters__count mute"><span id="count" aria-live="polite"></span><span id="yearjump"></span></p>
   </section>
 
   <section class="wrap sec--tight rec" style="padding-bottom:clamp(4rem,8vw,7rem)">
-    <aside class="note rec__note" id="honest" hidden><b>&dagger; Just getting started.</b> We have not yet published verified awards or press, and we will not invent any. The entries below are placeholders marking what we are working toward &mdash; each will be replaced with a real, linkable reference.</aside>
+    <aside class="rec__note" id="honest" hidden>
+      <p><b>&dagger; Just getting started.</b> We have not yet published verified awards or press, and we will not invent any. The entries below are placeholders &mdash; each will be replaced with a real, linkable reference.</p>
+      <p class="smcp mute">What will be listed here</p>
+      <dl class="rec__legend">
+        <div><dt>Award</dt><dd>Prizes and competition placings.</dd></div>
+        <div><dt>Press</dt><dd>Articles and interviews about our work.</dd></div>
+        <div><dt>Grant</dt><dd>Funding and programme acceptances.</dd></div>
+        <div><dt>Milestone</dt><dd>Public launches and firsts.</dd></div>
+      </dl>
+    </aside>
     <div id="groups"><noscript><p>Recognition entries are loaded with JavaScript.</p></noscript></div>
     <div class="empty" id="empty" hidden><p class="lede">Nothing of that type yet.</p><p class="mt-s"><button class="link" type="button" data-reset>Show everything</button></p></div>
   </section>
