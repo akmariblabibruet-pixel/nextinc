@@ -9,6 +9,7 @@
 <link rel="preload" href="assets/fonts/cmu-serif-500-roman.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/cmu-serif-700-roman.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/pages/films.css">
 </head>
 <body>
 <!-- shell:header -->
@@ -39,16 +40,30 @@
   <p class="menu__foot">Pennsylvania, USA · Rajshahi, Bangladesh</p>
 </div>
 <!-- /shell:header -->
-<main id="main">
-  <!-- STUB:S4 — replace with the full Films page (screening room, featured film, filters) -->
+<main id="main" class="films room">
   <section class="wrap page-head">
-    <p class="kicker kicker--crimson smcp" data-reveal>§ Films</p>
-    <h1 class="h1" data-split>The <em>screening</em> room.</h1>
+    <p class="kicker kicker--crimson smcp" data-reveal>&sect; Films</p>
+    <h1 class="h1" data-split>The screening <em>room.</em></h1>
     <p class="lede" data-reveal style="--d:3">Launch films, walkthroughs and behind-the-scenes cuts of what we make.</p>
+    <p class="films-hint" data-reveal style="--d:4">Nothing loads from YouTube or Vimeo until you press play. In the player: <kbd>&larr;</kbd> <kbd>&rarr;</kbd> previous / next film &middot; <kbd>Esc</kbd> close.</p>
   </section>
-  <section class="room sec"><div class="wrap">
-    <div class="grid" data-mount="films" style="row-gap:3rem"></div>
-  </div></section>
+
+  <div class="perf" aria-hidden="true"></div>
+
+  <section class="wrap feat" aria-label="Featured film">
+    <div id="feat-film"></div>
+    <div class="grid feat__row" id="feat-row"></div>
+    <noscript><p class="lede">Films need JavaScript to play. Browse our <a class="link" href="work.html">work</a> instead.</p></noscript>
+  </section>
+
+  <section class="wrap sec" id="all" aria-labelledby="all-h">
+    <h2 class="sr-only" id="all-h">All films</h2>
+    <div class="films-filter" id="films-filter" role="group" aria-label="Filter films by type"></div>
+    <p class="sr-only" id="films-status" role="status" aria-live="polite"></p>
+    <div id="films-kinds"></div>
+  </section>
+
+  <div class="perf perf--end" aria-hidden="true"></div>
 </main>
 <!-- shell:footer -->
 <footer class="site-footer room">
@@ -96,5 +111,6 @@
 <script src="assets/js/art.js"></script>
 <script src="assets/js/core.js"></script>
 <script src="assets/js/render.js"></script>
+<script src="assets/js/pages/films.js"></script>
 </body>
 </html>

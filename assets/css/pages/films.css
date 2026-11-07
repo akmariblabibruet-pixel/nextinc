@@ -1,0 +1,87 @@
+/* Films page — owned by S4. Uses only tokens from site.css (no new colours or fonts). */
+
+/* ---------- page head (room colours) ---------- */
+.films .kicker--crimson{color:var(--crimson-hi)}
+.films .page-head{padding-block:clamp(2.6rem,6vw,5rem) clamp(1.8rem,3.5vw,3rem)}
+.films .page-head .h1{max-width:none}
+.films-hint{margin-top:1.4rem;max-width:44em;font-family:var(--mono);font-size:.78rem;line-height:1.7;color:var(--room-ink-3)}
+.films-hint kbd{font:inherit;color:var(--room-ink);border:1px solid var(--room-rule);padding:.02em .45em;border-radius:var(--radius)}
+@media(hover:none),(pointer:coarse){.films-hint kbd,.films-hint{font-size:.74rem}}
+
+/* film-strip perforations (same geometry as .room--perf, usable as a divider) */
+.perf{position:relative;height:14px;pointer-events:none;
+  background:repeating-linear-gradient(90deg,transparent 0 14px,var(--room-3) 14px 26px,transparent 26px 40px) 0 3px/auto 8px no-repeat}
+.perf--end{margin-top:clamp(3rem,6vw,5rem)}
+
+/* ---------- featured film + programme ---------- */
+.feat{padding-top:clamp(2rem,4vw,3.4rem)}
+.feat .film__frame{border-color:var(--room-rule)}
+.feat__lab{position:absolute;left:1rem;top:.9rem;z-index:3;font-family:var(--mono);font-size:.74rem;letter-spacing:.04em;color:var(--room-ink-2)}
+.feat__row{margin-top:clamp(1.6rem,3vw,2.6rem);align-items:start;row-gap:2.6rem}
+.feat__now{color:var(--crimson-hi)}
+.feat__title{margin-top:.9rem}
+.feat__sub{margin-top:.9rem;font-size:var(--s-1);font-style:italic;color:var(--room-ink-2);max-width:30em}
+.feat__facts{margin-top:1.3rem}
+.feat__cta{margin-top:1.8rem;display:flex;flex-wrap:wrap;align-items:center;gap:1rem 1.8rem}
+.feat__cta .link{font-size:.98rem;color:var(--room-ink-2)}
+.room .link:hover{color:var(--crimson-hi)}
+
+.prog__head{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding-bottom:.9rem;color:var(--room-ink-3)}
+.prog__head .mono{color:var(--room-ink-3);font-weight:400;letter-spacing:0;text-transform:none}
+.prog .reel__item{padding-block:.95rem}
+.prog .reel__time{white-space:nowrap}
+.prog .reel__item:focus-visible{outline-offset:-2px}
+
+/* ---------- filter (hairline tabs, no pills) ---------- */
+.films-filter{display:flex;flex-wrap:wrap;align-items:baseline;gap:.2rem 1.8rem;margin-top:clamp(1.8rem,3.5vw,2.8rem);padding-bottom:.7rem;border-bottom:1px solid var(--room-rule)}
+.films-filter__b{position:relative;padding:.55rem 0;font-size:.76rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--room-ink-3);transition:color .2s}
+.films-filter__b .num{margin-left:.6em;font-family:var(--mono);font-weight:400;letter-spacing:0;color:var(--room-ink-3)}
+.films-filter__b::after{content:"";position:absolute;left:0;right:0;bottom:.1rem;height:1px;background:var(--crimson-hi);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease)}
+.films-filter__b:hover,.films-filter__b[aria-pressed="true"]{color:var(--room-ink)}
+.films-filter__b:hover::after,.films-filter__b[aria-pressed="true"]::after{transform:scaleX(1)}
+
+/* ---------- groups by kind ---------- */
+.kind{margin-top:clamp(2.4rem,5vw,4rem)}
+.kind__head{display:grid;grid-template-columns:1fr auto;column-gap:1.4rem;row-gap:.35rem;align-items:baseline;padding-top:1rem;border-top:1px solid var(--room-ink);margin-bottom:clamp(1.4rem,3vw,2.2rem)}
+.kind__title{grid-column:1;font-size:var(--s-3);line-height:1.1}
+.kind__count{grid-column:2;grid-row:1;color:var(--crimson-hi)}
+.kind__note{grid-column:1/-1;font-style:italic;color:var(--room-ink-3)}
+@media(min-width:860px){
+  .kind__head{grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap)}
+  .kind__title{grid-column:1/span 4}
+  .kind__note{grid-column:5/span 6;grid-row:1}
+  .kind__count{grid-column:12;text-align:right}
+}
+.kind .grid{row-gap:clamp(2rem,4vw,3rem)}
+.kind.is-shown{animation:kind-in .6s var(--ease) both}
+@keyframes kind-in{from{opacity:0;transform:translateY(12px)}}
+@media(min-width:560px) and (max-width:859px){.films .fcard{grid-column:span 6}}   /* two-up on tablets, one-up on phones */
+.fcard .cap__meta{margin-top:.55rem;font-size:.9rem}
+.fcard .cap__meta .link{color:var(--room-ink-2)}
+
+/* ---------- optional muted hover preview (desktop pointers only; created on first hover) ---------- */
+.film__preview{position:absolute;inset:0;z-index:1;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s;pointer-events:none}
+.film__preview.is-on{opacity:1}
+
+/* ---------- lightbox upgrades (markup added by pages/films.js) ---------- */
+html.films-locked{overflow:hidden;scrollbar-gutter:stable}
+.lightbox :focus-visible{outline-color:var(--crimson-hi)}
+.lightbox{width:min(1180px,94vw,calc((100vh - 15.5rem)*1.7778));width:min(1180px,94vw,calc((100dvh - 15.5rem)*1.7778))}   /* media + bars + the Close label above always fit the viewport */
+.lightbox__more{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.5rem 1.8rem;padding:.8rem 1.2rem;border-top:1px solid var(--room-rule);font-size:.95rem}
+.lightbox__links{display:flex;flex-wrap:wrap;align-items:center;gap:.3rem 1.6rem}
+.lightbox__links .link{color:var(--room-ink-2)}
+.lightbox__copy,.lightbox__step{min-height:44px;display:inline-flex;align-items:center;justify-content:center;padding:.45rem 0;font-size:.74rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--room-ink-2);transition:color .2s}
+.lightbox__copy:hover,.lightbox__step:hover{color:var(--room-ink)}
+.lightbox__nav{display:flex;align-items:center;gap:1.1rem}
+.lightbox__pos{color:var(--room-ink-3)}
+.lightbox__step{min-width:44px}
+.lightbox__step-t{display:none}
+@media(min-width:760px){
+  .lightbox__step-t{display:inline-block;max-width:13em;margin-inline:.6em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:bottom;
+    font-size:.95rem;font-style:italic;font-weight:400;letter-spacing:0;text-transform:none}
+}
+@media(max-height:520px){   /* landscape phones: video first, Close sits inside the frame; ← → and Esc still work */
+  .lightbox{width:min(94vw,calc((100vh - 8rem)*1.7778));width:min(94vw,calc((100dvh - 8rem)*1.7778))}
+  .lightbox__more{display:none}
+  .lightbox__x{top:.5rem;right:.5rem;z-index:5;padding:.35em .7em;background:color-mix(in srgb,var(--room) 78%,transparent)}
+}

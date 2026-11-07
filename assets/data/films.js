@@ -4,6 +4,7 @@
    poster    optional image; otherwise generative art is used
    kind      showreel | launch | walkthrough | studio
    project   slug from projects.js (optional)   featured  one film = the hero reel
+   Full guide (YouTube, Vimeo, MP4/WebM, posters, hover preview): header of assets/js/pages/films.js
    HOW TO ADD A FILM:  upload to YouTube (unlisted is fine), copy the 11-char id,
    set provider:"youtube", src:"<id>", remove sample:true.
    ========================================================================== */
