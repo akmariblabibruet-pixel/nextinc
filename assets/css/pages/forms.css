@@ -1,0 +1,94 @@
+/* career.html · apply.html · contact.html — owned by S6.
+   Uses tokens and components from site.css only (no new colours, no new typefaces).
+   Parts: 1 two-column page body · 2 side column · 3 the letter (form sheet) · 4 fields, picks, messages · 5 roles list · 6 small screens */
+
+/* 1 · two-column page body ------------------------------------------------- */
+.formpage{padding-bottom:clamp(4rem,8vw,7rem)}
+.formpage .grid{align-items:start;row-gap:clamp(2.5rem,6vw,4rem)}
+.apply-title{font-size:var(--s-4);max-width:14em}
+
+/* 2 · side column ("what to tell us", "about the role") -------------------- */
+.side>*+*{margin-top:1.4rem}
+.side__title{font-size:.74rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);line-height:1.3;
+  padding-bottom:.6rem;border-bottom:1px solid var(--ink)}
+.side__title:not(:first-child){margin-top:2.4rem}
+.side__mail{padding-top:.4rem}
+.side__mail .mail{display:inline-block;margin-top:.35rem;font-size:var(--s-2);font-weight:700;letter-spacing:-.012em;line-height:1.15;color:var(--ink);overflow-wrap:anywhere}
+.side__hubs{font-size:.95rem}
+.side__text{color:var(--ink-2);max-width:34em}
+/* lettered list: a. b. c. — same voice as the roman numerals on the studio page */
+.ask{counter-reset:ask;margin-top:.2rem!important}
+.ask li{counter-increment:ask;display:grid;grid-template-columns:2rem 1fr;gap:0 .6rem;padding:.85rem 0;border-bottom:1px solid var(--rule);color:var(--ink-2);line-height:1.45}
+.ask li::before{content:counter(ask,lower-alpha) ".";font-family:var(--mono);font-size:.82rem;color:var(--crimson);padding-top:.28em}
+.ask li small{grid-column:2;display:block;font-size:.88rem;font-style:italic;color:var(--ink-3)}
+
+/* 3 · the letter: a sheet of paper that holds the form --------------------- */
+.letter{position:relative;background:var(--paper-2);border:1px solid var(--rule);border-top:2px solid var(--ink);border-radius:var(--radius);
+  padding:clamp(1.3rem,3.2vw,2.4rem)}
+.letter__head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.3rem 1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--rule);
+  font-family:var(--mono);font-size:.78rem;color:var(--ink-3)}
+.letter__head b{font-weight:400;color:var(--ink);margin-left:.4em}
+.letter__date:empty{display:none}
+.letter__dear{display:block;font-size:var(--s-2);font-style:italic;font-weight:700;line-height:1.1;color:var(--ink)}
+.letter__close{margin-top:2rem;font-size:var(--s-1);font-style:italic;color:var(--ink)}
+.letter__send{display:flex;flex-wrap:wrap;align-items:center;gap:1rem 1.4rem;margin-top:2rem}
+.letter__close+.letter__send{margin-top:1rem}
+.field--letter{margin-top:2.2rem}
+/* ruled writing paper for the message box */
+.field--letter textarea{--lh:1.8rem;min-height:calc(var(--lh)*7 + .2rem);padding:.2rem 0 0;line-height:var(--lh);margin-top:.8rem;
+  background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(var(--lh) - 1px),var(--rule) calc(var(--lh) - 1px),var(--rule) var(--lh));
+  background-position:0 .2rem;background-attachment:local}
+
+/* 4 · fields, project-type picks, messages --------------------------------- */
+.field>span small,.pick-set legend small{margin-left:.5em;font-size:1em;font-weight:400;font-style:italic;letter-spacing:0;text-transform:none;color:var(--ink-3)}
+.field.is-invalid input,.field.is-invalid textarea{border-bottom-color:var(--crimson);box-shadow:0 1px 0 var(--crimson)}
+.field__err{margin-top:.45rem;font-size:.92rem;font-style:italic;line-height:1.35;color:var(--crimson)}
+.field__err::before{content:"\2020\00a0";font-style:normal}   /* † so the error is not signalled by colour alone */
+/* project type: radio inputs that look like set type, not pills */
+.pick-set{border:0;margin:1.8rem 0 0;padding:0;min-width:0}
+.pick-set legend{padding:0;font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.pick__row{display:flex;flex-wrap:wrap;gap:.55rem .6rem;margin-top:.8rem}
+.pick{position:relative;display:inline-block}
+.pick input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.pick span{display:inline-block;padding:.62em 1.05em;border:1px solid var(--ink-3);border-radius:var(--radius);background:transparent;
+  font-size:.95rem;line-height:1.3;color:var(--ink);transition:background .25s var(--ease),color .25s var(--ease),border-color .25s var(--ease)}
+.pick:hover span{border-color:var(--ink)}
+.pick input:checked+span{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.pick input:focus-visible+span{outline:2px solid var(--crimson);outline-offset:3px}
+/* sending state — site.css has no disabled button, so it is defined here */
+.letter .btn{cursor:pointer}
+.letter .btn[disabled]{opacity:.55;cursor:progress;pointer-events:none}
+.letter .btn[disabled]::after{transform:none}
+/* success / error line under the button; kept in the DOM (empty) so screen readers announce changes */
+.form-msg:empty{margin:0}
+.form-msg{font-size:var(--s-0);line-height:1.45}
+.form-msg--err{margin-top:1rem}
+.form-msg .link{color:inherit}
+
+/* 5 · careers: open roles listed like a table of contents ------------------ */
+.roles{counter-reset:role;border-top:2px solid var(--ink)}
+.role{counter-increment:role;padding:clamp(1.4rem,3vw,2.2rem) 0;border-bottom:1px solid var(--rule)}
+.role__row{display:flex;align-items:baseline;gap:.9rem;color:var(--ink)}
+.role__row::before{content:counter(role);min-width:2.2rem;font-size:var(--s-1);font-style:italic;font-weight:700;color:var(--crimson)}
+.role__row::after{content:"";order:2;flex:1 1 2rem;min-width:1.2rem;border-bottom:2px dotted var(--rule);transform:translateY(-.3em);transition:border-color .2s}
+.role__title{font-size:var(--s-3);font-weight:700;letter-spacing:-.015em;line-height:1.08;color:var(--ink);transition:color .2s}
+.role__go{order:3;font-size:.76rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;color:var(--crimson)}
+.role__go::after{content:"\2192";display:inline-block;margin-left:.5em;letter-spacing:0;transition:transform .3s var(--ease)}
+.role__row:hover .role__title{color:var(--crimson)}
+.role__row:hover::after{border-color:var(--crimson)}
+.role__row:hover .role__go::after{transform:translateX(.3em)}
+.role__body{margin-top:1.1rem;padding-left:3.1rem;max-width:44rem}
+.role__text{color:var(--ink-2)}
+.role__body .tags{margin-top:1rem}
+.roles-note{margin-top:2rem;max-width:36em}
+
+/* 6 · small screens -------------------------------------------------------- */
+@media(max-width:560px){
+  .role__row::after{display:none}
+  .role__title{flex:1;font-size:var(--s-2)}
+  .role__body{padding-left:0}
+  .letter{padding:1.2rem 1rem 1.5rem}
+  .letter__head{font-size:.74rem}
+  .field--letter textarea{--lh:1.7rem}
+  .letter__send .btn{width:100%;justify-content:center}
+}
