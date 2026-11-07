@@ -1,5 +1,5 @@
 /* career.html · apply.html · contact.html — owned by S6.
-   Needs core.js (NEXT.$, NEXT.$$, NEXT.esc) and data/site.js (NEXT.site.email), loaded first.
+   Needs core.js (NEXT.$, NEXT.$$, NEXT.esc), data/site.js (NEXT.site.email) and data/roles.js (NEXT.roles), loaded first.
 
    What it does
    - Sends both forms to Web3Forms exactly like the old pages did: POST https://api.web3forms.com/submit, FormData body,
@@ -15,17 +15,6 @@
   var ENDPOINT = 'https://api.web3forms.com/submit';
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var mail = NEXT.site && NEXT.site.email;
-
-  /* ---- open roles ---------------------------------------------------------------------------------------
-     Only the role that already existed on the old career page. To add one: add an <li class="role"> to
-     career.html AND an entry here (apply.html reads this list). Request logged to move it to assets/data/roles.js. */
-  NEXT.roles = [
-    { slug: 'marketing-presentation-intern',
-      title: 'Marketing & Presentation Intern',
-      summary: 'Hybrid — Remote & Rajshahi · Internship with a path to full-time.',
-      text: 'Help shape how Next Inc. tells its story — building decks, pitch materials, and campaign content across our channels. You’ll work directly with the founding team, with a clear path to a full-time offer for the right person.',
-      tags: ['Hybrid — Remote & Rajshahi', 'Internship', 'Path to full-time'] }
-  ];
 
   /* ---- small helpers ---- */
   function syncShared() {

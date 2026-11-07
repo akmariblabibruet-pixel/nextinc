@@ -71,15 +71,24 @@
     } else {
       var i = idx(p), next = all[i % all.length];
       var film = (NEXT.films || []).filter(function (f) { return f.id === p.video; })[0] || (NEXT.films || []).filter(function (f) { return f.project === p.slug; })[0];
-      var url = location.origin + location.pathname + '?p=' + encodeURIComponent(p.slug);
+      var base = ((NEXT.site && NEXT.site.url) || location.origin).replace(/\/+$/, '');      /* the public address, not localhost or a preview host */
+      var url = base + '/project.html?p=' + encodeURIComponent(p.slug);
       d.title = p.title + ' — case study — Next Inc.';
       setMeta('meta[name=description]', 'content', p.summary || '');
       setMeta('link[rel=canonical]', 'href', url, { tag: 'link', attrs: { rel: 'canonical', href: url } });
       setMeta('meta[property="og:title"]', 'content', p.title + ' — Next Inc.', { tag: 'meta', attrs: { property: 'og:title', content: '' } });
       setMeta('meta[property="og:description"]', 'content', p.summary || '', { tag: 'meta', attrs: { property: 'og:description', content: '' } });
+      setMeta('meta[property="og:url"]', 'content', url, { tag: 'meta', attrs: { property: 'og:url', content: '' } });
+      setMeta('meta[name="twitter:title"]', 'content', p.title + ' — Next Inc.', { tag: 'meta', attrs: { name: 'twitter:title', content: '' } });
+      setMeta('meta[name="twitter:description"]', 'content', p.summary || '', { tag: 'meta', attrs: { name: 'twitter:description', content: '' } });
+      if (p.cover && /^assets\//.test(p.cover)) {          /* a project's own cover makes a better share card than the default one */
+        setMeta('meta[property="og:image"]', 'content', base + '/' + p.cover, { tag: 'meta', attrs: { property: 'og:image', content: '' } });
+        setMeta('meta[name="twitter:image"]', 'content', base + '/' + p.cover, { tag: 'meta', attrs: { name: 'twitter:image', content: '' } });
+        ['og:image:width', 'og:image:height'].forEach(function (k) { var m = d.querySelector('meta[property="' + k + '"]'); if (m) m.remove(); });   /* size of the default card no longer applies */
+      }
 
       var cover = p.cover ? '<img src="' + e(p.cover) + '" alt="" decoding="async">' : NEXT.art.cover(p);
-      var logo = p.logo ? '<img class="plate__logo" src="' + e(p.logo) + '" alt="' + e(p.title) + ' logo">' : '';
+      var logo = p.logo ? '<img class="plate__logo" src="' + e(p.logo) + '" alt="' + e(p.title) + ' logo" width="512" height="512">' : '';
       var hero;
       if (film) {
         hero = '<button type="button" class="plate cs-plate" data-film="' + e(film.id) + '" data-cursor="Play" aria-label="Play film: ' + e(film.title) + '"><span class="plate__frame" style="--ar:16/9">' + cover + logo +

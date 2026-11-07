@@ -23,7 +23,7 @@
       o = o || {};
       var href = 'project.html?p=' + encodeURIComponent(p.slug);
       var media = p.cover ? '<img src="' + e(p.cover) + '" alt="" loading="lazy" decoding="async">' : NEXT.art.cover(p);
-      var logo = p.logo ? '<img class="plate__logo" src="' + e(p.logo) + '" alt="' + e(p.title) + ' logo" loading="lazy" decoding="async">' : '';
+      var logo = p.logo ? '<img class="plate__logo" src="' + e(p.logo) + '" alt="' + e(p.title) + ' logo" width="512" height="512" loading="lazy" decoding="async">' : '';
       return '<a class="plate' + (p.sample ? ' is-sample' : '') + '" href="' + href + '" data-cursor="View"' + (o.reveal === false ? '' : ' data-reveal') + d(o.delay || 0) + '>' +
         '<span class="plate__frame"' + (o.ar ? ' style="--ar:' + e(o.ar) + '"' : '') + '>' + media + logo +
         (o.no ? '<span class="plate__no">Pl. ' + pad(o.no) + '</span>' : '') +
@@ -65,7 +65,7 @@
       var line = team.map(function (t) { return e(t.name) + '<sup>1</sup>'; }).join('<span class="mute"> · </span>');
       var cards = team.map(function (t, i) {
         var alt = e(t.name) + ', ' + e(t.role);
-        var img = '<img src="' + e(t.photo) + '" alt="' + alt + '" loading="lazy" decoding="async">';
+        var img = '<img src="' + e(t.photo) + '" alt="' + alt + '"' + (t.w && t.h ? ' width="' + t.w + '" height="' + t.h + '"' : '') + ' loading="lazy" decoding="async">';
         var pic = t.webp ? '<picture><source srcset="' + e(t.webp) + '" type="image/webp">' + img + '</picture>' : img;
         return '<div class="c-4 m-6"><div class="author" data-reveal' + d(i) + '><div class="author__photo">' + pic + '<span class="author__no">' + pad(i + 1) + '</span></div>' +
           '<h3 class="author__name">' + e(t.name) + '</h3><p class="author__role">' + e(t.role) + '</p></div></div>';

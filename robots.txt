@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /docs/
+Disallow: /ledger/
+Disallow: /scripts/
+Disallow: /patches/
+
+Sitemap: https://www.wearenext.tech/sitemap.xml

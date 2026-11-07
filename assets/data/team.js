@@ -6,8 +6,8 @@ window.NEXT = window.NEXT || {};
 /* Optional per-person `bio` (1–2 true sentences) is shown under the portrait on studio.html.
    Leave it out until you have real text — nothing is invented. e.g.  bio: "…" */
 NEXT.team = [
-  { name: "Arib Labib",       role: "Founder & CEO",      photo: "assets/img/team/arib-labib.jpg",       webp: "assets/img/team/arib-labib.webp" },
-  { name: "Shuaib Islam",     role: "Co-Founder & CTO",   photo: "assets/img/team/shuaib-islam.jpg",     webp: "assets/img/team/shuaib-islam.webp" },
-  { name: "Shaikh Muhammad",  role: "Co-Founder & COO",   photo: "assets/img/team/shaikh-muhammad.jpg",  webp: "assets/img/team/shaikh-muhammad.webp" }
+  { name: "Arib Labib",       role: "Founder & CEO",      photo: "assets/img/team/arib-labib.jpg",       webp: "assets/img/team/arib-labib.webp", w: 400, h: 400 },
+  { name: "Shuaib Islam",     role: "Co-Founder & CTO",   photo: "assets/img/team/shuaib-islam.jpg",     webp: "assets/img/team/shuaib-islam.webp", w: 596, h: 563 },
+  { name: "Shaikh Muhammad",  role: "Co-Founder & COO",   photo: "assets/img/team/shaikh-muhammad.jpg",  webp: "assets/img/team/shaikh-muhammad.webp", w: 449, h: 567 }
 ];
 NEXT.affiliation = "Next Inc. Innovation Lab — Pennsylvania, USA · Rajshahi, Bangladesh";

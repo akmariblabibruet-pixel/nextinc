@@ -43,12 +43,15 @@
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
       if (label) label.textContent = open ? 'Close' : 'Menu';
       menu.setAttribute('aria-hidden', open ? 'false' : 'true');
+      /* while the menu is open, nothing behind it can be reached with Tab or a screen reader */
+      NEXT.$$('.skip, main, .site-footer').forEach(function (el) { if (open) el.setAttribute('inert', ''); else el.removeAttribute('inert'); });
       if (open) { var f = NEXT.$('a', menu); f && setTimeout(function () { f.focus(); }, 350); }
     }
     btn.addEventListener('click', function () { set(!menu.classList.contains('is-open')); });
     d.addEventListener('keydown', function (e) { if (e.key === 'Escape' && menu.classList.contains('is-open')) { set(false); btn.focus(); } });
     NEXT.$$('a', menu).forEach(function (a) { a.addEventListener('click', function () { set(false); }); });
-    window.matchMedia('(min-width:980px)').addEventListener('change', function (m) { if (m.matches) set(false); });
+    var mq = window.matchMedia && window.matchMedia('(min-width:980px)');      /* older Safari has addListener only */
+    if (mq) { var onWide = function (m) { if (m.matches) set(false); }; if (mq.addEventListener) mq.addEventListener('change', onWide); else if (mq.addListener) mq.addListener(onWide); }
   }
 
   /* ---- headline word-rise: wraps words in masked spans */

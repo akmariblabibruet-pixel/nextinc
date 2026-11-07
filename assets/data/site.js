@@ -6,6 +6,7 @@
 window.NEXT = window.NEXT || {};
 NEXT.site = {
   name: "Next Inc.",
+  url: "https://www.wearenext.tech",
   email: "ariblabib360@gmail.com",
   tagline: "Where research becomes working software.",
   blurb: "Next Inc. is an innovation lab and full-stack technology partner. We bridge the gap between cutting-edge research and practical application — web and app development, enterprise SaaS, and sophisticated AI and LLM modeling.",

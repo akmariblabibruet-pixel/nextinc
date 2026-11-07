@@ -83,5 +83,5 @@ html.films-locked{overflow:hidden;scrollbar-gutter:stable}
 @media(max-height:520px){   /* landscape phones: video first, Close sits inside the frame; ← → and Esc still work */
   .lightbox{width:min(94vw,calc((100vh - 8rem)*1.7778));width:min(94vw,calc((100dvh - 8rem)*1.7778))}
   .lightbox__more{display:none}
-  .lightbox__x{top:.5rem;right:.5rem;z-index:5;padding:.35em .7em;background:color-mix(in srgb,var(--room) 78%,transparent)}
+  .lightbox__x{top:.5rem;right:.5rem;z-index:5;padding:.35em .7em;background:var(--room);background:color-mix(in srgb,var(--room) 78%,transparent)}
 }
