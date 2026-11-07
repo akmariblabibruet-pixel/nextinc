@@ -36,7 +36,7 @@ Pages (seo/roles markers, descriptions, footer h2, menu foot inside nav, preload
 Nothing a model can do. Only the owner items below remain before launch.
 
 ## Requests
-- Film: none for now (the MiniLocker mp4 is over 100 MB, so it is skipped). `films.js` is empty on purpose and the home page and `films.html` show an honest note. To add one later, upload to YouTube and add an entry (guide in `assets/js/pages/films.js`).
+- Film: the MiniLocker film is on YouTube (unlisted-style embed via youtube-nocookie, nothing loads until play). Entry in `films.js` uses `provider: "youtube"`, poster hosted in `assets/img/films/`. Duration 2:50 is from the film repo README; confirm it matches the upload.
 - Projects: `spherex-blink` and `minilocker` have covers and figures taken from their own repos, no `role` (credited to the team), `year` 2026 for MiniLocker, and `featured: true`. Recognition is empty on purpose until there is something true to list.
 - Owner, accounts: restrict the Web3Forms access key to `www.wearenext.tech`; send one real message from `contact.html` and one from `apply.html` on the live domain; confirm `ariblabib360@gmail.com` is the public address.
 - Owner, deploy: publish only the site files (`*.html`, `assets/`, `favicon.ico`, `site.webmanifest`, `robots.txt`, `sitemap.xml`, `404.html`) at the domain root, not `docs/`, `ledger/`, `scripts/`, `patches/` or the stray `S7-polish-launch.patch` at the repo root.

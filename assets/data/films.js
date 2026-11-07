@@ -9,6 +9,8 @@
    set provider:"youtube", src:"<id>", and leave out the sample flag.
    ========================================================================== */
 window.NEXT = window.NEXT || {};
-/* Empty on purpose: no film is published yet. The home page and films.html show an honest note.
-   Add a film below when there is one (see the guide in assets/js/pages/films.js). */
-NEXT.films = [];
+NEXT.films = [
+  { id: "minilocker-film", title: "MiniLocker — Blast Radius Zero", sub: "The film for the Vultr Agent Rush hackathon", duration: "2:50", year: 2026,
+    kind: "launch", project: "minilocker", provider: "youtube", src: "q5bYqguilGs",
+    poster: "assets/img/films/minilocker-film.webp", featured: true, palette: "forest", motif: "rings" }
+];
