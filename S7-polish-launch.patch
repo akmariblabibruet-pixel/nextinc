@@ -1,0 +1,2807 @@
+From c0033dccbd6bd488dfe7ec408e79faa3f0096af3 Mon Sep 17 00:00:00 2001
+From: S7 <s7@local>
+Date: Sat, 7 Nov 2026 12:35:37 +0000
+Subject: [PATCH 1/3] S7 (checkpoint): SEO sync, brand files, roles.js, 404,
+ launch gate, a11y/compat polish
+
+---
+ 404.html                               | 123 +++++++++++++++++++++++
+ apply.html                             |  32 +++++-
+ assets/css/pages/films.css             |   2 +-
+ assets/css/site.css                    |   4 +-
+ assets/data/roles.js                   |  12 +++
+ assets/data/site.js                    |   1 +
+ assets/data/team.js                    |   6 +-
+ assets/img/icons/apple-touch-icon.png  | Bin 0 -> 2662 bytes
+ assets/img/icons/icon-192.png          | Bin 0 -> 3635 bytes
+ assets/img/icons/icon-512.png          | Bin 0 -> 8711 bytes
+ assets/img/icons/icon-maskable-512.png | Bin 0 -> 5377 bytes
+ assets/img/icons/icon.svg              |   1 +
+ assets/img/og/og-default.png           | Bin 0 -> 23064 bytes
+ assets/js/core.js                      |   5 +-
+ assets/js/pages/forms.js               |  13 +--
+ assets/js/pages/work.js                |  13 ++-
+ assets/js/render.js                    |   4 +-
+ career.html                            |  38 +++++--
+ contact.html                           |  32 +++++-
+ favicon.ico                            | Bin 0 -> 1393 bytes
+ films.html                             |  31 +++++-
+ index.html                             |  72 +++++++++++++-
+ package.json                           |   9 +-
+ partials/footer.html                   |   6 +-
+ partials/header.html                   |   2 +-
+ project.html                           |  31 +++++-
+ recognition.html                       |  31 +++++-
+ robots.txt                             |   8 ++
+ scripts/brand/glyph-x.json             |   1 +
+ scripts/brand/make-brand.mjs           |  82 +++++++++++++++
+ scripts/check-launch.mjs               |  87 ++++++++++++++++
+ scripts/sync-site.mjs                  | 132 +++++++++++++++++++++++++
+ site.webmanifest                       |  28 ++++++
+ sitemap.xml                            |  12 +++
+ studio.html                            |  31 +++++-
+ styleguide.html                        |  15 ++-
+ work.html                              |  31 +++++-
+ 37 files changed, 822 insertions(+), 73 deletions(-)
+ create mode 100644 404.html
+ create mode 100644 assets/data/roles.js
+ create mode 100644 assets/img/icons/apple-touch-icon.png
+ create mode 100644 assets/img/icons/icon-192.png
+ create mode 100644 assets/img/icons/icon-512.png
+ create mode 100644 assets/img/icons/icon-maskable-512.png
+ create mode 100644 assets/img/icons/icon.svg
+ create mode 100644 assets/img/og/og-default.png
+ create mode 100644 favicon.ico
+ create mode 100644 robots.txt
+ create mode 100644 scripts/brand/glyph-x.json
+ create mode 100644 scripts/brand/make-brand.mjs
+ create mode 100644 scripts/check-launch.mjs
+ create mode 100644 scripts/sync-site.mjs
+ create mode 100644 site.webmanifest
+ create mode 100644 sitemap.xml
+
+diff --git a/404.html b/404.html
+new file mode 100644
+index 0000000..f7ec5a5
+--- /dev/null
++++ b/404.html
+@@ -0,0 +1,123 @@
++<!doctype html>
++<html lang="en">
++<head>
++<meta charset="utf-8">
++<meta name="viewport" content="width=device-width,initial-scale=1">
++<!-- seo:base -->
++<script>(function(){if(/404\.html$/.test(location.pathname))return;var b=document.createElement('base');b.href="/";document.head.appendChild(b);})();</script>
++<!-- /seo:base -->
++<title>Page not found — Next Inc.</title>
++<meta name="robots" content="noindex">
++<meta name="theme-color" content="#F5F0E6">
++<link rel="preload" href="assets/fonts/cmu-serif-500-roman.woff2" as="font" type="font/woff2" crossorigin>
++<link rel="preload" href="assets/fonts/cmu-serif-700-roman.woff2" as="font" type="font/woff2" crossorigin>
++<link rel="preload" href="assets/fonts/cmu-serif-700-italic.woff2" as="font" type="font/woff2" crossorigin>
++<link rel="stylesheet" href="assets/css/site.css">
++<!-- seo -->
++<link rel="icon" href="favicon.ico" sizes="48x48">
++<link rel="icon" href="assets/img/icons/icon.svg" type="image/svg+xml" sizes="any">
++<link rel="apple-touch-icon" href="assets/img/icons/apple-touch-icon.png">
++<link rel="manifest" href="site.webmanifest">
++<!-- /seo -->
++</head>
++<body>
++<!-- shell:header -->
++<a class="skip" href="#main">Skip to content</a>
++<header class="site-header">
++  <div class="wrap site-header__in">
++    <a class="wordmark" href="index.html" aria-label="Next Inc. — home"><span>Ne<i>x</i>t</span> <small>Inc.</small></a>
++    <nav class="nav" aria-label="Primary">
++      <a href="work.html">Work</a>
++      <a href="films.html">Films</a>
++      <a href="studio.html">Studio</a>
++      <a href="recognition.html">Recognition</a>
++      <a href="career.html">Careers</a>
++      <a class="btn" href="contact.html">Start a project</a>
++    </nav>
++    <button class="burger" type="button" data-menu-toggle aria-expanded="false" aria-controls="menu"><span data-menu-label>Menu</span><i></i></button>
++  </div>
++</header>
++<div class="menu" id="menu" aria-hidden="true">
++  <nav aria-label="Mobile">
++    <a class="menu__link" href="work.html"><span>01</span>Work</a>
++    <a class="menu__link" href="films.html"><span>02</span>Films</a>
++    <a class="menu__link" href="studio.html"><span>03</span>Studio</a>
++    <a class="menu__link" href="recognition.html"><span>04</span>Recognition</a>
++    <a class="menu__link" href="career.html"><span>05</span>Careers</a>
++    <a class="menu__link" href="contact.html"><span>06</span>Start a project</a>
++    <p class="menu__foot">Pennsylvania, USA · Rajshahi, Bangladesh</p>
++  </nav>
++</div>
++<!-- /shell:header -->
++
++<main id="main">
++  <section class="wrap page-head" aria-labelledby="h1">
++    <p class="kicker kicker--crimson smcp" data-reveal>&sect; Error 404</p>
++    <h1 class="h1" id="h1" data-split>We can&rsquo;t find that <em>page.</em></h1>
++
++    <div class="grid" style="margin-top:clamp(2rem,4vw,3.4rem);align-items:start">
++      <div class="c-6">
++        <p class="lede" data-reveal style="--d:2">The address may have a typo, or the page may have moved since the link was written. Nothing is lost &mdash; the rest of the volume is right here.</p>
++        <div class="flex mt-m" data-reveal style="--d:3">
++          <a class="btn" href="work.html">See our work</a>
++          <a class="link link--arrow" href="index.html">Back to the beginning</a>
++        </div>
++      </div>
++      <nav class="c-4 s-9 toc" aria-label="Pages of this site" data-reveal style="--d:3">
++        <div class="toc__title">Contents</div>
++        <a href="work.html"><b>1</b><span>Work</span><span>01</span></a>
++        <a href="films.html"><b>2</b><span>Films</span><span>02</span></a>
++        <a href="studio.html"><b>3</b><span>Studio</span><span>03</span></a>
++        <a href="recognition.html"><b>4</b><span>Recognition</span><span>04</span></a>
++        <a href="career.html"><b>5</b><span>Careers</span><span>05</span></a>
++        <a href="contact.html"><b>6</b><span>Start a project</span><span>06</span></a>
++      </nav>
++    </div>
++  </section>
++</main>
++
++<!-- shell:footer -->
++<footer class="site-footer room">
++  <div class="wrap">
++    <p class="footer__big">Have a problem worth <em>solving?</em> Let&rsquo;s talk.</p>
++    <p class="mt-s"><a class="btn btn--room" href="contact.html">Start a project</a></p>
++    <div class="footer__grid">
++      <div class="footer__brand">
++        <h2>Next Inc.</h2>
++        <p style="max-width:30em">An innovation lab and full-stack technology partner &mdash; bridging cutting-edge research and practical application.</p>
++      </div>
++      <div>
++        <h2>Navigate</h2>
++        <ul class="footer__list">
++          <li><a href="work.html">Work</a></li>
++          <li><a href="films.html">Films</a></li>
++          <li><a href="studio.html">Studio</a></li>
++          <li><a href="recognition.html">Recognition</a></li>
++          <li><a href="career.html">Careers</a></li>
++        </ul>
++      </div>
++      <div>
++        <h2>Hubs</h2>
++        <ul class="footer__list">
++          <li>Pennsylvania, USA<br><i>Operations</i></li>
++          <li>Vodra, Rajshahi, Bangladesh<br><i>Engineering &amp; R&amp;D</i></li>
++        </ul>
++        <p class="mt-s"><a class="link" href="mailto:ariblabib360@gmail.com">ariblabib360@gmail.com</a></p>
++      </div>
++    </div>
++    <div class="footer__legal">
++      <span>&copy; <span data-year>2026</span> Next Inc. All rights reserved.</span>
++      <span>Set in Computer Modern &middot; Typeset on the web</span>
++    </div>
++  </div>
++  <div class="footer__word" aria-hidden="true">Ne<i>x</i>t</div>
++</footer>
++<!-- /shell:footer -->
++<script src="assets/js/core.js"></script>
++<script>
++/* This page is served for any missing address, so "#main" must stay on this page, not jump to the site's base. */
++(function () { var h = location.pathname + location.search;
++  Array.prototype.forEach.call(document.querySelectorAll('a[href^="#"]'), function (a) { a.setAttribute('href', h + a.getAttribute('href')); }); })();
++</script>
++</body>
++</html>
+diff --git a/apply.html b/apply.html
+index 7b2eeaa..125214b 100644
+--- a/apply.html
++++ b/apply.html
+@@ -8,8 +8,31 @@
+ <meta name="theme-color" content="#F5F0E6">
+ <link rel="preload" href="assets/fonts/cmu-serif-500-roman.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="preload" href="assets/fonts/cmu-serif-700-roman.woff2" as="font" type="font/woff2" crossorigin>
++<link rel="preload" href="assets/fonts/cmu-serif-700-italic.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="stylesheet" href="assets/css/site.css">
+ <link rel="stylesheet" href="assets/css/pages/forms.css">
++<!-- seo -->
++<link rel="canonical" href="https://www.wearenext.tech/apply.html">
++<link rel="icon" href="favicon.ico" sizes="48x48">
++<link rel="icon" href="assets/img/icons/icon.svg" type="image/svg+xml" sizes="any">
++<link rel="apple-touch-icon" href="assets/img/icons/apple-touch-icon.png">
++<link rel="manifest" href="site.webmanifest">
++<meta property="og:type" content="website">
++<meta property="og:site_name" content="Next Inc.">
++<meta property="og:locale" content="en_US">
++<meta property="og:title" content="Apply — Marketing &amp; Presentation Intern — Next Inc.">
++<meta property="og:description" content="Apply for the Marketing &amp; Presentation Intern role at Next Inc. — hybrid, remote and Rajshahi.">
++<meta property="og:url" content="https://www.wearenext.tech/apply.html">
++<meta property="og:image" content="https://www.wearenext.tech/assets/img/og/og-default.png">
++<meta property="og:image:width" content="1200">
++<meta property="og:image:height" content="630">
++<meta property="og:image:alt" content="Next Inc. — Where research becomes working software.">
++<meta name="twitter:card" content="summary_large_image">
++<meta name="twitter:title" content="Apply — Marketing &amp; Presentation Intern — Next Inc.">
++<meta name="twitter:description" content="Apply for the Marketing &amp; Presentation Intern role at Next Inc. — hybrid, remote and Rajshahi.">
++<meta name="twitter:image" content="https://www.wearenext.tech/assets/img/og/og-default.png">
++<meta name="twitter:image:alt" content="Next Inc. — Where research becomes working software.">
++<!-- /seo -->
+ </head>
+ <body>
+ <!-- shell:header -->
+@@ -36,8 +59,8 @@
+     <a class="menu__link" href="recognition.html"><span>04</span>Recognition</a>
+     <a class="menu__link" href="career.html" aria-current="page"><span>05</span>Careers</a>
+     <a class="menu__link" href="contact.html"><span>06</span>Start a project</a>
++    <p class="menu__foot">Pennsylvania, USA · Rajshahi, Bangladesh</p>
+   </nav>
+-  <p class="menu__foot">Pennsylvania, USA · Rajshahi, Bangladesh</p>
+ </div>
+ <!-- /shell:header -->
+ <main id="main">
+@@ -110,11 +133,11 @@
+     <p class="mt-s"><a class="btn btn--room" href="contact.html">Start a project</a></p>
+     <div class="footer__grid">
+       <div class="footer__brand">
+-        <h3>Next Inc.</h3>
++        <h2>Next Inc.</h2>
+         <p style="max-width:30em">An innovation lab and full-stack technology partner &mdash; bridging cutting-edge research and practical application.</p>
+       </div>
+       <div>
+-        <h3>Navigate</h3>
++        <h2>Navigate</h2>
+         <ul class="footer__list">
+           <li><a href="work.html">Work</a></li>
+           <li><a href="films.html">Films</a></li>
+@@ -124,7 +147,7 @@
+         </ul>
+       </div>
+       <div>
+-        <h3>Hubs</h3>
++        <h2>Hubs</h2>
+         <ul class="footer__list">
+           <li>Pennsylvania, USA<br><i>Operations</i></li>
+           <li>Vodra, Rajshahi, Bangladesh<br><i>Engineering &amp; R&amp;D</i></li>
+@@ -141,6 +164,7 @@
+ </footer>
+ <!-- /shell:footer -->
+ <script src="assets/data/site.js"></script>
++<script src="assets/data/roles.js"></script>
+ <script src="assets/data/projects.js"></script>
+ <script src="assets/data/films.js"></script>
+ <script src="assets/data/recognition.js"></script>
+diff --git a/assets/css/pages/films.css b/assets/css/pages/films.css
+index 504856e..23aa6b6 100644
+--- a/assets/css/pages/films.css
++++ b/assets/css/pages/films.css
+@@ -83,5 +83,5 @@ html.films-locked{overflow:hidden;scrollbar-gutter:stable}
+ @media(max-height:520px){   /* landscape phones: video first, Close sits inside the frame; ← → and Esc still work */
+   .lightbox{width:min(94vw,calc((100vh - 8rem)*1.7778));width:min(94vw,calc((100dvh - 8rem)*1.7778))}
+   .lightbox__more{display:none}
+-  .lightbox__x{top:.5rem;right:.5rem;z-index:5;padding:.35em .7em;background:color-mix(in srgb,var(--room) 78%,transparent)}
++  .lightbox__x{top:.5rem;right:.5rem;z-index:5;padding:.35em .7em;background:var(--room);background:color-mix(in srgb,var(--room) 78%,transparent)}
+ }
+\ No newline at end of file
+diff --git a/assets/css/site.css b/assets/css/site.css
+index 732b448..823cfe5 100644
+--- a/assets/css/site.css
++++ b/assets/css/site.css
+@@ -178,7 +178,7 @@ sup{font-size:.62em;line-height:0;vertical-align:.5em;font-weight:700;color:var(
+ .link--arrow:hover::after{transform:translateX(.25em)}
+ 
+ /* 7 · HEADER / NAV / FOOTER */
+-.site-header{position:fixed;inset:0 0 auto 0;z-index:100;height:var(--header-h);background:color-mix(in srgb,var(--paper) 90%,transparent);
++.site-header{position:fixed;inset:0 0 auto 0;z-index:100;height:var(--header-h);background:var(--paper);background:color-mix(in srgb,var(--paper) 90%,transparent);
+   backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);
+   border-bottom:1px solid transparent;transition:border-color .3s,transform .4s var(--ease)}
+ .site-header.is-scrolled{border-bottom-color:var(--rule)}
+@@ -216,7 +216,7 @@ main{padding-top:var(--header-h);display:block}
+ 
+ .site-footer{background:var(--room);color:var(--room-ink-2);padding-top:clamp(4rem,8vw,7rem);position:relative;overflow:hidden}
+ .site-footer a:hover{color:var(--room-ink)}
+-.site-footer h3{font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--room-ink-3);font-weight:700;margin-bottom:1rem}
++.site-footer h2{font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--room-ink-3);font-weight:700;margin-bottom:1rem}
+ .site-footer .footer__big{font-size:var(--s-4);color:var(--room-ink);font-weight:700;letter-spacing:-.02em;line-height:1.02;max-width:14em}
+ .footer__big em{color:var(--crimson-hi)}
+ .footer__grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:2.4rem var(--gap);margin-top:clamp(3rem,6vw,5rem);padding-top:2rem;border-top:1px solid var(--room-rule)}
+diff --git a/assets/data/roles.js b/assets/data/roles.js
+new file mode 100644
+index 0000000..78982c4
+--- /dev/null
++++ b/assets/data/roles.js
+@@ -0,0 +1,12 @@
++/* ==========================================================================
++   Open roles. Owned by S7.  career.html is generated from this list (npm run sync)
++   and apply.html reads it. To add a role: add an entry here, then run `npm run sync`.
++   ========================================================================== */
++window.NEXT = window.NEXT || {};
++NEXT.roles = [
++  { slug: "marketing-presentation-intern",
++    title: "Marketing & Presentation Intern",
++    summary: "Hybrid — Remote & Rajshahi · Internship with a path to full-time.",
++    text: "Help shape how Next Inc. tells its story — building decks, pitch materials, and campaign content across our channels. You’ll work directly with the founding team, with a clear path to a full-time offer for the right person.",
++    tags: ["Hybrid — Remote & Rajshahi", "Internship", "Path to full-time"] }
++];
+diff --git a/assets/data/site.js b/assets/data/site.js
+index 44ac9ea..cc742ad 100644
+--- a/assets/data/site.js
++++ b/assets/data/site.js
+@@ -6,6 +6,7 @@
+ window.NEXT = window.NEXT || {};
+ NEXT.site = {
+   name: "Next Inc.",
++  url: "https://www.wearenext.tech",
+   email: "ariblabib360@gmail.com",
+   tagline: "Where research becomes working software.",
+   blurb: "Next Inc. is an innovation lab and full-stack technology partner. We bridge the gap between cutting-edge research and practical application — web and app development, enterprise SaaS, and sophisticated AI and LLM modeling.",
+diff --git a/assets/data/team.js b/assets/data/team.js
+index 2b2f903..0216bf0 100644
+--- a/assets/data/team.js
++++ b/assets/data/team.js
+@@ -6,8 +6,8 @@ window.NEXT = window.NEXT || {};
+ /* Optional per-person `bio` (1–2 true sentences) is shown under the portrait on studio.html.
+    Leave it out until you have real text — nothing is invented. e.g.  bio: "…" */
+ NEXT.team = [
+-  { name: "Arib Labib",       role: "Founder & CEO",      photo: "assets/img/team/arib-labib.jpg",       webp: "assets/img/team/arib-labib.webp" },
+-  { name: "Shuaib Islam",     role: "Co-Founder & CTO",   photo: "assets/img/team/shuaib-islam.jpg",     webp: "assets/img/team/shuaib-islam.webp" },
+-  { name: "Shaikh Muhammad",  role: "Co-Founder & COO",   photo: "assets/img/team/shaikh-muhammad.jpg",  webp: "assets/img/team/shaikh-muhammad.webp" }
++  { name: "Arib Labib",       role: "Founder & CEO",      photo: "assets/img/team/arib-labib.jpg",       webp: "assets/img/team/arib-labib.webp", w: 400, h: 400 },
++  { name: "Shuaib Islam",     role: "Co-Founder & CTO",   photo: "assets/img/team/shuaib-islam.jpg",     webp: "assets/img/team/shuaib-islam.webp", w: 596, h: 563 },
++  { name: "Shaikh Muhammad",  role: "Co-Founder & COO",   photo: "assets/img/team/shaikh-muhammad.jpg",  webp: "assets/img/team/shaikh-muhammad.webp", w: 449, h: 567 }
+ ];
+ NEXT.affiliation = "Next Inc. Innovation Lab — Pennsylvania, USA · Rajshahi, Bangladesh";
+diff --git a/assets/img/icons/apple-touch-icon.png b/assets/img/icons/apple-touch-icon.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..fbbda0c7217b1da4754bfc3471c0a221acd65251
+GIT binary patch
+literal 2662
+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
+UVH9Rv&Hw-a07*qoM6N<$f<QKR2LJ#7
+
+literal 0
+HcmV?d00001
+
+diff --git a/assets/img/icons/icon-192.png b/assets/img/icons/icon-192.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..acb3481e297b051fc3b1f89aae259877c9d27720
+GIT binary patch
+literal 3635
+zcmXYzc{r5a8^@m+M%i~EYl|g&mLb(xU;9!a+1JP}LJ1R<ttcYd8d*xn7RhTFOZIGI
+z7~2qL#xj^;>}h`E?RQ=0+|Tzu=RTkNd#>yJ@g!QB8?Z77G64X<YGkN)llDcP%+qwV
+z=n2kM1px4xrKy#^>Aheo6}_{G+acj8Bpj7W-Pu^8Y|=EI7HR4BHsL>wqt(#F4sGjX
+z7q?AX+TLC!krrs_$?;9x))tPYH~)|NOTbYH1lp04LBbJ<#1jIU2Bg)W6zr0hXzPDl
+z?~({K@z=@UNTICmtgh}57ilSlh9%=D8-EQDPQ2l8yBjAE8iD4M#-xz{>qWwEZxU$Z
+z1iOjf-TFU&kF>CNvWVLuF6@v_JRmt_|8_)j%F%A!Aq;KfRqRnV++O)LWZ~L==5iai
+z{4_j~vbwO++T0<a(k-X=Q|~sh_Xl|nv%Ne|Szj8p_gO6bxZL#bps8c~8Ko`!Y^V5@
+zZQRV(!t@Ub*x20=lv_~ySvAVqLjScJo#!>@(zE)ttlIgNCnKMAh^iB6zjn*$4&QLw
+zUYVbNn@b@sZV|A9|J>Qcj84ZTBe~=k@(XYkU)p#S(B2OQ&74Q=d^XTSv+=LGq_ulh
+zP1Z*SCITO=wj(zuQCo}C=zC%7gZ;fwGt2|{_R{oPSI6X|r;CW9e%P&F+3$({U84@Z
+zXrHjf;!k~=mZT}va^v^mTOL!<@k^h}XP&(r(6%0R_U}>nr|XhVmn7_`vEy7u_C#>h
+zh_&ZRbJN!RBqkzuJ}a;1vcW{~<JGp-^`U;!G<w*|b0$6&UtP11hnRVuGUk4N-0$HA
+zYLM`~0bgA`9uSGSAHDFtaNIZI$Hi;pnQ@ep|F0axVnH#Xu70Vs44a&`ifmcyY+wJ`
+zyE#6**4>FKuOLm2O$0?wKS>%iahQ%x#=d$x6%{{X>pgPYYc}x}zOo7v9y^=x3gs5O
+z-rv1kUx)S$U;6a9Ps1GL=!Xe=LhS2WZumBzkweB#%%;4Vf+u2AGnUFKgtQMKwAXJH
+zdei(Cz_6M)3o<+0*@y6^{#n^=c%7nqhVxUsC3hOT_pizf=HU1-wgt7hwIz+D!7}Tg
+zUxz=8^0Np%JqmCtelX1>QuBhY!sMopww6kX=DYa|Vu-W86z+q5FpbX`WOye80GPQ?
+zCJ4yR<p%(!6eB%ttB9%fJTC`p13qM>n-m|<h*W*2AhbGAO?-0pLfT8CnU*6wS)}<k
+zr*>7L%8hD-p|X$V4J&$Il`gFBSf}bPrdFclt(@o?UQc|B#@^twNYOo_0wE^?kKK+5
+z?|Y~0b@zgincc%wk`EN29}>Qx7aWLn)6%Tu#8wn_8BGj2K1wfnqt@JfCEWkhPBgY-
+zCXunzy$5lZRgro?IOIkd#=K<{{27BTlT*rQU_DA_*p5-1d7EWE<B-o+H&>^rRQ!9v
+zQ+zwh>3m6sh%kD6bB{%-nsVHnecVdESi(1#pM-}g<z_iG?zini&l+*`tj$-Amvd{2
+z>jL0bNk%S#-b(!nM!|<k(^L+<_Lbzr12-@!$|fMD8^&cdI$^*-64aKsW_xssGj#MF
+z`TfxX-LgsKL<ghJigh6MeUuWop_#-#FCBZcNn~=aK+YUUC9DDY=M8`03XbKD+#%lB
+zEs&O1tWESDF#n(lu(+NO^JpGITE4|hV$hcTQU^FH(tZ5`S$-+t;=O*Te|7-yw==@h
+z*EL-{W`$}&XZ-i0Wdh>QBGOfOph%z;5&)kw{uxXcVeB7F*I+{b{WlBAHf>1Z-)fH=
+z?M+1w8J&eDoga!@BTP4Ny!KF!ix+1PR_zw_?YY79!mv8^v2*E2ebGTn+0cu#=4%#a
+z>J49wfD#20ey?B2F_e_c2&>gU)hUPKD`#@qf>hmK=o{(SI4-<N%3)MG)veAu?>6O~
+zoc%)H>AZrCFr+MA#3)!$Yqb|hPQbiX`jHu6X_NYBP6HroaLav2<FI#@KWA*FDb_6j
+zL}uEn7+Q@K-j~s9nId%2l_!KotTi<0f8!gIo$U5UbDN0p)XsWR9kMK2=Iw$>Jl_v5
+z#DV&lmI7r55)vwpEY_-H@1)Sb-t!IH_dm1<88u!_@)#OSM}Ii23o<^_Uv3Y}5jL1}
+z?m1x4zaW+Trvqx5dY~&-*sRo}1>a=8gHjs|6Po=X%ovu*fTA|ZugRyQ_}6v2Kzf+T
+z6wSCj_lqGdpj)WhlC_ZbZAryG_nMdBh90$1Q^dq|#LUo(oFQ-fZQ-lQsjT3JzOcm+
+zn08V+FUUr*Q9oDkwkM0$t`A;r<rm^^R@(81jor?^Rf@4kgE-)4GVS?Hb>b36^iaOy
+zq5PXN9(Q`AHl9~9!-^mS<RW+to{=)RSb>J_7p)-`Nw-uWoAQ|(!OEZt>N2}x{>n=1
+zVg@1kkC+yJ#W(uV>{1wjlBer`lcDfrH?`nnO6e`Jx(AJP4hZ4iS4?$eHu_Hm=zv%s
+zW(q@<+4z!zP3*=W0Xu(@(^a~G@V(`al6TN!uy~fEgad1$7*Zt<RF5h&GkpE|x_YpK
+ziLWqZeGgWsj66j_Q7gW*awy8a8ku4R6UQbqq>AHnP`#_yyM>TdEdTfmo({V01-DQg
+z+&32MFzys$qw+_A+*XwKLvtTJ5r(_I^IK~@4f0sITJXK#LA@0Vf4w!II7BBD#Cr(F
+zsEs&UmTM*MoQtxo@bi5tS^#np#Jtw6_7cOZt2%k(!@5h9k&K5c&Pk@ZPuMNz5xr-V
+z%3>1+fzW~TeU~ifodLM}SWu<zr{M9%i01Pl<dCm6Lm2?_u>m?ftmcwCwKOIO`YfMq
+zkVE>l^ko*<qeItAX<jfM1C|8yThZFt34a9V>4;z*)gSDwu~E31%kF&YVKBC01+4ss
+z7&ah_HT4Z|;l@1`CzMuZTDnbLbbI|)Wk+3P^q9}jP@SN1ZUPxp&v60J7Jr#_F&pH<
+zGfXe<0>ZHGbE?S#cOJw2=^5evmqh2eWdS8EZp=%F3)kGA9tT-qZVQCxlm(u>%<)v!
+zK;CGZEV>8U0vSlLF(c1i*Ai(1b4YQeDJvnfyYzB?0zsL9)Lb4}K#SYfybADJqI(<<
+znNP#7RP_Sz8!k4N_~0tnkv_2y;Pkz`PB5VQ#77norIYyw<_a<-(8)^J0!$DtzX6sY
+zc5iToPH`>ww=Z_qLTW2bXiFex_Zcg-`5e3amE#7~tUCuXe<%%nUhef-c1f@{)`fKq
+z%%+2*vrwdW5zMHp(TLxBw+JV`uYCGD=t`cXehmDYy=~!c@#pfpH}BglL6ldnK%K(j
+zGHi)TBPr<)QZdA|@pm(Nvt`4o=1dNaapP_+$2oe~pzq>J7hK^FW?DSon3nMvQl_=O
+zN=S|^v%Kno`W0u1ihq6Y+UOWEUZ#$;7E>CKUo+(f;Ngi~@YVZyr)pHBr18RGVlU}+
+z?7)u30dMe6VZm?#kj_D1k>GGP;=#FZMg)gMT^A<|h|^-M#`u^wIP`id&LA)EJ6a5=
+z_23K$j5vGO1`Y1mf!GQ%frW~9QlMAqLa)z0`W-VonfE*#j1lM#{lZbw$R1(4d4SaB
+z5X-V*j@_+e_*6n&8eYwD-(lEiq0hRYh(SvLrOk-gU01JT-8}(;hO>8tY9W!#MfH}r
+zgHqG0(Tu?&S{j_ap>?J<(T}g9fDauzr}pWmKJ+!9tTUfSfn<~iQXSoqMIs4d=B{df
+zB5~gaq>gs~<^Om-mLCYpZ*^&Vn&Z#Sqvj}Gq%oPI_~&7ZxNC+-zKjalq%GfAsYav)
+zgcU9-lxgd2?Q`Fjbmw6|1w<7z6ZtwjY~lbRyWj%9^eF*c)K=k>W07vPTE?}-L~Wqj
+zk707Dwg#FpG99O*@m;O0NhOuYj(ItEN4v9X_+0H#+m?RPD8r_xi8^BlBn7rHQS<ES
+zycnH(;q)D-*ZD;!3G+Ap&PT7HA6-$ng`wWa3V-eA4B;}Kzn(8s$64LJqy01;LR*D1
+zw+~03x~Do!kbO7%zQK;XFf1wNnjSUJ9bjBGA(w6IL4^S^@^c4OUjEJ1h^zk1ivt=L
+zUUS5O%0KE2wl?e-9+$Lcx+}MQCqCT)t;t#Eln9mIhAG-$e#5KCozl!g=)O~ATkt!V
+zvE7W=UBVBJg(BYUW@9zTW63$8aEB#IMlUM2u~UU<D#v4T>)OY0#~a$GS@YK^sx@`t
+z>iLe|pe4v$f6vo02Qz7Lv#OpmN7(Bno4Fy!C8H%gz5_*pP)+l6n4Qx5R}%Kc0~NM>
+zYI|WfM_VWsA?NgVRXQ`R<kgj+1(&2(!VXIx9B@uE9vmQ=sAm95y#5E+7w+RHr9G+T
+z!Y`=9E($ZidNC*cLEGeVs=PsTL=*d;#iL-+7OcqLMJe{mD&*rt!|9{935Ilx8@>(~
+zZpZ#UmzU`+d~+!Nwt$hmE$ESW>tKH~?-nz9YQkB1<M~K*YU{XjUwjR3li_UAexLF_
+zadXfi`wxS;LTs7{hA1l4>cDsB;_61wuSghlX5z^BriCe>K>m^tU=idTEO(83Ms}Af
+z*zmb!l0#^h{T`!}6^!f0Ci|4LeKLoG6%i*XZDf(|Y)#xvD>@gLa|Me%zGGy4B^y)5
+zkFn<Byq(_28|9oyk6Uq)pvYWxdaTd&mQ8*`LYd00U^rD2mz?-PF2C8%XzIsMBxcTx
+zyvQyvcGCwz3EnyMO#dSKRbXnWE_F<u{IJ%3%{<ON;!53(hRAyUnbN3l&?u{)N1{Vz
+X@U5g<d;ijYR{<k^bG<J*F0uauZ%cTE
+
+literal 0
+HcmV?d00001
+
+diff --git a/assets/img/icons/icon-512.png b/assets/img/icons/icon-512.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..15524076dac76f8668b7cda23337afbcf20a02c5
+GIT binary patch
+literal 8711
+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
+SZWI1N1MaA4s}?Jx{Qn1rq`rUv
+
+literal 0
+HcmV?d00001
+
+diff --git a/assets/img/icons/icon-maskable-512.png b/assets/img/icons/icon-maskable-512.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..8c1e87bc7f38e91da006f2efbd5bcad637f4e725
+GIT binary patch
+literal 5377
+zcmchbhc_GU_s4@$s<hRjACy+@*-{N9R_#4&6;-1M9jGm6ZMCUcTC+CM)E>20#EJ-F
+z$4X)(VvnEiKk<9cx#vFjoO_=4>z?zRd+xc>272lYH`s0f000I}4HY8*fb!}}381CA
+za$Utd{Z|3bK*vOtyt~%HB-Y6)u{$%dPgwnTPn^8H+HqT?<BlkK2m9}?*gk$`rRX<l
+zW8ojmlg|5+UH?7XY;VO@R*f1v^zbPxe$OFoEbebD_wa%Uqr?B0pY%&<V<Hnf*`Iek
+z0CsW!yV#^w3QJ}~qKRvmVI|Y8f9+eH9eWrQX>+mru`FqGiG-aSw+8p{%6D-BM|7;a
+zxTN>yrn(-=5SL~){=)Wg%cRxW^*^wMl#D(xRn(`zPS&Suwa`A1m+N(Zx_RW53yLQl
+zJO-q7C!IWJLt~b6e+|m$_3|rBzVjjs^%2+SXTQYmOpPL4y^${7-H%>O*nQYRjr9sC
+zZ?rTM;DZxyKkiJAZ??AV&Q9X{dq%Wh<A-_&fV%xp)OKf){o-m9)^6JqBXBM2;g_%a
+zpQ<nC=I_m;#^1arzz60N($Iksiy1#~y<H2*>4cFXTwiyes0wjqmM}I<T%KLZ${Uc<
+z88xz>a`&J1{j!w(bEWwALTV=JW59fD@|daPHWD$SYqLFxSgWZ;`-ct68K6D|4ayqy
+z3My^1G@%2+_ZFtd%-+FO&HE)aS4+zm({pe=o&C?Wy18YC<c*f|ixB#DE5C}c6_rz9
+z-?_*H)aQ_y;HYs+SGb1NW?L(Mpl5p=zSYr&t*VA=zQzysPWyaWtFGynP#-mMT&u0^
+zm(+l(m~D0a!*zGAL+gl(=rMC=gn`|B!uOe=$kp=79rVPIg7L)LPxFcCnCQewM~{K$
+zI+&=$Y46Y>MUx48kC~9@@z>yKzc1^sznGY$jfQ%(-`DlVhQSy5m~Sa#ubeiT8W+>D
+z=fdNLK!(#Ekd>c>t7R24kjQZhml1W#rOaG};oIdOKj)J&hLugH-UrNnjUBgjpRjT7
+z6;LD$_s@lW8_~1H#HTLj6>Ky&O?yHR`fuhU;`@YO5)eb<R<27qKNr%nFmWkJ=g+IZ
+z%it>JNU#rF&0@;UZ=?P%>VyAELCH!<>9kj{P&b9()$gbKsA1s=0MOt4pHTp^a_$2F
+zcUm-6luUeQ2pFG0Q`Pyty=?ypdY)flETLi7XhFCA#m58G{Zoqf`C1>V-eDGrqWu!}
+zJE{qcf*ry@;2p<P`DR32@V2(0Pv~&YF+7tVH?V&0L(I-T)*AsiI_U{qyVCvtJt3sY
+zJjn(uG*u9dZr9f=t?~2HY1MdU6ma4x7y$JtK5N8kn|f@JE^q9;)C0}!R4R=vc}hK~
+z+o%@*V~s8Qk<r2s2OV+!S#zqJ#}OEEO)US8Y;J3-lX>+CT%QoNht?}PVCO5}GP_vB
+z+)r+xjmZ-ClYitUa0r8yPKjcO%@>^5zWrRqhpf-ffou+8juN@Aog`_De7v8R=6*yC
+z!J@I0nr`!@YSU_J>9b+F)?>}3pUAydYKd^_k3B(Vk%UTHgMpS(?PiwPnEFlNw?OU+
+zt%Ywj3fbF|XM9nua@w!ug7|E&B|QsLd_CPh7_9N!S(xNkzRa+o$5W!wv+z&|ueNQ6
+z5YOtFa+k7HHA#8``}}(PN6g6w+^iVMP&SC>I>owC0P2RU>Dk}4+4gcot+#0qlV`bd
+zbB(9?e1UTXVj&PEFY#lT!_xRE2OU9T$W63*T8Yrh9|cc4Vjb^F8e79iSXwO?ds|W`
+zd)jxxm-<~E1nYriR;<&Ut~E3gn&-}X^}Xy|-n%$j=&V@fAYTuc=f;_E2Dl}T(Ybg9
+zER)<Xp4Z_{auFOY5(j;kOEP{5-Yhvatmo>U&HfvZKfStjm-6J{Tkqk4)&Hbyiohn1
+z6!YTK*>c`95WFu)N2aaoneidG3sBv<KYWaDySW4*ZyuJcFE_1b+Y|ue-gkV*UcH|@
+zKVUpOtaT9x-NY^?M8+Galaax5F`<r95^swyh8E2nHeTYvHe<-wCE2mYrIvrtv>P64
+zy_i%Uto~$Xkt<Je-of`h_HO6ORhxvls!h;Bfr@z7x{PG|<r4K4&tVUk?f7j)v4^0f
+zx_cZ+Itg4iviJ{NhJH{O)?%=6YjD$1vkt`O_uBY`Ir-1TdX#*fPn*;!+i@k@<X7XN
+zAW46E1s!ve-UZ9xb#NSc=>En6mCaJ-Gvj>CnGXV5Ms}y^Z*GI+lrmTtovZu0_)D_V
+z*_a+2IM%A4H}RA2UWW?ZDVcskPz@wg=fAZM!nU`C|2^st014wC>6cOxDiGnFr(j+P
+z=eFwMc-s6-&zqT16-s8ItU??@w#QTSOm6;E$E?BrdJ2=Nc9hAQ5{7#AyYHt~i-Tj-
+z*q>JczwMG9s0bP99!7nx)>XwF2O0JuRm(XfE5{Rbc(eFjoUAxuLdU|h6r*O=o<~x>
+zroBvMt295Io~rG=Y0g6booJdg%l=AjY*JtpjWov-vUph^i^ek6a{ww+nI%<?Q{N?(
+z*8-&w5VcvBpboLir-S5|PeCf-FOthk54LbyS;teRE0s>i`~vMCg{+0k_pkk9i!rn{
+zFKJ&bs6xIaE(i@(ri{q(T1ZCcmAzZ#I53tT;=bg;f;v_-JB@xsO$~c|<{CLLJ$f8V
+z@x;W!y}8+*Zlnp8pPTIWwS5qYJvIaV6ndrf8fOfZYNBk>Mt`lZ-!+wyQIZEtzT6gH
+zwk)7Ubw3_t%&AA(V)<C~Dbi*yu|u&K%?27q!IF?Z%yOMqv0NR);9K_99(f+?ufhN_
+zYsV=Bypv>0Sz!nni6ByprueqDR^r<TwGi+ji~7M2=#*G2eavYzYT^~P3)V{&#Ja;1
+z@74gFl4PM;^dOQa#gkisnpx&PpDTAnXgVfVaab0tWC-En&`Rsx0$uJeG4J8GfQm<N
+zZtbzB8HdOp*aoHff+H!(qTxJ#7Y}Hshin|z2|fnafw=9$rYXf(s*dNB2cyc3Egp%n
+zur#37UD=|l&)Gcy-;6NOAEN`zJyvW99hI<{5z6)bQ-E4ZjZGQR#eLnEmE1>56<}bD
+ztC73J@VEs<+2Ha6L7Ra;zltIF=W=?lodOJg2hwg7w(V;w+GAYxj?EOu(^T97Xh!8a
+z$z8;tpj8AVdt!}Eg$HKD1<2rahp!mp|5H&8u+8_jRn8G5>N(M&wxkncQbN+sWL#5~
+z>GAidNI6k;fp!aR4F&O*zXCs`!y!!%FhlRz`h89}wwWzp?=+^n-eND~3w*@ncwXPe
+z*OnSH8^WS%c`DK;q{m~+uG9Kl+buiH_&Hrn$@EvAx&>}X-wCG>+bc`wmZtcv-C<*6
+zGEeP2sTlfEt6{w%7C0X*cP>LDCs(wT`S)Mt2Gob|$@5j`q$u1CRXz|tEN?nFnB!&#
+zP~FtZs$_sKAAMM4GCdUaKz6F20lt{kdF*GJ@Z5FLPCh*~fBo?3ENE;8AD^mm>%!Y-
+z`$nBohU#O%y4J0(_Ju349g?mAZpt>9hpPV>xx=6cQz~@4IA!pQnu-Y>#>x{cGY?o}
+zPkvP39bz<Gw%d`7b-rR|<hjdP->R#dNnzfv9q*t!M?1pPSjV{e;@Hf~rAyiez&_J+
+zC+Mu=gady@30qE34BEbf9nT<cykACSme>1}7DN@r|ET`AZ1d+H&1&ze31`cl_=V(>
+zxf+RLs<~8-<I|gtT2YS@>BZjl%7{n$xm9;<p`vLN#Xh~h8SSGmL8^RO6dp(4Z02^}
+zIN|xbyEmVr=F1bx;`FY~pGVY|LW2tNr$D90*>^4!yv#>+80*sX{hsT2-`HjM7kTqN
+zny4?H-$$wTx5WPO3lZn3SQ<sM7b0)8lBKByP!9TE#(nF}Mu+b)gtU*^DUpC<fNAAO
+zYMmmlF@UsILipf7ehRdNxcBg(NxY46P@CCi%})y+Hh}H89mU-RlV<?$QG1HVR(DfJ
+z!#L^F(h1jxpoxt1S$lTCYPxRmNxrM+v?Hm9ub~}o|0U69z0W_>-mEcb^kcBdU~Ngi
+zZWc?^L3u?}Joug3>{lP9Q>4J9$Q9+QU86`M0hLejB%6``{t``X{kT0v3in{UiyVmM
+z$)zwGz--J;DdoxwZ`OpkaLZEnm-JB<7YJN#4eXnD>@zcj1YD8IaI*oB8#N)((UUa)
+zjvRfh|31Ao+f1XYKL#+@jilBsbp`}pRXePR7VL2H7ct2#p;D^@nv8leF@(%saUT2L
+zibJ5TJ-Ro{Oo3-$7DCCY)R(F!P!Ahi)uk6n4S(nzC59^N*Q2n!;`3}2xGZZ~0XpZd
+z^4`H(x&@B`e5YJiB5kS;zM|2xPDsAkSZ-tQ8#PnbLu9TQ->KfOsI~zxt@xKJ=%GrQ
+zH25ggZ+%DMTty^wT43NqHq=XNkTpnz#ZBi5XJSO&b9oE8rJ#{94jB&iHN@tfR<CuN
+zsSQDbAvw+fyyw9`tM8Z&LGHBs5~OTW)5r7KWI?M-aaro$i}(V4;pR|TI^>+F&-d2c
+z0t_ztS3mydUF0zG9oJYfo`vsj`Cf4QnkpjifKGK)epl^X-i59zeHz`APHV}ymnQkc
+zhgWO%XrLn4j7z~3_H@rt1?;e@TunGjXG3N_Vh0FT$zPJoShf-?qhF29H_Pli6ZEQf
+z19Ynda-aBilE0tH76d$}S)i1G)^|(G%GVpr2hZ!b<chV9h*Vw7%Qn@gKLBw0koh@U
+z0jSK-v=?K~s`)`+LJC93(90wUWu}2*hfT?4Iox*30J!S)p=Q@hJ-DmkPrvOunkj(N
+z8=HD0XQKN}ql}G>4-HA_cPs<+_wnz;+NLSd6mPN%+8=$YfJQf7b*MbP7(6HlMza(P
+z1*V=n=$WJ5z1=*Iy>#=iw}7Q{oHNIzisE_RwnjQc`^{N=5EEv>I!kC+JJSEht5PA=
+z9`O+n2HWv*7cKwXJ!V_0i&kdk{tF6tmC5Y!S6~upJ!4}yxX$`A%3QeQmoGrBL=b3Z
+zj!V+8?UUdVS@n1v$;H9gn8mo|syix%rFa;RN({@9Z#uQH(rt``8qpo995IDR0&X3e
+zq}>9*)2z7A?j0Xx`GdPH$@z73Diw!Sa+kZ9Ef3-FBB2+JNxvW`HDO^d#e7Jz_Bl;+
+zuudaAr?7<*5rwECyGJDfCwVdzWo9uPw;@zv>9R+6X<ohK4uLt*5h-d$mq6hMj296x
+zgInTEHR=CY7622I*d}eTjI{cY@s2`EL`W+hb{`;_id@ssE;_cYM;HF;x!$8cUw<F4
+z75)WRSX6azex0YR9q@`j`9nX!3Iy3rg4(9k6~fq#FQ{w`rrILnC~gJ{Z~=S-Vt+89
+zng({(6>?dQ$$X*SX@P(_*H14vOW9%YNm9oNQ&lu_d00&l%n*B*^|Yj2Kd%Bp^YL3;
+z-?tX*uI4D1SP+c><s)M=^L>&klYHhL0B($9sTLF3<j*`lFA1uE)uh9L96lNruCYDL
+z*e;0tsU`XAFar;J%y8X9^3!Hb-B^lIWS=@$?k|x5*6N3nyl3-O1(0?e1IuwF7wmHN
+zc#ERGl<r^FNr6Chh25a?#EKh@A{FiyM5C3}#mm}*;n-H+ID#!J^I@zTvEKHNWIfdX
+zy9MyA6iPku6<KGGCMcIzl#7NzY>oW#J<pVc?d?LDt04o%4)~6Hp5R&~ExSjn(d}y=
+zWn2B}RA->??kp&)ry|ZWv9$kjgeC(LW9gpvMiwA4e=pHocfxWzkUOmrDNqtIqYk#J
+zb0gj2k3zYpZg9#tGVmCdCfs~~iTQ~chK<AR0)m+!b281J*Hi2Ijq!{-ji;^qk*gH)
+z#9Ji;j1;nx&tUm}=Y`>>nkVE_X33Y{?E7q4JiZT<LcLFvkzWh{^N`~&>@vRI0y&q&
+ziYI(J*EnJzD6cgrq!cm3zjM-6%IObqnO+bFj$EA9LnGL!8IQHvU-Kpih;AOx5=w(h
+zKNQ_cZTEX2WfD-2rahWjd^u&Czc3(_rK&g;vC(ue{Sp2_&!C<CH|EgOL){FR!~O!f
+z^7wgkVQHH(%?@YWWVqraLmBL6Z5>kIK{oKTE1^OvP;GkG6T>i<@ve1^&8weBm1~P@
+zOraKSJ4GUQ<D_sMu4m79cN`~TL;HjTA{6!JWi@kg+KjjJ#Umy5AIud`OsvcO&0f&*
+ziMI_RAryS0_sDOy2T5ig-CpdL`15Qa@Ue29%^`l3k?U{Ssl5Ww<$^3gXycZ;B(*Hj
+zk*p{Uap@xE#1*%yY2jPdXDR3z@|4`=-i~2i-yw-*J9quqCTUs6c2-SFgdpE&7qOS{
+z4$lj^&SVy5z4>W-{1?9A<Lc_XmhXGD4h0Tg=;>Md5Uk=(>CxR2D4-ur+t8)SW1IF_
+zc?xXjK-~HCWsYMjV@V;o%@M(laCs0NeEI9}c9yZ{`ti3y-%Nim=BAN$Nnmge_@JSk
+zzq!fft8s};Tsx8IK#U0~$gX%C4e5EDe1Q4UlLrY7g2sGHW;P{AptoB^1J1@d^_HtY
+z_ep<=$&r~AkwE|HbAACaJTPC_J6vc_OXLREdCf)@=M`p6#h<qm+LnXyhcegh`5muN
+z`|P}!6F61QZL9uD$Xtk7aqtYS$U2T&IvEjEU0$w*vks**-Sc*3*A`<XPA#$qlUuwm
+z*U(Adkt;X|NN7g-tPs3|_{N`1FLtr*8kZ{AgCRrO+QT!*G{Fb|Rs|3#ZHA}%AIE(5
+z{@h0shN9DdfNr|xaPD@lnE=T+I2?C=v^6Ke7gV$^X4yi#b{cfyBanfFDi4n1@$rHP
+za!kMIk#=MpXW$cFM<s7>@A}l#@69K>RoDN2mmF7WA*6Hqo^?os__%}d|HL&_^;D{q
+H-+cK$NWQOH
+
+literal 0
+HcmV?d00001
+
+diff --git a/assets/img/icons/icon.svg b/assets/img/icons/icon.svg
+new file mode 100644
+index 0000000..b1825ce
+--- /dev/null
++++ b/assets/img/icons/icon.svg
+@@ -0,0 +1 @@
++<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><style>.bg{fill:#F5F0E6}.x{fill:#C0102C}@media (prefers-color-scheme:dark){.bg{fill:#16120E}.x{fill:#FF4660}}</style><rect class="bg" width="64" height="64" rx="14"/><path class="x" transform="translate(7.28 48.44) scale(0.07389 -0.07389)" d="M66 78Q66 114 88.5 134.5Q111 155 138 155Q158 155 172.5 142.5Q187 130 187 109Q187 61 136 42Q155 26 177 26Q214 26 237 72Q251 97 281.5 222.0Q312 347 312 370Q312 396 297.0 407.5Q282 419 262 419Q225 419 189.5 388.0Q154 357 137 310Q131 292 126.5 287.5Q122 283 108 282H103Q77 282 77 298Q77 310 89.0 334.5Q101 359 123.0 387.0Q145 415 184.0 435.5Q223 456 268 456Q350 456 391 402Q443 456 494 456Q537 456 570.0 432.0Q603 408 603 366Q603 330 580.5 309.5Q558 289 531 289Q510 289 496.0 302.0Q482 315 482 336Q482 384 533 403Q514 419 492 419Q478 419 466.0 413.0Q454 407 444.0 391.0Q434 375 427.0 360.5Q420 346 411.5 317.0Q403 288 398.0 268.0Q393 248 383.5 208.0Q374 168 368 145Q356 97 356 75Q356 49 371.5 37.5Q387 26 407 26Q444 26 479.5 57.0Q515 88 532 134Q533 136 534.0 140.0Q535 144 536.0 145.5Q537 147 538.0 150.0Q539 153 539.5 154.0Q540 155 541.5 157.0Q543 159 545.0 159.5Q547 160 549.0 161.0Q551 162 553.5 162.0Q556 162 560 162H566Q592 162 592 147Q592 110 537.0 49.5Q482 -11 402 -11Q315 -11 277 43H276Q232 -11 174 -11Q132 -11 99.0 12.5Q66 36 66 78Z"/></svg>
+diff --git a/assets/img/og/og-default.png b/assets/img/og/og-default.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..60d51a0d37edded9f4a8cdb4b45a7f9c52e4bf55
+GIT binary patch
+literal 23064
+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
+
+literal 0
+HcmV?d00001
+
+diff --git a/assets/js/core.js b/assets/js/core.js
+index 38bebe8..dacf2aa 100644
+--- a/assets/js/core.js
++++ b/assets/js/core.js
+@@ -43,12 +43,15 @@
+       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+       if (label) label.textContent = open ? 'Close' : 'Menu';
+       menu.setAttribute('aria-hidden', open ? 'false' : 'true');
++      /* while the menu is open, nothing behind it can be reached with Tab or a screen reader */
++      NEXT.$$('.skip, main, .site-footer').forEach(function (el) { if (open) el.setAttribute('inert', ''); else el.removeAttribute('inert'); });
+       if (open) { var f = NEXT.$('a', menu); f && setTimeout(function () { f.focus(); }, 350); }
+     }
+     btn.addEventListener('click', function () { set(!menu.classList.contains('is-open')); });
+     d.addEventListener('keydown', function (e) { if (e.key === 'Escape' && menu.classList.contains('is-open')) { set(false); btn.focus(); } });
+     NEXT.$$('a', menu).forEach(function (a) { a.addEventListener('click', function () { set(false); }); });
+-    window.matchMedia('(min-width:980px)').addEventListener('change', function (m) { if (m.matches) set(false); });
++    var mq = window.matchMedia && window.matchMedia('(min-width:980px)');      /* older Safari has addListener only */
++    if (mq) { var onWide = function (m) { if (m.matches) set(false); }; if (mq.addEventListener) mq.addEventListener('change', onWide); else if (mq.addListener) mq.addListener(onWide); }
+   }
+ 
+   /* ---- headline word-rise: wraps words in masked spans */
+diff --git a/assets/js/pages/forms.js b/assets/js/pages/forms.js
+index c1c0c0f..f3f0d73 100644
+--- a/assets/js/pages/forms.js
++++ b/assets/js/pages/forms.js
+@@ -1,5 +1,5 @@
+ /* career.html · apply.html · contact.html — owned by S6.
+-   Needs core.js (NEXT.$, NEXT.$$, NEXT.esc) and data/site.js (NEXT.site.email), loaded first.
++   Needs core.js (NEXT.$, NEXT.$$, NEXT.esc), data/site.js (NEXT.site.email) and data/roles.js (NEXT.roles), loaded first.
+ 
+    What it does
+    - Sends both forms to Web3Forms exactly like the old pages did: POST https://api.web3forms.com/submit, FormData body,
+@@ -16,17 +16,6 @@
+   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+   var mail = NEXT.site && NEXT.site.email;
+ 
+-  /* ---- open roles ---------------------------------------------------------------------------------------
+-     Only the role that already existed on the old career page. To add one: add an <li class="role"> to
+-     career.html AND an entry here (apply.html reads this list). Request logged to move it to assets/data/roles.js. */
+-  NEXT.roles = [
+-    { slug: 'marketing-presentation-intern',
+-      title: 'Marketing & Presentation Intern',
+-      summary: 'Hybrid — Remote & Rajshahi · Internship with a path to full-time.',
+-      text: 'Help shape how Next Inc. tells its story — building decks, pitch materials, and campaign content across our channels. You’ll work directly with the founding team, with a clear path to a full-time offer for the right person.',
+-      tags: ['Hybrid — Remote & Rajshahi', 'Internship', 'Path to full-time'] }
+-  ];
+-
+   /* ---- small helpers ---- */
+   function syncShared() {
+     if (mail) $$('[data-site-email]').forEach(function (a) { a.textContent = mail; if (a.tagName === 'A') a.href = 'mailto:' + mail; });
+diff --git a/assets/js/pages/work.js b/assets/js/pages/work.js
+index 20dd4fb..6970b23 100644
+--- a/assets/js/pages/work.js
++++ b/assets/js/pages/work.js
+@@ -71,15 +71,24 @@
+     } else {
+       var i = idx(p), next = all[i % all.length];
+       var film = (NEXT.films || []).filter(function (f) { return f.id === p.video; })[0] || (NEXT.films || []).filter(function (f) { return f.project === p.slug; })[0];
+-      var url = location.origin + location.pathname + '?p=' + encodeURIComponent(p.slug);
++      var base = ((NEXT.site && NEXT.site.url) || location.origin).replace(/\/+$/, '');      /* the public address, not localhost or a preview host */
++      var url = base + '/project.html?p=' + encodeURIComponent(p.slug);
+       d.title = p.title + ' — case study — Next Inc.';
+       setMeta('meta[name=description]', 'content', p.summary || '');
+       setMeta('link[rel=canonical]', 'href', url, { tag: 'link', attrs: { rel: 'canonical', href: url } });
+       setMeta('meta[property="og:title"]', 'content', p.title + ' — Next Inc.', { tag: 'meta', attrs: { property: 'og:title', content: '' } });
+       setMeta('meta[property="og:description"]', 'content', p.summary || '', { tag: 'meta', attrs: { property: 'og:description', content: '' } });
++      setMeta('meta[property="og:url"]', 'content', url, { tag: 'meta', attrs: { property: 'og:url', content: '' } });
++      setMeta('meta[name="twitter:title"]', 'content', p.title + ' — Next Inc.', { tag: 'meta', attrs: { name: 'twitter:title', content: '' } });
++      setMeta('meta[name="twitter:description"]', 'content', p.summary || '', { tag: 'meta', attrs: { name: 'twitter:description', content: '' } });
++      if (p.cover && /^assets\//.test(p.cover)) {          /* a project's own cover makes a better share card than the default one */
++        setMeta('meta[property="og:image"]', 'content', base + '/' + p.cover, { tag: 'meta', attrs: { property: 'og:image', content: '' } });
++        setMeta('meta[name="twitter:image"]', 'content', base + '/' + p.cover, { tag: 'meta', attrs: { name: 'twitter:image', content: '' } });
++        ['og:image:width', 'og:image:height'].forEach(function (k) { var m = d.querySelector('meta[property="' + k + '"]'); if (m) m.remove(); });   /* size of the default card no longer applies */
++      }
+ 
+       var cover = p.cover ? '<img src="' + e(p.cover) + '" alt="" decoding="async">' : NEXT.art.cover(p);
+-      var logo = p.logo ? '<img class="plate__logo" src="' + e(p.logo) + '" alt="' + e(p.title) + ' logo">' : '';
++      var logo = p.logo ? '<img class="plate__logo" src="' + e(p.logo) + '" alt="' + e(p.title) + ' logo" width="512" height="512">' : '';
+       var hero;
+       if (film) {
+         hero = '<button type="button" class="plate cs-plate" data-film="' + e(film.id) + '" data-cursor="Play" aria-label="Play film: ' + e(film.title) + '"><span class="plate__frame" style="--ar:16/9">' + cover + logo +
+diff --git a/assets/js/render.js b/assets/js/render.js
+index 7cb29d8..87c1895 100644
+--- a/assets/js/render.js
++++ b/assets/js/render.js
+@@ -23,7 +23,7 @@
+       o = o || {};
+       var href = 'project.html?p=' + encodeURIComponent(p.slug);
+       var media = p.cover ? '<img src="' + e(p.cover) + '" alt="" loading="lazy" decoding="async">' : NEXT.art.cover(p);
+-      var logo = p.logo ? '<img class="plate__logo" src="' + e(p.logo) + '" alt="' + e(p.title) + ' logo" loading="lazy" decoding="async">' : '';
++      var logo = p.logo ? '<img class="plate__logo" src="' + e(p.logo) + '" alt="' + e(p.title) + ' logo" width="512" height="512" loading="lazy" decoding="async">' : '';
+       return '<a class="plate' + (p.sample ? ' is-sample' : '') + '" href="' + href + '" data-cursor="View"' + (o.reveal === false ? '' : ' data-reveal') + d(o.delay || 0) + '>' +
+         '<span class="plate__frame"' + (o.ar ? ' style="--ar:' + e(o.ar) + '"' : '') + '>' + media + logo +
+         (o.no ? '<span class="plate__no">Pl. ' + pad(o.no) + '</span>' : '') +
+@@ -65,7 +65,7 @@
+       var line = team.map(function (t) { return e(t.name) + '<sup>1</sup>'; }).join('<span class="mute"> · </span>');
+       var cards = team.map(function (t, i) {
+         var alt = e(t.name) + ', ' + e(t.role);
+-        var img = '<img src="' + e(t.photo) + '" alt="' + alt + '" loading="lazy" decoding="async">';
++        var img = '<img src="' + e(t.photo) + '" alt="' + alt + '"' + (t.w && t.h ? ' width="' + t.w + '" height="' + t.h + '"' : '') + ' loading="lazy" decoding="async">';
+         var pic = t.webp ? '<picture><source srcset="' + e(t.webp) + '" type="image/webp">' + img + '</picture>' : img;
+         return '<div class="c-4 m-6"><div class="author" data-reveal' + d(i) + '><div class="author__photo">' + pic + '<span class="author__no">' + pad(i + 1) + '</span></div>' +
+           '<h3 class="author__name">' + e(t.name) + '</h3><p class="author__role">' + e(t.role) + '</p></div></div>';
+diff --git a/career.html b/career.html
+index b642fcb..ca7a058 100644
+--- a/career.html
++++ b/career.html
+@@ -8,8 +8,31 @@
+ <meta name="theme-color" content="#F5F0E6">
+ <link rel="preload" href="assets/fonts/cmu-serif-500-roman.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="preload" href="assets/fonts/cmu-serif-700-roman.woff2" as="font" type="font/woff2" crossorigin>
++<link rel="preload" href="assets/fonts/cmu-serif-700-italic.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="stylesheet" href="assets/css/site.css">
+ <link rel="stylesheet" href="assets/css/pages/forms.css">
++<!-- seo -->
++<link rel="canonical" href="https://www.wearenext.tech/career.html">
++<link rel="icon" href="favicon.ico" sizes="48x48">
++<link rel="icon" href="assets/img/icons/icon.svg" type="image/svg+xml" sizes="any">
++<link rel="apple-touch-icon" href="assets/img/icons/apple-touch-icon.png">
++<link rel="manifest" href="site.webmanifest">
++<meta property="og:type" content="website">
++<meta property="og:site_name" content="Next Inc.">
++<meta property="og:locale" content="en_US">
++<meta property="og:title" content="Careers — Next Inc.">
++<meta property="og:description" content="Open roles at Next Inc. — a small, fast-moving team building research-first technology out of Pennsylvania and Rajshahi.">
++<meta property="og:url" content="https://www.wearenext.tech/career.html">
++<meta property="og:image" content="https://www.wearenext.tech/assets/img/og/og-default.png">
++<meta property="og:image:width" content="1200">
++<meta property="og:image:height" content="630">
++<meta property="og:image:alt" content="Next Inc. — Where research becomes working software.">
++<meta name="twitter:card" content="summary_large_image">
++<meta name="twitter:title" content="Careers — Next Inc.">
++<meta name="twitter:description" content="Open roles at Next Inc. — a small, fast-moving team building research-first technology out of Pennsylvania and Rajshahi.">
++<meta name="twitter:image" content="https://www.wearenext.tech/assets/img/og/og-default.png">
++<meta name="twitter:image:alt" content="Next Inc. — Where research becomes working software.">
++<!-- /seo -->
+ </head>
+ <body>
+ <!-- shell:header -->
+@@ -36,8 +59,8 @@
+     <a class="menu__link" href="recognition.html"><span>04</span>Recognition</a>
+     <a class="menu__link" href="career.html" aria-current="page"><span>05</span>Careers</a>
+     <a class="menu__link" href="contact.html"><span>06</span>Start a project</a>
++    <p class="menu__foot">Pennsylvania, USA · Rajshahi, Bangladesh</p>
+   </nav>
+-  <p class="menu__foot">Pennsylvania, USA · Rajshahi, Bangladesh</p>
+ </div>
+ <!-- /shell:header -->
+ <main id="main">
+@@ -55,20 +78,22 @@
+     </div>
+ 
+     <ol class="roles" aria-label="Open roles">
++<!-- roles -->
+       <li class="role" id="marketing-presentation-intern" data-reveal>
+         <a class="role__row" href="apply.html?role=marketing-presentation-intern">
+           <span class="role__title">Marketing &amp; Presentation Intern</span>
+           <span class="role__go">Apply</span>
+         </a>
+         <div class="role__body">
+-          <p class="role__text">Help shape how Next Inc. tells its story &mdash; building decks, pitch materials, and campaign content across our channels. You&rsquo;ll work directly with the founding team, with a clear path to a full-time offer for the right person.</p>
++          <p class="role__text">Help shape how Next Inc. tells its story — building decks, pitch materials, and campaign content across our channels. You’ll work directly with the founding team, with a clear path to a full-time offer for the right person.</p>
+           <ul class="tags">
+-            <li>Hybrid &mdash; Remote &amp; Rajshahi</li>
++            <li>Hybrid — Remote &amp; Rajshahi</li>
+             <li>Internship</li>
+             <li>Path to full-time</li>
+           </ul>
+         </div>
+       </li>
++<!-- /roles -->
+     </ol>
+ 
+     <p class="note roles-note" data-reveal><b>&dagger; Don&rsquo;t see the right role?</b> We&rsquo;re always open to hearing from people who want to build with us &mdash; <a class="link" href="mailto:ariblabib360@gmail.com" data-site-email>ariblabib360@gmail.com</a>.</p>
+@@ -89,11 +114,11 @@
+     <p class="mt-s"><a class="btn btn--room" href="contact.html">Start a project</a></p>
+     <div class="footer__grid">
+       <div class="footer__brand">
+-        <h3>Next Inc.</h3>
++        <h2>Next Inc.</h2>
+         <p style="max-width:30em">An innovation lab and full-stack technology partner &mdash; bridging cutting-edge research and practical application.</p>
+       </div>
+       <div>
+-        <h3>Navigate</h3>
++        <h2>Navigate</h2>
+         <ul class="footer__list">
+           <li><a href="work.html">Work</a></li>
+           <li><a href="films.html">Films</a></li>
+@@ -103,7 +128,7 @@
+         </ul>
+       </div>
+       <div>
+-        <h3>Hubs</h3>
++        <h2>Hubs</h2>
+         <ul class="footer__list">
+           <li>Pennsylvania, USA<br><i>Operations</i></li>
+           <li>Vodra, Rajshahi, Bangladesh<br><i>Engineering &amp; R&amp;D</i></li>
+@@ -120,6 +145,7 @@
+ </footer>
+ <!-- /shell:footer -->
+ <script src="assets/data/site.js"></script>
++<script src="assets/data/roles.js"></script>
+ <script src="assets/data/projects.js"></script>
+ <script src="assets/data/films.js"></script>
+ <script src="assets/data/recognition.js"></script>
+diff --git a/contact.html b/contact.html
+index ac7262d..fa458fd 100644
+--- a/contact.html
++++ b/contact.html
+@@ -8,8 +8,31 @@
+ <meta name="theme-color" content="#F5F0E6">
+ <link rel="preload" href="assets/fonts/cmu-serif-500-roman.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="preload" href="assets/fonts/cmu-serif-700-roman.woff2" as="font" type="font/woff2" crossorigin>
++<link rel="preload" href="assets/fonts/cmu-serif-700-italic.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="stylesheet" href="assets/css/site.css">
+ <link rel="stylesheet" href="assets/css/pages/forms.css">
++<!-- seo -->
++<link rel="canonical" href="https://www.wearenext.tech/contact.html">
++<link rel="icon" href="favicon.ico" sizes="48x48">
++<link rel="icon" href="assets/img/icons/icon.svg" type="image/svg+xml" sizes="any">
++<link rel="apple-touch-icon" href="assets/img/icons/apple-touch-icon.png">
++<link rel="manifest" href="site.webmanifest">
++<meta property="og:type" content="website">
++<meta property="og:site_name" content="Next Inc.">
++<meta property="og:locale" content="en_US">
++<meta property="og:title" content="Start a project — Next Inc.">
++<meta property="og:description" content="Tell Next Inc. what you want to build — a website, app, SaaS platform, AI system or research prototype — and write to us directly.">
++<meta property="og:url" content="https://www.wearenext.tech/contact.html">
++<meta property="og:image" content="https://www.wearenext.tech/assets/img/og/og-default.png">
++<meta property="og:image:width" content="1200">
++<meta property="og:image:height" content="630">
++<meta property="og:image:alt" content="Next Inc. — Where research becomes working software.">
++<meta name="twitter:card" content="summary_large_image">
++<meta name="twitter:title" content="Start a project — Next Inc.">
++<meta name="twitter:description" content="Tell Next Inc. what you want to build — a website, app, SaaS platform, AI system or research prototype — and write to us directly.">
++<meta name="twitter:image" content="https://www.wearenext.tech/assets/img/og/og-default.png">
++<meta name="twitter:image:alt" content="Next Inc. — Where research becomes working software.">
++<!-- /seo -->
+ </head>
+ <body>
+ <!-- shell:header -->
+@@ -36,8 +59,8 @@
+     <a class="menu__link" href="recognition.html"><span>04</span>Recognition</a>
+     <a class="menu__link" href="career.html"><span>05</span>Careers</a>
+     <a class="menu__link" href="contact.html" aria-current="page"><span>06</span>Start a project</a>
++    <p class="menu__foot">Pennsylvania, USA · Rajshahi, Bangladesh</p>
+   </nav>
+-  <p class="menu__foot">Pennsylvania, USA · Rajshahi, Bangladesh</p>
+ </div>
+ <!-- /shell:header -->
+ <main id="main">
+@@ -120,11 +143,11 @@
+     <p class="mt-s"><a class="btn btn--room" href="contact.html">Start a project</a></p>
+     <div class="footer__grid">
+       <div class="footer__brand">
+-        <h3>Next Inc.</h3>
++        <h2>Next Inc.</h2>
+         <p style="max-width:30em">An innovation lab and full-stack technology partner &mdash; bridging cutting-edge research and practical application.</p>
+       </div>
+       <div>
+-        <h3>Navigate</h3>
++        <h2>Navigate</h2>
+         <ul class="footer__list">
+           <li><a href="work.html">Work</a></li>
+           <li><a href="films.html">Films</a></li>
+@@ -134,7 +157,7 @@
+         </ul>
+       </div>
+       <div>
+-        <h3>Hubs</h3>
++        <h2>Hubs</h2>
+         <ul class="footer__list">
+           <li>Pennsylvania, USA<br><i>Operations</i></li>
+           <li>Vodra, Rajshahi, Bangladesh<br><i>Engineering &amp; R&amp;D</i></li>
+@@ -151,6 +174,7 @@
+ </footer>
+ <!-- /shell:footer -->
+ <script src="assets/data/site.js"></script>
++<script src="assets/data/roles.js"></script>
+ <script src="assets/data/projects.js"></script>
+ <script src="assets/data/films.js"></script>
+ <script src="assets/data/recognition.js"></script>
+diff --git a/favicon.ico b/favicon.ico
+new file mode 100644
+index 0000000000000000000000000000000000000000..61c14dbd79825fd2d6313b062e07e8e9f66c8af7
+GIT binary patch
+literal 1393
+zcmV-%1&;av0096205C8B0096X09yqB02TlM0EtjeM-2)Z3IG5A4M|8uQUCw|FaQ7m
+zFbD<!00374`G)`i010qNS#tmY3ljhU3ljkVnw%H_00j+6L_t(&-ql)LY!p=(o`>o)
+zcq@r9CSnkcAXvjiO}K;v<Z28AqZBbjQ3@i3aA~-dLMRAIxrrKLVn{SGz#9cxTHB@6
+zZRwVFTYB40ce}eYYzy1jvQr=6;rIMwJ3G@kr!%F~Iy1>h+MWN*{NFj>e?7x-luMSo
+zCL|?sTVFybl@nrAmW0QB2@%F}kas@9cM}~-{*lCN)QK~@0N|-UNyw8Ef;`p=n*u_e
+zBq5jRm_}7Tk?0(cEABMKjYB9wU5zVGZa820f!z>20F6(p0La!HaEtO95c^ewbt302
+z*hDg!jHPq3ByM+`^6HSpt(-dymu=7-;gaB107UmNhXKR20Eq6~NFNgSRYS+IQ_!$>
+zGt@54gxY0m!N2YsXxp0)U4NB8Ur&@e?_neW!81SqH*d)rs9(JS+7BIvcwNn~-v7h^
+z9(Zpl%9f3LbI9R+XEDSIuV@TUfY7<~aPy^^^f}K=g}YfhA=wog9RTu!2(<1w4CT*H
+zQ(t;((i~{ooCEyv)6lXjPx*haV*C$hK)xSVc4y$X%Gc&V>+XZVA1P3FpltjU^`39h
+zry$3p_5wiV{h3+nOArK~UqDu?Q%?_(hpJi2^dN|GRWnn+c{3Kl!%(X_r?;aS?yOj+
+zn}a)LD}cLS?@%A^d2t5ZyMB!+%O5RZQ;UG<DlJiE?^k%BV&Z!SxjP?zZXbZig+Ed&
+z|Ljz_ccpMh`S7p5F#-73WTkeM(8QbZ0adPg_HugwB%=YSc=dht!Ds_!bI=R10K{$-
+z>zn~g4!xQ!0NVED>kKv-3!2XHf3lIP)ZbGUD4u9Q4r#~&z<+;w<N(lcwfqd^9<@X{
+z@AQRKrO@l>3_cuyn=j8Y$lad1(vmAR1<>R7r3`mM2K4gHrVs6HZ_>F$?VuTc>}sLn
+zmGC~sht`}!WS4D>1K|t5EABFO?W(1RM*qA>RUSQ;+#P1lL-(tt*QiF~p+?J&15^NY
+zAFa3jU84e^X8tO=QId%3cmNocJ?Yb_0F>m;=>S-65gh>LLXHQ(3Sd@(k|O}H_#ZfU
+z%=rMYNGX5rEqeM;bluW3uyzRjc;2$h=B%dC=s_x9pQohIHS<<McUh@HPPll9&j0kc
+z4JkKmB-$Eu3lOibu_2WpfycKv)1VZl7ntN}Wt+F|p#nf!Sy`y|{1d|lZ3-ZG>KrrK
+z(xnBY_N{zlK2@$Id!GgO8&WE?fjLcCyX>J*?efo<05BC+xl1_9lCx4-we3Hm%42ee
+zbg~6N^}8#W#k#g;ZQQV(2|&1X+0<~g+{fI@HZMfm0pvfHfvMI?6_md)jR_!l_7}GD
+z#YIYzr_zly1#ESr9VdU%2P6VWn^NQ7RWp{V_YK878Zq%&gNq<EP|R?(z#G5Z#_S_K
+zxfdeg9~ICR<n<qar4;R$bymERDs~z&Hz~BDWuxeVG0*QfaTc1l<me0*dqGN>I?Pns
+zavZ=sy<vSevq-_@4daB?Ca?)mIeD&W<IA^THFSH*#wHRY*RiCmTlt03c)}hL|J_MQ
+z1R9yUht*cg?mVT1i17q_Ke!kOI9_{u<f(+~o4ce%9dU7cz0>6f9O4ZQ50PC9phwu^
+z{zJb0W7b?3@_(=PpgRru<RSpYhEERqKQ(Z}X??LI1;?>I_DI7MaO9U0Ighkqe(a&W
+z&^U-)e2Zu?PW&IiuK#nJ2sz9yLS0mY9d!K*kjSRK9A2}d00000NkvXXu0mjfy=RJH
+
+literal 0
+HcmV?d00001
+
+diff --git a/films.html b/films.html
+index 1383d73..9217d7d 100644
+--- a/films.html
++++ b/films.html
+@@ -8,8 +8,31 @@
+ <meta name="theme-color" content="#F5F0E6">
+ <link rel="preload" href="assets/fonts/cmu-serif-500-roman.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="preload" href="assets/fonts/cmu-serif-700-roman.woff2" as="font" type="font/woff2" crossorigin>
++<link rel="preload" href="assets/fonts/cmu-serif-700-italic.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="stylesheet" href="assets/css/site.css">
+ <link rel="stylesheet" href="assets/css/pages/films.css">
++<!-- seo -->
++<link rel="canonical" href="https://www.wearenext.tech/films.html">
++<link rel="icon" href="favicon.ico" sizes="48x48">
++<link rel="icon" href="assets/img/icons/icon.svg" type="image/svg+xml" sizes="any">
++<link rel="apple-touch-icon" href="assets/img/icons/apple-touch-icon.png">
++<link rel="manifest" href="site.webmanifest">
++<meta property="og:type" content="website">
++<meta property="og:site_name" content="Next Inc.">
++<meta property="og:locale" content="en_US">
++<meta property="og:title" content="Films — Next Inc.">
++<meta property="og:description" content="Motion films about the projects we build: launch films, walkthroughs and our showreel.">
++<meta property="og:url" content="https://www.wearenext.tech/films.html">
++<meta property="og:image" content="https://www.wearenext.tech/assets/img/og/og-default.png">
++<meta property="og:image:width" content="1200">
++<meta property="og:image:height" content="630">
++<meta property="og:image:alt" content="Next Inc. — Where research becomes working software.">
++<meta name="twitter:card" content="summary_large_image">
++<meta name="twitter:title" content="Films — Next Inc.">
++<meta name="twitter:description" content="Motion films about the projects we build: launch films, walkthroughs and our showreel.">
++<meta name="twitter:image" content="https://www.wearenext.tech/assets/img/og/og-default.png">
++<meta name="twitter:image:alt" content="Next Inc. — Where research becomes working software.">
++<!-- /seo -->
+ </head>
+ <body>
+ <!-- shell:header -->
+@@ -36,8 +59,8 @@
+     <a class="menu__link" href="recognition.html"><span>04</span>Recognition</a>
+     <a class="menu__link" href="career.html"><span>05</span>Careers</a>
+     <a class="menu__link" href="contact.html"><span>06</span>Start a project</a>
++    <p class="menu__foot">Pennsylvania, USA · Rajshahi, Bangladesh</p>
+   </nav>
+-  <p class="menu__foot">Pennsylvania, USA · Rajshahi, Bangladesh</p>
+ </div>
+ <!-- /shell:header -->
+ <main id="main" class="films room">
+@@ -72,11 +95,11 @@
+     <p class="mt-s"><a class="btn btn--room" href="contact.html">Start a project</a></p>
+     <div class="footer__grid">
+       <div class="footer__brand">
+-        <h3>Next Inc.</h3>
++        <h2>Next Inc.</h2>
+         <p style="max-width:30em">An innovation lab and full-stack technology partner &mdash; bridging cutting-edge research and practical application.</p>
+       </div>
+       <div>
+-        <h3>Navigate</h3>
++        <h2>Navigate</h2>
+         <ul class="footer__list">
+           <li><a href="work.html">Work</a></li>
+           <li><a href="films.html">Films</a></li>
+@@ -86,7 +109,7 @@
+         </ul>
+       </div>
+       <div>
+-        <h3>Hubs</h3>
++        <h2>Hubs</h2>
+         <ul class="footer__list">
+           <li>Pennsylvania, USA<br><i>Operations</i></li>
+           <li>Vodra, Rajshahi, Bangladesh<br><i>Engineering &amp; R&amp;D</i></li>
+diff --git a/index.html b/index.html
+index 2a212ea..913eae6 100644
+--- a/index.html
++++ b/index.html
+@@ -8,8 +8,72 @@
+ <meta name="theme-color" content="#F5F0E6">
+ <link rel="preload" href="assets/fonts/cmu-serif-500-roman.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="preload" href="assets/fonts/cmu-serif-700-roman.woff2" as="font" type="font/woff2" crossorigin>
++<link rel="preload" href="assets/fonts/cmu-serif-700-italic.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="stylesheet" href="assets/css/site.css">
+ <link rel="stylesheet" href="assets/css/pages/home.css">
++<!-- seo -->
++<link rel="canonical" href="https://www.wearenext.tech/">
++<link rel="icon" href="favicon.ico" sizes="48x48">
++<link rel="icon" href="assets/img/icons/icon.svg" type="image/svg+xml" sizes="any">
++<link rel="apple-touch-icon" href="assets/img/icons/apple-touch-icon.png">
++<link rel="manifest" href="site.webmanifest">
++<meta property="og:type" content="website">
++<meta property="og:site_name" content="Next Inc.">
++<meta property="og:locale" content="en_US">
++<meta property="og:title" content="Next Inc. — Where research becomes working software">
++<meta property="og:description" content="Next Inc. is an innovation lab and full-stack technology partner. We design and build websites, mobile apps, enterprise SaaS and AI / LLM systems — from Pennsylvania, USA and Rajshahi, Bangladesh.">
++<meta property="og:url" content="https://www.wearenext.tech/">
++<meta property="og:image" content="https://www.wearenext.tech/assets/img/og/og-default.png">
++<meta property="og:image:width" content="1200">
++<meta property="og:image:height" content="630">
++<meta property="og:image:alt" content="Next Inc. — Where research becomes working software.">
++<meta name="twitter:card" content="summary_large_image">
++<meta name="twitter:title" content="Next Inc. — Where research becomes working software">
++<meta name="twitter:description" content="Next Inc. is an innovation lab and full-stack technology partner. We design and build websites, mobile apps, enterprise SaaS and AI / LLM systems — from Pennsylvania, USA and Rajshahi, Bangladesh.">
++<meta name="twitter:image" content="https://www.wearenext.tech/assets/img/og/og-default.png">
++<meta name="twitter:image:alt" content="Next Inc. — Where research becomes working software.">
++<script type="application/ld+json">
++{
++  "@context": "https://schema.org",
++  "@type": "Organization",
++  "name": "Next Inc.",
++  "url": "https://www.wearenext.tech/",
++  "slogan": "Where research becomes working software.",
++  "description": "Next Inc. is an innovation lab and full-stack technology partner. We bridge the gap between cutting-edge research and practical application — web and app development, enterprise SaaS, and sophisticated AI and LLM modeling.",
++  "logo": "https://www.wearenext.tech/assets/img/icons/icon-512.png",
++  "email": "ariblabib360@gmail.com",
++  "location": [
++    {
++      "@type": "Place",
++      "name": "Pennsylvania, USA",
++      "address": "Pennsylvania, USA"
++    },
++    {
++      "@type": "Place",
++      "name": "Vodra, Rajshahi, Bangladesh",
++      "address": "Vodra, Rajshahi, Bangladesh"
++    }
++  ],
++  "founder": [
++    {
++      "@type": "Person",
++      "name": "Arib Labib",
++      "jobTitle": "Founder & CEO"
++    },
++    {
++      "@type": "Person",
++      "name": "Shuaib Islam",
++      "jobTitle": "Co-Founder & CTO"
++    },
++    {
++      "@type": "Person",
++      "name": "Shaikh Muhammad",
++      "jobTitle": "Co-Founder & COO"
++    }
++  ]
++}
++</script>
++<!-- /seo -->
+ </head>
+ <body>
+ <!-- shell:header -->
+@@ -36,8 +100,8 @@
+     <a class="menu__link" href="recognition.html"><span>04</span>Recognition</a>
+     <a class="menu__link" href="career.html"><span>05</span>Careers</a>
+     <a class="menu__link" href="contact.html"><span>06</span>Start a project</a>
++    <p class="menu__foot">Pennsylvania, USA · Rajshahi, Bangladesh</p>
+   </nav>
+-  <p class="menu__foot">Pennsylvania, USA · Rajshahi, Bangladesh</p>
+ </div>
+ <!-- /shell:header -->
+ 
+@@ -189,11 +253,11 @@
+     <p class="mt-s"><a class="btn btn--room" href="contact.html">Start a project</a></p>
+     <div class="footer__grid">
+       <div class="footer__brand">
+-        <h3>Next Inc.</h3>
++        <h2>Next Inc.</h2>
+         <p style="max-width:30em">An innovation lab and full-stack technology partner &mdash; bridging cutting-edge research and practical application.</p>
+       </div>
+       <div>
+-        <h3>Navigate</h3>
++        <h2>Navigate</h2>
+         <ul class="footer__list">
+           <li><a href="work.html">Work</a></li>
+           <li><a href="films.html">Films</a></li>
+@@ -203,7 +267,7 @@
+         </ul>
+       </div>
+       <div>
+-        <h3>Hubs</h3>
++        <h2>Hubs</h2>
+         <ul class="footer__list">
+           <li>Pennsylvania, USA<br><i>Operations</i></li>
+           <li>Vodra, Rajshahi, Bangladesh<br><i>Engineering &amp; R&amp;D</i></li>
+diff --git a/package.json b/package.json
+index e6c44b9..a08bb03 100644
+--- a/package.json
++++ b/package.json
+@@ -1,12 +1,13 @@
+ {
+   "name": "nextinc",
+   "private": true,
+-  "description": "Next Inc. website — static HTML/CSS/JS, no build step.",
++  "description": "Next Inc. website \u2014 static HTML/CSS/JS, no build step.",
+   "scripts": {
+     "serve": "node scripts/serve.mjs",
+-    "sync": "node scripts/sync-shell.mjs",
++    "sync": "node scripts/sync-shell.mjs && node scripts/sync-site.mjs",
+     "ledger": "node scripts/ledger.mjs",
+-    "check": "node scripts/sync-shell.mjs --check && node scripts/check-samples.mjs",
+-    "prelaunch": "node scripts/sync-shell.mjs --check && node scripts/check-samples.mjs --strict"
++    "check": "node scripts/sync-shell.mjs --check && node scripts/sync-site.mjs --check && node scripts/check-samples.mjs",
++    "prelaunch": "node scripts/sync-shell.mjs --check && node scripts/sync-site.mjs --check && node scripts/check-launch.mjs && node scripts/check-samples.mjs --strict",
++    "brand": "node scripts/brand/make-brand.mjs"
+   }
+ }
+diff --git a/partials/footer.html b/partials/footer.html
+index 4b2076f..55ef294 100644
+--- a/partials/footer.html
++++ b/partials/footer.html
+@@ -4,11 +4,11 @@
+     <p class="mt-s"><a class="btn btn--room" href="contact.html">Start a project</a></p>
+     <div class="footer__grid">
+       <div class="footer__brand">
+-        <h3>Next Inc.</h3>
++        <h2>Next Inc.</h2>
+         <p style="max-width:30em">An innovation lab and full-stack technology partner &mdash; bridging cutting-edge research and practical application.</p>
+       </div>
+       <div>
+-        <h3>Navigate</h3>
++        <h2>Navigate</h2>
+         <ul class="footer__list">
+           <li><a href="work.html">Work</a></li>
+           <li><a href="films.html">Films</a></li>
+@@ -18,7 +18,7 @@
+         </ul>
+       </div>
+       <div>
+-        <h3>Hubs</h3>
++        <h2>Hubs</h2>
+         <ul class="footer__list">
+           <li>Pennsylvania, USA<br><i>Operations</i></li>
+           <li>Vodra, Rajshahi, Bangladesh<br><i>Engineering &amp; R&amp;D</i></li>
+diff --git a/partials/header.html b/partials/header.html
+index 57b3582..783939a 100644
+--- a/partials/header.html
++++ b/partials/header.html
+@@ -21,6 +21,6 @@
+     <a class="menu__link" href="recognition.html"><span>04</span>Recognition</a>
+     <a class="menu__link" href="career.html"><span>05</span>Careers</a>
+     <a class="menu__link" href="contact.html"><span>06</span>Start a project</a>
++    <p class="menu__foot">Pennsylvania, USA · Rajshahi, Bangladesh</p>
+   </nav>
+-  <p class="menu__foot">Pennsylvania, USA · Rajshahi, Bangladesh</p>
+ </div>
+diff --git a/project.html b/project.html
+index e61c4ba..baa93e8 100644
+--- a/project.html
++++ b/project.html
+@@ -8,8 +8,31 @@
+ <meta name="theme-color" content="#F5F0E6">
+ <link rel="preload" href="assets/fonts/cmu-serif-500-roman.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="preload" href="assets/fonts/cmu-serif-700-roman.woff2" as="font" type="font/woff2" crossorigin>
++<link rel="preload" href="assets/fonts/cmu-serif-700-italic.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="stylesheet" href="assets/css/site.css">
+ <link rel="stylesheet" href="assets/css/pages/work.css">
++<!-- seo -->
++<link rel="canonical" href="https://www.wearenext.tech/project.html">
++<link rel="icon" href="favicon.ico" sizes="48x48">
++<link rel="icon" href="assets/img/icons/icon.svg" type="image/svg+xml" sizes="any">
++<link rel="apple-touch-icon" href="assets/img/icons/apple-touch-icon.png">
++<link rel="manifest" href="site.webmanifest">
++<meta property="og:type" content="website">
++<meta property="og:site_name" content="Next Inc.">
++<meta property="og:locale" content="en_US">
++<meta property="og:title" content="Case study — Next Inc.">
++<meta property="og:description" content="A Next Inc. case study.">
++<meta property="og:url" content="https://www.wearenext.tech/project.html">
++<meta property="og:image" content="https://www.wearenext.tech/assets/img/og/og-default.png">
++<meta property="og:image:width" content="1200">
++<meta property="og:image:height" content="630">
++<meta property="og:image:alt" content="Next Inc. — Where research becomes working software.">
++<meta name="twitter:card" content="summary_large_image">
++<meta name="twitter:title" content="Case study — Next Inc.">
++<meta name="twitter:description" content="A Next Inc. case study.">
++<meta name="twitter:image" content="https://www.wearenext.tech/assets/img/og/og-default.png">
++<meta name="twitter:image:alt" content="Next Inc. — Where research becomes working software.">
++<!-- /seo -->
+ </head>
+ <body>
+ <!-- shell:header -->
+@@ -36,8 +59,8 @@
+     <a class="menu__link" href="recognition.html"><span>04</span>Recognition</a>
+     <a class="menu__link" href="career.html"><span>05</span>Careers</a>
+     <a class="menu__link" href="contact.html"><span>06</span>Start a project</a>
++    <p class="menu__foot">Pennsylvania, USA · Rajshahi, Bangladesh</p>
+   </nav>
+-  <p class="menu__foot">Pennsylvania, USA · Rajshahi, Bangladesh</p>
+ </div>
+ <!-- /shell:header -->
+ <main id="main">
+@@ -53,11 +76,11 @@
+     <p class="mt-s"><a class="btn btn--room" href="contact.html">Start a project</a></p>
+     <div class="footer__grid">
+       <div class="footer__brand">
+-        <h3>Next Inc.</h3>
++        <h2>Next Inc.</h2>
+         <p style="max-width:30em">An innovation lab and full-stack technology partner &mdash; bridging cutting-edge research and practical application.</p>
+       </div>
+       <div>
+-        <h3>Navigate</h3>
++        <h2>Navigate</h2>
+         <ul class="footer__list">
+           <li><a href="work.html">Work</a></li>
+           <li><a href="films.html">Films</a></li>
+@@ -67,7 +90,7 @@
+         </ul>
+       </div>
+       <div>
+-        <h3>Hubs</h3>
++        <h2>Hubs</h2>
+         <ul class="footer__list">
+           <li>Pennsylvania, USA<br><i>Operations</i></li>
+           <li>Vodra, Rajshahi, Bangladesh<br><i>Engineering &amp; R&amp;D</i></li>
+diff --git a/recognition.html b/recognition.html
+index 83e12bc..14b2588 100644
+--- a/recognition.html
++++ b/recognition.html
+@@ -8,8 +8,31 @@
+ <meta name="theme-color" content="#F5F0E6">
+ <link rel="preload" href="assets/fonts/cmu-serif-500-roman.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="preload" href="assets/fonts/cmu-serif-700-roman.woff2" as="font" type="font/woff2" crossorigin>
++<link rel="preload" href="assets/fonts/cmu-serif-700-italic.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="stylesheet" href="assets/css/site.css">
+ <link rel="stylesheet" href="assets/css/pages/studio.css">
++<!-- seo -->
++<link rel="canonical" href="https://www.wearenext.tech/recognition.html">
++<link rel="icon" href="favicon.ico" sizes="48x48">
++<link rel="icon" href="assets/img/icons/icon.svg" type="image/svg+xml" sizes="any">
++<link rel="apple-touch-icon" href="assets/img/icons/apple-touch-icon.png">
++<link rel="manifest" href="site.webmanifest">
++<meta property="og:type" content="website">
++<meta property="og:site_name" content="Next Inc.">
++<meta property="og:locale" content="en_US">
++<meta property="og:title" content="Recognition — Next Inc.">
++<meta property="og:description" content="Awards, press, grants and milestones for Next Inc.">
++<meta property="og:url" content="https://www.wearenext.tech/recognition.html">
++<meta property="og:image" content="https://www.wearenext.tech/assets/img/og/og-default.png">
++<meta property="og:image:width" content="1200">
++<meta property="og:image:height" content="630">
++<meta property="og:image:alt" content="Next Inc. — Where research becomes working software.">
++<meta name="twitter:card" content="summary_large_image">
++<meta name="twitter:title" content="Recognition — Next Inc.">
++<meta name="twitter:description" content="Awards, press, grants and milestones for Next Inc.">
++<meta name="twitter:image" content="https://www.wearenext.tech/assets/img/og/og-default.png">
++<meta name="twitter:image:alt" content="Next Inc. — Where research becomes working software.">
++<!-- /seo -->
+ </head>
+ <body>
+ <!-- shell:header -->
+@@ -36,8 +59,8 @@
+     <a class="menu__link" href="recognition.html" aria-current="page"><span>04</span>Recognition</a>
+     <a class="menu__link" href="career.html"><span>05</span>Careers</a>
+     <a class="menu__link" href="contact.html"><span>06</span>Start a project</a>
++    <p class="menu__foot">Pennsylvania, USA · Rajshahi, Bangladesh</p>
+   </nav>
+-  <p class="menu__foot">Pennsylvania, USA · Rajshahi, Bangladesh</p>
+ </div>
+ <!-- /shell:header -->
+ <main id="main">
+@@ -71,11 +94,11 @@
+     <p class="mt-s"><a class="btn btn--room" href="contact.html">Start a project</a></p>
+     <div class="footer__grid">
+       <div class="footer__brand">
+-        <h3>Next Inc.</h3>
++        <h2>Next Inc.</h2>
+         <p style="max-width:30em">An innovation lab and full-stack technology partner &mdash; bridging cutting-edge research and practical application.</p>
+       </div>
+       <div>
+-        <h3>Navigate</h3>
++        <h2>Navigate</h2>
+         <ul class="footer__list">
+           <li><a href="work.html">Work</a></li>
+           <li><a href="films.html">Films</a></li>
+@@ -85,7 +108,7 @@
+         </ul>
+       </div>
+       <div>
+-        <h3>Hubs</h3>
++        <h2>Hubs</h2>
+         <ul class="footer__list">
+           <li>Pennsylvania, USA<br><i>Operations</i></li>
+           <li>Vodra, Rajshahi, Bangladesh<br><i>Engineering &amp; R&amp;D</i></li>
+diff --git a/robots.txt b/robots.txt
+new file mode 100644
+index 0000000..571a336
+--- /dev/null
++++ b/robots.txt
+@@ -0,0 +1,8 @@
++User-agent: *
++Allow: /
++Disallow: /docs/
++Disallow: /ledger/
++Disallow: /scripts/
++Disallow: /patches/
++
++Sitemap: https://www.wearenext.tech/sitemap.xml
+diff --git a/scripts/brand/glyph-x.json b/scripts/brand/glyph-x.json
+new file mode 100644
+index 0000000..1a394fb
+--- /dev/null
++++ b/scripts/brand/glyph-x.json
+@@ -0,0 +1 @@
++{"glyph": "x", "font": "CMU Serif Bold Italic (OFL)", "unitsPerEm": 1000, "bounds": [66, -11, 603, 456], "d": "M66 78Q66 114 88.5 134.5Q111 155 138 155Q158 155 172.5 142.5Q187 130 187 109Q187 61 136 42Q155 26 177 26Q214 26 237 72Q251 97 281.5 222.0Q312 347 312 370Q312 396 297.0 407.5Q282 419 262 419Q225 419 189.5 388.0Q154 357 137 310Q131 292 126.5 287.5Q122 283 108 282H103Q77 282 77 298Q77 310 89.0 334.5Q101 359 123.0 387.0Q145 415 184.0 435.5Q223 456 268 456Q350 456 391 402Q443 456 494 456Q537 456 570.0 432.0Q603 408 603 366Q603 330 580.5 309.5Q558 289 531 289Q510 289 496.0 302.0Q482 315 482 336Q482 384 533 403Q514 419 492 419Q478 419 466.0 413.0Q454 407 444.0 391.0Q434 375 427.0 360.5Q420 346 411.5 317.0Q403 288 398.0 268.0Q393 248 383.5 208.0Q374 168 368 145Q356 97 356 75Q356 49 371.5 37.5Q387 26 407 26Q444 26 479.5 57.0Q515 88 532 134Q533 136 534.0 140.0Q535 144 536.0 145.5Q537 147 538.0 150.0Q539 153 539.5 154.0Q540 155 541.5 157.0Q543 159 545.0 159.5Q547 160 549.0 161.0Q551 162 553.5 162.0Q556 162 560 162H566Q592 162 592 147Q592 110 537.0 49.5Q482 -11 402 -11Q315 -11 277 43H276Q232 -11 174 -11Q132 -11 99.0 12.5Q66 36 66 78Z"}
+\ No newline at end of file
+diff --git a/scripts/brand/make-brand.mjs b/scripts/brand/make-brand.mjs
+new file mode 100644
+index 0000000..5ca4c05
+--- /dev/null
++++ b/scripts/brand/make-brand.mjs
+@@ -0,0 +1,82 @@
++#!/usr/bin/env node
++/* Regenerates the brand files: SVG favicon (+ dark variant), PNG icons, favicon.ico, web manifest, 1200x630 OG card.
++ * Not part of the site itself. Needs two dev-only packages the site does not use:
++ *     npm i --no-save playwright sharp        (and a Chromium: `npx playwright install chromium`)
++ * If they live elsewhere, point BRAND_TOOLS at that folder (the one that contains node_modules).
++ *     node scripts/brand/make-brand.mjs          (CHROMIUM_PATH=/path/to/chrome to use a specific browser binary)
++ * The crimson italic x is the glyph outline of "x" from assets/fonts/cmu-serif-700-italic.woff2, stored in glyph-x.json. Owned by S7. */
++import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
++import { createRequire } from 'node:module';
++import { fileURLToPath } from 'node:url';
++import { dirname, join } from 'node:path';
++
++const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
++const req = createRequire(join(process.env.BRAND_TOOLS || root, 'package.json'));
++const sharp = req('sharp'), { chromium } = req('playwright');
++
++const g = JSON.parse(readFileSync(join(dirname(fileURLToPath(import.meta.url)), 'glyph-x.json'), 'utf8'));
++const sb = {}; sb.window = sb; (await import('node:vm')).runInNewContext(readFileSync(join(root, 'assets/data/site.js'), 'utf8'), sb);
++const site = sb.NEXT.site;
++const C = { paper: '#F5F0E6', ink: '#16120E', crimson: '#C0102C', crimsonHi: '#FF4660' };
++
++/* x glyph centred in a box of `size`, filling `fill` of it (font units are y-up, so flip) */
++function glyph(size, fill, colour) {
++  const [x0, y0, x1, y1] = g.bounds, w = x1 - x0, h = y1 - y0, s = (size * fill) / Math.max(w, h);
++  const tx = (size - w * s) / 2 - x0 * s, ty = (size + h * s) / 2 + y0 * s;
++  return `<path fill="${colour}" transform="translate(${tx.toFixed(2)} ${ty.toFixed(2)}) scale(${s.toFixed(5)} ${(-s).toFixed(5)})" d="${g.d}"/>`;
++}
++const iconSvg = (size, fill, bg, fg, radius = 0.22) =>
++  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}" width="${size}" height="${size}"><rect width="${size}" height="${size}" rx="${size * radius}" fill="${bg}"/>${glyph(size, fill, fg)}</svg>`;
++
++const out = (p) => { mkdirSync(dirname(join(root, p)), { recursive: true }); return join(root, p); };
++
++/* 1. SVG favicon: crimson x on paper; dark scheme gets ink with the lighter crimson */
++const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><style>.bg{fill:${C.paper}}.x{fill:${C.crimson}}@media (prefers-color-scheme:dark){.bg{fill:${C.ink}}.x{fill:${C.crimsonHi}}}</style><rect class="bg" width="64" height="64" rx="14"/>${glyph(64, 0.62, C.crimson).replace('fill="' + C.crimson + '"', 'class="x"')}</svg>\n`;
++writeFileSync(out('assets/img/icons/icon.svg'), svg);
++
++/* 2. PNG icons */
++const png = async (file, size, fill, radius) => sharp(Buffer.from(iconSvg(size, fill, C.paper, C.crimson, radius))).png({ compressionLevel: 9, palette: true }).toFile(out(file));
++await png('assets/img/icons/icon-192.png', 192, 0.62, 0.22);
++await png('assets/img/icons/icon-512.png', 512, 0.62, 0.22);
++await png('assets/img/icons/apple-touch-icon.png', 180, 0.62, 0);          // iOS rounds the corners itself
++await png('assets/img/icons/icon-maskable-512.png', 512, 0.46, 0);         // full bleed; glyph kept inside the 80% safe zone
++
++/* 3. favicon.ico (one 48x48 PNG image inside an ICO container) */
++const p48 = await sharp(Buffer.from(iconSvg(48, 0.66, C.paper, C.crimson, 0.2))).png({ compressionLevel: 9 }).toBuffer();
++const head = Buffer.alloc(22); head.writeUInt16LE(0, 0); head.writeUInt16LE(1, 2); head.writeUInt16LE(1, 4);
++head[6] = 48; head[7] = 48; head.writeUInt16LE(1, 10); head.writeUInt16LE(32, 12); head.writeUInt32LE(p48.length, 14); head.writeUInt32LE(22, 18);
++writeFileSync(out('favicon.ico'), Buffer.concat([head, p48]));
++
++/* 4. manifest */
++writeFileSync(out('site.webmanifest'), JSON.stringify({
++  name: site.name, short_name: 'Next Inc.', description: site.tagline, start_url: './', scope: './', display: 'browser',
++  background_color: C.paper, theme_color: C.paper,
++  icons: [
++    { src: 'assets/img/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
++    { src: 'assets/img/icons/icon-512.png', sizes: '512x512', type: 'image/png' },
++    { src: 'assets/img/icons/icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
++  ]
++}, null, 2) + '\n');
++
++/* 5. OG card: typeset in the site's own fonts, rendered in Chromium. No date on it, so it never goes stale. */
++const font = (f) => 'data:font/woff2;base64,' + readFileSync(join(root, 'assets/fonts', f)).toString('base64');   // inlined: a page set via setContent cannot load file:// fonts
++const html = `<!doctype html><meta charset="utf-8"><style>
++@font-face{font-family:C;font-weight:700;font-style:normal;src:url(${font('cmu-serif-700-roman.woff2')})}
++@font-face{font-family:C;font-weight:700;font-style:italic;src:url(${font('cmu-serif-700-italic.woff2')})}
++@font-face{font-family:C;font-weight:500;font-style:normal;src:url(${font('cmu-serif-500-roman.woff2')})}
++@font-face{font-family:C;font-weight:500;font-style:italic;src:url(${font('cmu-serif-500-italic.woff2')})}
++*{margin:0;box-sizing:border-box}body{width:1200px;height:630px;background:${C.paper};color:${C.ink};font-family:C,Georgia,serif;position:relative;overflow:hidden}
++.frame{position:absolute;inset:36px;border:2px solid ${C.ink}}
++.k{position:absolute;left:92px;top:84px;font-size:22px;letter-spacing:.14em;text-transform:uppercase;color:#6B6254;font-weight:700}
++.w{position:absolute;left:88px;top:148px;font-size:188px;line-height:1;font-weight:700;letter-spacing:-.03em}.w i{color:${C.crimson}}.w small{font-size:62px;font-weight:500;letter-spacing:0;margin-left:.2em}
++.t{position:absolute;left:92px;top:366px;width:900px;font-size:54px;line-height:1.18;font-weight:500;font-style:italic;text-wrap:balance}
++.d{position:absolute;left:92px;bottom:72px;font-size:28px;color:#6B6254;font-weight:500}
++.rule{position:absolute;left:92px;top:338px;width:120px;height:4px;background:${C.crimson}}
++</style><body><div class="frame"></div><div class="k">Innovation lab · Full-stack technology partner</div>
++<div class="w">Ne<i>x</i>t<small>Inc.</small></div><div class="rule"></div>
++<div class="t">${site.tagline}</div><div class="d">${new URL(site.url).hostname}</div></body>`;
++const browser = await chromium.launch(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}); const page = await browser.newPage({ viewport: { width: 1200, height: 630 } });
++await page.setContent(html); await page.evaluate(() => document.fonts.ready); await page.waitForTimeout(200);
++const shot = await page.screenshot({ type: 'png' }); await browser.close();
++await sharp(shot).png({ compressionLevel: 9, palette: true, colours: 64 }).toFile(out('assets/img/og/og-default.png'));
++console.log('brand files written');
+diff --git a/scripts/check-launch.mjs b/scripts/check-launch.mjs
+new file mode 100644
+index 0000000..8d658ec
+--- /dev/null
++++ b/scripts/check-launch.mjs
+@@ -0,0 +1,87 @@
++#!/usr/bin/env node
++/* Launch gate (part of `npm run prelaunch`). Fails (exit 1) on anything that would embarrass us on day one:
++ *   - the public address is still the placeholder
++ *   - a public page lacks a unique title/description, canonical link or social card; the OG image is missing or not 1200x630
++ *   - favicon / manifest / robots / sitemap / 404 files are missing or broken
++ *   - a local link, script, stylesheet, image or data-file path points at a file that does not exist
++ *   - one of the old unverified claims or template leftovers is still on the site (8.9 ms, 99.99x %, "hundreds", "award winning",
++ *     FundedNext, "trading", Tailwind CDN, Google Fonts, Material Symbols)
++ * Warnings (title/description length, images without alt) are printed but do not fail. Owned by S7. */
++import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
++import { fileURLToPath } from 'node:url';
++import { dirname, join, relative, extname } from 'node:path';
++import vm from 'node:vm';
++
++const root = join(dirname(fileURLToPath(import.meta.url)), '..');
++const fails = [], warns = [];
++const fail = (m) => fails.push(m), warn = (m) => warns.push(m);
++const read = (f) => readFileSync(join(root, f), 'utf8');
++const walk = (dir, out = []) => { for (const f of readdirSync(join(root, dir))) { const p = join(dir, f); statSync(join(root, p)).isDirectory() ? walk(p, out) : out.push(p); } return out; };
++
++/* ---- 1. public address ---- */
++const sb = {}; sb.window = sb; vm.runInNewContext(read('assets/data/site.js'), sb);
++const site = sb.NEXT.site; let host = '';
++try { host = new URL(site.url).hostname; } catch { /* handled below */ }
++if (!site.url || !/^https:\/\//.test(site.url)) fail('assets/data/site.js: site.url must be the live https address (then run `npm run sync`).');
++else if (/^(www\.)?example\.(com|org|net)$/.test(host) || /localhost|127\.0\.0\.1/.test(host)) fail(`assets/data/site.js: site.url is still the placeholder (${site.url}). Set the real address, then run \`npm run sync\`.`);
++
++/* ---- 2. public pages ---- */
++const pages = readdirSync(root).filter((f) => f.endsWith('.html')).sort();
++const seen = { title: new Map(), desc: new Map() };
++for (const f of pages) {
++  const s = read(f); if (!s.includes('<!-- seo -->') || /<meta name="robots" content="noindex"/.test(s) || ['styleguide.html', '404.html'].includes(f)) continue;
++  const title = (s.match(/<title>([\s\S]*?)<\/title>/) || [])[1], desc = (s.match(/<meta name="description" content="([^"]*)"/) || [])[1];
++  if (!title) fail(`${f}: no <title>`); else { if (title.length > 70) warn(`${f}: title is ${title.length} chars (search results cut at about 60)`); (seen.title.get(title) || seen.title.set(title, []).get(title)).push(f); }
++  if (!desc) fail(`${f}: no meta description`); else { if (desc.length < 70 || desc.length > 160) warn(`${f}: description is ${desc.length} chars (aim for 70–160)`); (seen.desc.get(desc) || seen.desc.set(desc, []).get(desc)).push(f); }
++  for (const [needle, what] of [['rel="canonical"', 'canonical link'], ['property="og:image"', 'og:image'], ['property="og:title"', 'og:title'], ['name="twitter:card"', 'twitter:card']])
++    if (!s.includes(needle)) fail(`${f}: missing ${what} (run \`npm run sync\`)`);
++}
++for (const [k, m] of Object.entries(seen)) for (const [v, files] of m) if (files.length > 1) fail(`${files.join(', ')}: identical ${k} — each page needs its own`);
++
++/* ---- 3. brand + crawler files ---- */
++const must = ['favicon.ico', 'assets/img/icons/icon.svg', 'assets/img/icons/apple-touch-icon.png', 'assets/img/icons/icon-192.png', 'assets/img/icons/icon-512.png', 'assets/img/icons/icon-maskable-512.png', 'assets/img/og/og-default.png', 'site.webmanifest', 'robots.txt', 'sitemap.xml', '404.html'];
++for (const f of must) if (!existsSync(join(root, f))) fail(`missing file: ${f}`);
++if (existsSync(join(root, 'assets/img/og/og-default.png'))) {
++  const b = readFileSync(join(root, 'assets/img/og/og-default.png')); const w = b.readUInt32BE(16), h = b.readUInt32BE(20);
++  if (w !== 1200 || h !== 630) fail(`assets/img/og/og-default.png is ${w}x${h}, must be 1200x630`);
++  if (b.length > 300 * 1024) warn(`og-default.png is ${(b.length / 1024) | 0} KB (keep it under 300 KB; some networks drop larger cards)`);
++}
++try { const m = JSON.parse(read('site.webmanifest')); for (const i of m.icons || []) if (!existsSync(join(root, i.src))) fail(`site.webmanifest: icon not found: ${i.src}`); } catch (e) { fail(`site.webmanifest is not valid JSON (${e.message})`); }
++if (existsSync(join(root, 'robots.txt')) && !/^Sitemap: https:\/\//m.test(read('robots.txt'))) fail('robots.txt has no absolute Sitemap line');
++
++/* ---- 4. local references exist ---- */
++const refOk = (from, ref) => {
++  if (!ref || /^(https?:|mailto:|tel:|data:|#|javascript:)/.test(ref)) return true;
++  const clean = ref.split('#')[0].split('?')[0]; if (!clean) return true;
++  return existsSync(join(root, dirname(from), clean));
++};
++for (const f of pages) {
++  const s = read(f);
++  for (const m of s.matchAll(/(?:href|src|srcset)="([^"]+)"/g)) { if (m[1].includes('{')) continue; if (!refOk(f, m[1].split(/\s+/)[0])) fail(`${f}: broken reference "${m[1]}"`); }
++  for (const m of s.matchAll(/<img\b[^>]*>/g)) if (!/\balt=/.test(m[0])) warn(`${f}: <img> without alt`);
++}
++for (const f of walk('assets/data').filter((x) => x.endsWith('.js'))) {
++  for (const m of read(f).matchAll(/["'](assets\/[^"']+\.(?:png|jpe?g|webp|svg|gif|mp4|webm|woff2?))["']/g)) if (!existsSync(join(root, m[1]))) fail(`${f}: file not found "${m[1]}"`);
++}
++for (const f of walk('assets/css').filter((x) => x.endsWith('.css'))) {
++  for (const m of read(f).matchAll(/url\(["']?([^"')]+)["']?\)/g)) if (!/^(data:|https?:|#|%23)/.test(m[1]) && !existsSync(join(root, dirname(f), m[1].split(/[?#]/)[0]))) fail(`${f}: url() not found "${m[1]}"`);
++}
++
++/* ---- 5. old claims and template leftovers (site files only — docs and ledgers talk about them on purpose) ---- */
++const banned = [[/\b8\.9\s*ms\b/i, '"8.9 ms" latency claim'], [/99\.99\d*\s*%?/, '"99.99x%" uptime/SLA claim'], [/trusted by hundreds|hundreds of (?:clients|companies|customers|teams)/i, '"hundreds" claim'],
++  [/award[- ]winning/i, '"award winning" claim'], [/fundednext/i, 'FundedNext (old template)'], [/\btrading\b/i, '"trading" (old template wording)'], [/institutional/i, '"institutional" (old template wording)'],
++  [/cdn\.tailwindcss\.com/i, 'Tailwind CDN'], [/fonts\.googleapis\.com|fonts\.gstatic\.com/i, 'Google Fonts'], [/material[- ]symbols/i, 'Material Symbols']];
++const siteFiles = [...pages, ...walk('assets').filter((f) => /\.(js|css|html|json)$/.test(f)), 'site.webmanifest', 'robots.txt', 'sitemap.xml'];
++for (const f of siteFiles) { const s = read(f); for (const [re, what] of banned) if (re.test(s)) fail(`${f}: ${what}`); }
++
++/* ---- report ---- */
++if (warns.length) console.log('Warnings:\n' + warns.map((w) => `  ! ${w}`).join('\n') + '\n');
++if (fails.length) { console.error('Launch gate FAILED:\n' + fails.map((m) => `  ✗ ${m}`).join('\n')); process.exit(1); }
++console.log(`Launch gate passed (${pages.length} pages checked).`);
++console.log([
++  '\nStill to do by hand (cannot be checked from here):',
++  '  1. Web3Forms dashboard → restrict the access key to the production domain.',
++  '  2. Send one real test message from contact.html and one from apply.html on the live domain.',
++  '  3. Confirm the public email on the site is the one you want.',
++  '  4. Deploy only the site files (index/pages, assets/, favicon.ico, site.webmanifest, robots.txt, sitemap.xml, 404.html) — not docs/, ledger/, scripts/, patches/.'
++].join('\n'));
+diff --git a/scripts/sync-site.mjs b/scripts/sync-site.mjs
+new file mode 100644
+index 0000000..3061b7f
+--- /dev/null
++++ b/scripts/sync-site.mjs
+@@ -0,0 +1,132 @@
++#!/usr/bin/env node
++/* Derived site files: everything that depends on the public address or on a data file.
++ *   node scripts/sync-site.mjs          rewrite the files
++ *   node scripts/sync-site.mjs --check  exit 1 if any file is out of date
++ * Source of truth: NEXT.site.url (assets/data/site.js) · NEXT.projects · NEXT.team · NEXT.roles.
++ * SITE_URL=https://example.org node scripts/sync-site.mjs   overrides the address for one run (testing).
++ *
++ * Writes
++ *   <!-- seo -->…<!-- /seo -->        in each page's <head>: canonical, icons, manifest, Open Graph, Twitter card
++ *                                     (+ Organization JSON-LD on index.html). Pages get it by containing the marker pair.
++ *   <!-- seo:base -->…<!-- /seo:base --> 404.html only: makes its relative links work from any missing address.
++ *   <!-- roles -->…<!-- /roles -->    career.html: the open-roles list, from assets/data/roles.js
++ *   sitemap.xml, robots.txt
++ * Titles and descriptions are read from each page's own <title> / <meta name="description"> — edit them there.
++ * Owned by S7. */
++import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
++import { fileURLToPath } from 'node:url';
++import { dirname, join } from 'node:path';
++import vm from 'node:vm';
++
++const root = join(dirname(fileURLToPath(import.meta.url)), '..');
++const check = process.argv.includes('--check');
++
++/* ---- data: evaluate the browser data files in a sandbox ---- */
++function load(file) {
++  const sb = {}; sb.window = sb; vm.runInNewContext(readFileSync(join(root, 'assets/data', file), 'utf8'), sb);
++  return sb.NEXT;
++}
++const N = { ...load('site.js'), ...load('projects.js'), ...load('team.js'), ...load('roles.js') };
++const site = N.site;
++const url = (process.env.SITE_URL || site.url || '').replace(/\/+$/, '');
++const basePath = (() => { try { return new URL(url).pathname.replace(/\/?$/, '/'); } catch { return '/'; } })();
++const abs = (p) => url + '/' + p.replace(/^\//, '');
++
++const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
++const attr = (s) => s;                       // already-escaped HTML read from a page is reused as is
++const OG = { path: 'assets/img/og/og-default.png', w: 1200, h: 630 };
++const alt = `${site.name} — ${site.tagline}`;
++
++/* pages: kind 'full' = canonical + social cards, 'icons' = icons only (noindex pages). Anything else is skipped. */
++const kind = { '404.html': 'icons', 'styleguide.html': 'icons' };
++const noSitemap = new Set(['404.html', 'styleguide.html', 'products.html', 'project.html']);   // project.html is a template: each real project is listed as project.html?p=<slug>
++const order = ['index.html', 'work.html', 'films.html', 'studio.html', 'recognition.html', 'career.html', 'apply.html', 'contact.html'];
++
++const icons = [
++  '<link rel="icon" href="favicon.ico" sizes="48x48">',
++  '<link rel="icon" href="assets/img/icons/icon.svg" type="image/svg+xml" sizes="any">',
++  '<link rel="apple-touch-icon" href="assets/img/icons/apple-touch-icon.png">',
++  '<link rel="manifest" href="site.webmanifest">'
++];
++
++function jsonLd() {
++  const o = {
++    '@context': 'https://schema.org', '@type': 'Organization', name: site.name, url: url + '/', slogan: site.tagline, description: site.blurb,
++    logo: abs('assets/img/icons/icon-512.png'), email: site.email,
++    location: (site.hubs || []).map((h) => ({ '@type': 'Place', name: h.name, address: h.name })),
++    founder: (N.team || []).map((t) => ({ '@type': 'Person', name: t.name, jobTitle: t.role }))
++  };
++  return '<script type="application/ld+json">\n' + JSON.stringify(o, null, 2).replace(/</g, '\\u003c') + '\n</script>';
++}
++
++function seoBlock(file, src) {
++  const lines = [];
++  if (kind[file] !== 'icons') {
++    const title = (src.match(/<title>([\s\S]*?)<\/title>/) || [])[1] || '', desc = (src.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '';
++    const canon = file === 'index.html' ? url + '/' : abs(file);
++    lines.push(`<link rel="canonical" href="${canon}">`);
++    lines.push(...icons);
++    lines.push('<meta property="og:type" content="website">', `<meta property="og:site_name" content="${esc(site.name)}">`, '<meta property="og:locale" content="en_US">',
++      `<meta property="og:title" content="${attr(title)}">`, `<meta property="og:description" content="${attr(desc)}">`, `<meta property="og:url" content="${canon}">`,
++      `<meta property="og:image" content="${abs(OG.path)}">`, `<meta property="og:image:width" content="${OG.w}">`, `<meta property="og:image:height" content="${OG.h}">`, `<meta property="og:image:alt" content="${esc(alt)}">`,
++      '<meta name="twitter:card" content="summary_large_image">', `<meta name="twitter:title" content="${attr(title)}">`, `<meta name="twitter:description" content="${attr(desc)}">`,
++      `<meta name="twitter:image" content="${abs(OG.path)}">`, `<meta name="twitter:image:alt" content="${esc(alt)}">`);
++    if (file === 'index.html') lines.push(jsonLd());
++  } else lines.push(...icons);
++  return lines.join('\n');
++}
++
++/* 404.html is served for any missing address (/a/b/c), where "assets/…" would not resolve. A base element fixes that,
++   but only when the page is not being opened at its own address (so local previews keep working). */
++const baseBlock = () => `<script>(function(){if(/404\\.html$/.test(location.pathname))return;var b=document.createElement('base');b.href=${JSON.stringify(basePath)};document.head.appendChild(b);})();</script>`;
++
++function rolesBlock() {
++  return (N.roles || []).map((r) => `      <li class="role" id="${esc(r.slug)}" data-reveal>
++        <a class="role__row" href="apply.html?role=${esc(r.slug)}">
++          <span class="role__title">${esc(r.title)}</span>
++          <span class="role__go">Apply</span>
++        </a>
++        <div class="role__body">
++          <p class="role__text">${esc(r.text)}</p>
++          <ul class="tags">
++${(r.tags || []).map((t) => `            <li>${esc(t)}</li>`).join('\n')}
++          </ul>
++        </div>
++      </li>`).join('\n');
++}
++
++const swap = (src, name, body) => {
++  const re = new RegExp(`<!-- ${name} -->[\\s\\S]*?<!-- /${name} -->`);
++  return re.test(src) ? src.replace(re, () => `<!-- ${name} -->\n${body}\n<!-- /${name} -->`) : src;
++};
++
++let stale = 0;
++const touch = (name, next, prev) => {
++  if (next === prev) { console.log(`ok     ${name}`); return; }
++  stale++;
++  if (check) console.log(`STALE  ${name}`); else { writeFileSync(join(root, name), next); console.log(`synced ${name}`); }
++};
++
++const pages = readdirSync(root).filter((f) => f.endsWith('.html')).sort();
++for (const file of pages) {
++  const prev = readFileSync(join(root, file), 'utf8');
++  if (!prev.includes('<!-- seo -->')) { console.log(`skip   ${file} (no seo marker)`); continue; }
++  let next = swap(prev, 'seo', seoBlock(file, prev));
++  if (file === '404.html') next = swap(next, 'seo:base', baseBlock());
++  if (file === 'career.html') next = swap(next, 'roles', rolesBlock());
++  touch(file, next, prev);
++}
++
++/* ---- sitemap.xml ---- */
++const urls = pages.filter((f) => !noSitemap.has(f) && readFileSync(join(root, f), 'utf8').includes('<!-- seo -->')).sort((a, b) => (order.indexOf(a) + 1 || 99) - (order.indexOf(b) + 1 || 99) || a.localeCompare(b)).map((f) => (f === 'index.html' ? url + '/' : abs(f)));
++const projects = (N.projects || []).filter((p) => !p.sample).map((p) => abs(`project.html?p=${encodeURIComponent(p.slug)}`));
++const sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
++  [...urls, ...projects].map((u) => `  <url><loc>${esc(u)}</loc></url>`).join('\n') + '\n</urlset>\n';
++const read = (f) => { try { return readFileSync(join(root, f), 'utf8'); } catch { return ''; } };
++touch('sitemap.xml', sitemap, read('sitemap.xml'));
++
++/* ---- robots.txt: crawl everything on the site; keep crawlers out of the project's working files if they get deployed ---- */
++const robots = `User-agent: *\nAllow: /\n${['docs', 'ledger', 'scripts', 'patches'].map((d) => `Disallow: ${basePath}${d}/`).join('\n')}\n\nSitemap: ${abs('sitemap.xml')}\n`;
++touch('robots.txt', robots, read('robots.txt'));
++
++if (check && stale) { console.error(`\n${stale} file(s) out of date — run: node scripts/sync-site.mjs`); process.exit(1); }
+diff --git a/site.webmanifest b/site.webmanifest
+new file mode 100644
+index 0000000..bd0b2b4
+--- /dev/null
++++ b/site.webmanifest
+@@ -0,0 +1,28 @@
++{
++  "name": "Next Inc.",
++  "short_name": "Next Inc.",
++  "description": "Where research becomes working software.",
++  "start_url": "./",
++  "scope": "./",
++  "display": "browser",
++  "background_color": "#F5F0E6",
++  "theme_color": "#F5F0E6",
++  "icons": [
++    {
++      "src": "assets/img/icons/icon-192.png",
++      "sizes": "192x192",
++      "type": "image/png"
++    },
++    {
++      "src": "assets/img/icons/icon-512.png",
++      "sizes": "512x512",
++      "type": "image/png"
++    },
++    {
++      "src": "assets/img/icons/icon-maskable-512.png",
++      "sizes": "512x512",
++      "type": "image/png",
++      "purpose": "maskable"
++    }
++  ]
++}
+diff --git a/sitemap.xml b/sitemap.xml
+new file mode 100644
+index 0000000..74cfece
+--- /dev/null
++++ b/sitemap.xml
+@@ -0,0 +1,12 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
++  <url><loc>https://www.wearenext.tech/</loc></url>
++  <url><loc>https://www.wearenext.tech/work.html</loc></url>
++  <url><loc>https://www.wearenext.tech/films.html</loc></url>
++  <url><loc>https://www.wearenext.tech/studio.html</loc></url>
++  <url><loc>https://www.wearenext.tech/recognition.html</loc></url>
++  <url><loc>https://www.wearenext.tech/career.html</loc></url>
++  <url><loc>https://www.wearenext.tech/apply.html</loc></url>
++  <url><loc>https://www.wearenext.tech/contact.html</loc></url>
++  <url><loc>https://www.wearenext.tech/project.html?p=mini-me</loc></url>
++</urlset>
+diff --git a/studio.html b/studio.html
+index 3590265..330c01e 100644
+--- a/studio.html
++++ b/studio.html
+@@ -8,8 +8,31 @@
+ <meta name="theme-color" content="#F5F0E6">
+ <link rel="preload" href="assets/fonts/cmu-serif-500-roman.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="preload" href="assets/fonts/cmu-serif-700-roman.woff2" as="font" type="font/woff2" crossorigin>
++<link rel="preload" href="assets/fonts/cmu-serif-700-italic.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="stylesheet" href="assets/css/site.css">
+ <link rel="stylesheet" href="assets/css/pages/studio.css">
++<!-- seo -->
++<link rel="canonical" href="https://www.wearenext.tech/studio.html">
++<link rel="icon" href="favicon.ico" sizes="48x48">
++<link rel="icon" href="assets/img/icons/icon.svg" type="image/svg+xml" sizes="any">
++<link rel="apple-touch-icon" href="assets/img/icons/apple-touch-icon.png">
++<link rel="manifest" href="site.webmanifest">
++<meta property="og:type" content="website">
++<meta property="og:site_name" content="Next Inc.">
++<meta property="og:locale" content="en_US">
++<meta property="og:title" content="Studio — Next Inc.">
++<meta property="og:description" content="Meet the founders of Next Inc. and the two hubs — Pennsylvania, USA and Rajshahi, Bangladesh.">
++<meta property="og:url" content="https://www.wearenext.tech/studio.html">
++<meta property="og:image" content="https://www.wearenext.tech/assets/img/og/og-default.png">
++<meta property="og:image:width" content="1200">
++<meta property="og:image:height" content="630">
++<meta property="og:image:alt" content="Next Inc. — Where research becomes working software.">
++<meta name="twitter:card" content="summary_large_image">
++<meta name="twitter:title" content="Studio — Next Inc.">
++<meta name="twitter:description" content="Meet the founders of Next Inc. and the two hubs — Pennsylvania, USA and Rajshahi, Bangladesh.">
++<meta name="twitter:image" content="https://www.wearenext.tech/assets/img/og/og-default.png">
++<meta name="twitter:image:alt" content="Next Inc. — Where research becomes working software.">
++<!-- /seo -->
+ </head>
+ <body>
+ <!-- shell:header -->
+@@ -36,8 +59,8 @@
+     <a class="menu__link" href="recognition.html"><span>04</span>Recognition</a>
+     <a class="menu__link" href="career.html"><span>05</span>Careers</a>
+     <a class="menu__link" href="contact.html"><span>06</span>Start a project</a>
++    <p class="menu__foot">Pennsylvania, USA · Rajshahi, Bangladesh</p>
+   </nav>
+-  <p class="menu__foot">Pennsylvania, USA · Rajshahi, Bangladesh</p>
+ </div>
+ <!-- /shell:header -->
+ <main id="main">
+@@ -142,11 +165,11 @@
+     <p class="mt-s"><a class="btn btn--room" href="contact.html">Start a project</a></p>
+     <div class="footer__grid">
+       <div class="footer__brand">
+-        <h3>Next Inc.</h3>
++        <h2>Next Inc.</h2>
+         <p style="max-width:30em">An innovation lab and full-stack technology partner &mdash; bridging cutting-edge research and practical application.</p>
+       </div>
+       <div>
+-        <h3>Navigate</h3>
++        <h2>Navigate</h2>
+         <ul class="footer__list">
+           <li><a href="work.html">Work</a></li>
+           <li><a href="films.html">Films</a></li>
+@@ -156,7 +179,7 @@
+         </ul>
+       </div>
+       <div>
+-        <h3>Hubs</h3>
++        <h2>Hubs</h2>
+         <ul class="footer__list">
+           <li>Pennsylvania, USA<br><i>Operations</i></li>
+           <li>Vodra, Rajshahi, Bangladesh<br><i>Engineering &amp; R&amp;D</i></li>
+diff --git a/styleguide.html b/styleguide.html
+index 13ff530..29aa463 100644
+--- a/styleguide.html
++++ b/styleguide.html
+@@ -8,6 +8,7 @@
+ <meta name="theme-color" content="#F5F0E6">
+ <link rel="preload" href="assets/fonts/cmu-serif-500-roman.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="preload" href="assets/fonts/cmu-serif-700-roman.woff2" as="font" type="font/woff2" crossorigin>
++<link rel="preload" href="assets/fonts/cmu-serif-700-italic.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="stylesheet" href="assets/css/site.css">
+ <style>
+   .sw{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gap)}
+@@ -17,6 +18,12 @@
+   .sg-h{margin:0 0 1.4rem;padding-top:1rem;border-top:1px solid var(--ink);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+   .sg{padding-block:clamp(2.5rem,5vw,4.5rem)}
+ </style>
++<!-- seo -->
++<link rel="icon" href="favicon.ico" sizes="48x48">
++<link rel="icon" href="assets/img/icons/icon.svg" type="image/svg+xml" sizes="any">
++<link rel="apple-touch-icon" href="assets/img/icons/apple-touch-icon.png">
++<link rel="manifest" href="site.webmanifest">
++<!-- /seo -->
+ </head>
+ <body>
+ <!-- shell:header -->
+@@ -43,8 +50,8 @@
+     <a class="menu__link" href="recognition.html"><span>04</span>Recognition</a>
+     <a class="menu__link" href="career.html"><span>05</span>Careers</a>
+     <a class="menu__link" href="contact.html"><span>06</span>Start a project</a>
++    <p class="menu__foot">Pennsylvania, USA · Rajshahi, Bangladesh</p>
+   </nav>
+-  <p class="menu__foot">Pennsylvania, USA · Rajshahi, Bangladesh</p>
+ </div>
+ <!-- /shell:header -->
+ <main id="main">
+@@ -154,11 +161,11 @@
+     <p class="mt-s"><a class="btn btn--room" href="contact.html">Start a project</a></p>
+     <div class="footer__grid">
+       <div class="footer__brand">
+-        <h3>Next Inc.</h3>
++        <h2>Next Inc.</h2>
+         <p style="max-width:30em">An innovation lab and full-stack technology partner &mdash; bridging cutting-edge research and practical application.</p>
+       </div>
+       <div>
+-        <h3>Navigate</h3>
++        <h2>Navigate</h2>
+         <ul class="footer__list">
+           <li><a href="work.html">Work</a></li>
+           <li><a href="films.html">Films</a></li>
+@@ -168,7 +175,7 @@
+         </ul>
+       </div>
+       <div>
+-        <h3>Hubs</h3>
++        <h2>Hubs</h2>
+         <ul class="footer__list">
+           <li>Pennsylvania, USA<br><i>Operations</i></li>
+           <li>Vodra, Rajshahi, Bangladesh<br><i>Engineering &amp; R&amp;D</i></li>
+diff --git a/work.html b/work.html
+index bcae9e2..9d0dd75 100644
+--- a/work.html
++++ b/work.html
+@@ -8,8 +8,31 @@
+ <meta name="theme-color" content="#F5F0E6">
+ <link rel="preload" href="assets/fonts/cmu-serif-500-roman.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="preload" href="assets/fonts/cmu-serif-700-roman.woff2" as="font" type="font/woff2" crossorigin>
++<link rel="preload" href="assets/fonts/cmu-serif-700-italic.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="stylesheet" href="assets/css/site.css">
+ <link rel="stylesheet" href="assets/css/pages/work.css">
++<!-- seo -->
++<link rel="canonical" href="https://www.wearenext.tech/work.html">
++<link rel="icon" href="favicon.ico" sizes="48x48">
++<link rel="icon" href="assets/img/icons/icon.svg" type="image/svg+xml" sizes="any">
++<link rel="apple-touch-icon" href="assets/img/icons/apple-touch-icon.png">
++<link rel="manifest" href="site.webmanifest">
++<meta property="og:type" content="website">
++<meta property="og:site_name" content="Next Inc.">
++<meta property="og:locale" content="en_US">
++<meta property="og:title" content="Work — Next Inc.">
++<meta property="og:description" content="Selected projects by Next Inc.: websites, mobile apps, SaaS platforms and AI systems — each with a short case study.">
++<meta property="og:url" content="https://www.wearenext.tech/work.html">
++<meta property="og:image" content="https://www.wearenext.tech/assets/img/og/og-default.png">
++<meta property="og:image:width" content="1200">
++<meta property="og:image:height" content="630">
++<meta property="og:image:alt" content="Next Inc. — Where research becomes working software.">
++<meta name="twitter:card" content="summary_large_image">
++<meta name="twitter:title" content="Work — Next Inc.">
++<meta name="twitter:description" content="Selected projects by Next Inc.: websites, mobile apps, SaaS platforms and AI systems — each with a short case study.">
++<meta name="twitter:image" content="https://www.wearenext.tech/assets/img/og/og-default.png">
++<meta name="twitter:image:alt" content="Next Inc. — Where research becomes working software.">
++<!-- /seo -->
+ </head>
+ <body>
+ <!-- shell:header -->
+@@ -36,8 +59,8 @@
+     <a class="menu__link" href="recognition.html"><span>04</span>Recognition</a>
+     <a class="menu__link" href="career.html"><span>05</span>Careers</a>
+     <a class="menu__link" href="contact.html"><span>06</span>Start a project</a>
++    <p class="menu__foot">Pennsylvania, USA · Rajshahi, Bangladesh</p>
+   </nav>
+-  <p class="menu__foot">Pennsylvania, USA · Rajshahi, Bangladesh</p>
+ </div>
+ <!-- /shell:header -->
+ <main id="main">
+@@ -71,11 +94,11 @@
+     <p class="mt-s"><a class="btn btn--room" href="contact.html">Start a project</a></p>
+     <div class="footer__grid">
+       <div class="footer__brand">
+-        <h3>Next Inc.</h3>
++        <h2>Next Inc.</h2>
+         <p style="max-width:30em">An innovation lab and full-stack technology partner &mdash; bridging cutting-edge research and practical application.</p>
+       </div>
+       <div>
+-        <h3>Navigate</h3>
++        <h2>Navigate</h2>
+         <ul class="footer__list">
+           <li><a href="work.html">Work</a></li>
+           <li><a href="films.html">Films</a></li>
+@@ -85,7 +108,7 @@
+         </ul>
+       </div>
+       <div>
+-        <h3>Hubs</h3>
++        <h2>Hubs</h2>
+         <ul class="footer__list">
+           <li>Pennsylvania, USA<br><i>Operations</i></li>
+           <li>Vodra, Rajshahi, Bangladesh<br><i>Engineering &amp; R&amp;D</i></li>
+-- 
+2.43.0
+
+
+From 28af7d97dff964191d9e0ac730a5b836adaf1890 Mon Sep 17 00:00:00 2001
+From: S7 <s7@local>
+Date: Sat, 7 Nov 2026 12:41:52 +0000
+Subject: [PATCH 2/3] S7: a11y fixes, static base for 404, dev server serves
+ 404.html
+
+---
+ 404.html                |  2 +-
+ assets/css/site.css     |  4 +++-
+ assets/js/pages/work.js |  2 +-
+ assets/js/render.js     | 11 ++++++-----
+ scripts/serve.mjs       |  2 ++
+ scripts/sync-site.mjs   |  9 +++++----
+ studio.html             |  2 +-
+ styleguide.html         |  2 +-
+ 8 files changed, 20 insertions(+), 14 deletions(-)
+
+diff --git a/404.html b/404.html
+index f7ec5a5..c543fe7 100644
+--- a/404.html
++++ b/404.html
+@@ -4,7 +4,7 @@
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1">
+ <!-- seo:base -->
+-<script>(function(){if(/404\.html$/.test(location.pathname))return;var b=document.createElement('base');b.href="/";document.head.appendChild(b);})();</script>
++<base href="/">
+ <!-- /seo:base -->
+ <title>Page not found — Next Inc.</title>
+ <meta name="robots" content="noindex">
+diff --git a/assets/css/site.css b/assets/css/site.css
+index 823cfe5..6beb1ed 100644
+--- a/assets/css/site.css
++++ b/assets/css/site.css
+@@ -186,13 +186,14 @@ sup{font-size:.62em;line-height:0;vertical-align:.5em;font-weight:700;color:var(
+ .site-header__in{height:100%;display:flex;align-items:center;justify-content:space-between;gap:2rem}
+ .wordmark{display:inline-flex;align-items:baseline;gap:.4em;color:var(--ink);font-size:1.55rem;font-weight:700;letter-spacing:-.02em;line-height:1}
+ .wordmark i{color:var(--crimson);font-weight:700;padding-inline:.02em}   /* Ne𝑥t — x, the unknown */
+-.wordmark small{font-size:.5em;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);transform:translateY(-.1em)}
++.wordmark small{font-size:.5em;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);transform:translateY(-.1em)}
+ .nav{display:none;align-items:center;gap:clamp(1rem,2.4vw,2.2rem)}
+ .nav a{position:relative;font-size:.76rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);padding:.5rem 0}
+ .nav a::after{content:"";position:absolute;left:0;right:0;bottom:.15rem;height:1px;background:var(--crimson);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease)}
+ .nav a:hover::after,.nav a[aria-current="page"]::after{transform:scaleX(1)}
+ .nav a[aria-current="page"]{color:var(--ink)}
+ .nav .btn{padding:.85em 1.2em;color:var(--paper)}
++.nav .btn[aria-current="page"]{color:var(--paper)}
+ .nav .btn::after{content:"→"}
+ .nav .btn:hover::after{transform:translateX(.3em)}
+ .nav .btn::before{content:none}
+@@ -462,3 +463,4 @@ a.plate:hover .plate__frame>.plate__logo{transform:translate(-50%,-50%) scale(1.
+ .crumbs{font-size:.74rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+ .crumbs a:hover{color:var(--crimson)}
+ .crumbs span{color:var(--rule);margin-inline:.6em}
++.crumbs span.cur{color:var(--ink-2);margin-inline:0}
+diff --git a/assets/js/pages/work.js b/assets/js/pages/work.js
+index 6970b23..0e17e95 100644
+--- a/assets/js/pages/work.js
++++ b/assets/js/pages/work.js
+@@ -91,7 +91,7 @@
+       var logo = p.logo ? '<img class="plate__logo" src="' + e(p.logo) + '" alt="' + e(p.title) + ' logo" width="512" height="512">' : '';
+       var hero;
+       if (film) {
+-        hero = '<button type="button" class="plate cs-plate" data-film="' + e(film.id) + '" data-cursor="Play" aria-label="Play film: ' + e(film.title) + '"><span class="plate__frame" style="--ar:16/9">' + cover + logo +
++        hero = '<button type="button" class="plate cs-plate" data-film="' + e(film.id) + '" data-cursor="Play" aria-label="Play film: ' + e(film.title + (film.duration ? ', ' + film.duration : '')) + '"><span class="plate__frame" style="--ar:16/9">' + cover + logo +
+           '<span class="film__play" aria-hidden="true"></span><span class="film__time">' + e(film.duration || '') + '</span></span></button>' +
+           '<figcaption class="cap"><span class="cap__text"><b>Fig. 1.</b> ' + e(p.title) + ' &mdash; ' + e(film.title) + '.</span></figcaption>';
+       } else {
+diff --git a/assets/js/render.js b/assets/js/render.js
+index 87c1895..fd2025e 100644
+--- a/assets/js/render.js
++++ b/assets/js/render.js
+@@ -37,17 +37,18 @@
+     film: function (f, o) {
+       o = o || {};
+       var media = f.poster ? '<img src="' + e(f.poster) + '" alt="" loading="lazy" decoding="async">' : NEXT.art.cover(f);
+-      return '<button type="button" class="film' + (f.sample ? ' is-sample' : '') + '" data-film="' + e(f.id) + '" data-cursor="Play" aria-label="Play: ' + e(f.title) + '"' + (o.reveal === false ? '' : ' data-reveal') + d(o.delay || 0) + '>' +
++      return '<button type="button" class="film' + (f.sample ? ' is-sample' : '') + '" data-film="' + e(f.id) + '" data-cursor="Play"' + (o.reveal === false ? '' : ' data-reveal') + d(o.delay || 0) + '>' +
++        '<span class="sr-only">Play' + (o.bare ? ': ' + e(f.title) + '. ' : ' ') + '</span>' +     /* part of the name, so the name always contains the visible text */
+         '<span class="film__frame">' + media + '<span class="film__play" aria-hidden="true"></span><span class="film__time">' + e(f.duration || '') + '</span></span>' +
+         (o.bare ? '' : '<span class="film__ttl">' + e(f.title) + '</span><span class="film__sub">' + e(f.sub || '') + '</span>') + '</button>';
+     },
+ 
+     /* programme list of films (rows) */
+     reel: function (films) {
+-      return '<div class="reel" role="list">' + films.map(function (f, i) {
+-        return '<button type="button" class="reel__item" role="listitem" data-film="' + e(f.id) + '" data-reveal' + d(i) + '><span class="reel__no">' + pad(i + 1) + '</span>' +
+-          '<span class="reel__name">' + e(f.title) + '<small>' + e(f.sub || '') + '</small></span><span class="reel__time">' + e(f.duration || '') + '</span></button>';
+-      }).join('') + '</div>';
++      return '<ol class="reel">' + films.map(function (f, i) {
++        return '<li data-reveal' + d(i) + '><button type="button" class="reel__item" data-film="' + e(f.id) + '"><span class="reel__no">' + pad(i + 1) + '</span>' +
++          '<span class="reel__name">' + e(f.title) + '<small>' + e(f.sub || '') + '</small></span><span class="reel__time">' + e(f.duration || '') + '</span></button></li>';
++      }).join('') + '</ol>';
+     },
+ 
+     /* achievements as numbered references */
+diff --git a/scripts/serve.mjs b/scripts/serve.mjs
+index 5798579..9768192 100644
+--- a/scripts/serve.mjs
++++ b/scripts/serve.mjs
+@@ -9,5 +9,7 @@ const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js':
+ createServer(async (req, res) => {
+   let p = normalize(decodeURIComponent(req.url.split('?')[0])).replace(/^(\.\.[\/\\])+/, ''); if (p.endsWith('/')) p += 'index.html';
+   try { const f = join(root, p); if ((await stat(f)).isFile()) { res.writeHead(200, { 'Content-Type': types[extname(f)] || 'application/octet-stream' }); return res.end(await readFile(f)); } } catch {}
++  /* like GitHub Pages / Netlify: a missing address gets 404.html with a 404 status */
++  try { const nf = await readFile(join(root, '404.html')); res.writeHead(404, { 'Content-Type': types['.html'] }); return res.end(nf); } catch {}
+   res.writeHead(404, { 'Content-Type': 'text/plain' }); res.end('404');
+ }).listen(port, () => console.log(`Next Inc. dev server → http://localhost:${port}`));
+diff --git a/scripts/sync-site.mjs b/scripts/sync-site.mjs
+index 3061b7f..4865d43 100644
+--- a/scripts/sync-site.mjs
++++ b/scripts/sync-site.mjs
+@@ -8,7 +8,7 @@
+  * Writes
+  *   <!-- seo -->…<!-- /seo -->        in each page's <head>: canonical, icons, manifest, Open Graph, Twitter card
+  *                                     (+ Organization JSON-LD on index.html). Pages get it by containing the marker pair.
+- *   <!-- seo:base -->…<!-- /seo:base --> 404.html only: makes its relative links work from any missing address.
++ *   <!-- seo:base -->…<!-- /seo:base --> 404.html only: a <base> (from the site address) so its relative links work from any missing address.
+  *   <!-- roles -->…<!-- /roles -->    career.html: the open-roles list, from assets/data/roles.js
+  *   sitemap.xml, robots.txt
+  * Titles and descriptions are read from each page's own <title> / <meta name="description"> — edit them there.
+@@ -76,9 +76,10 @@ function seoBlock(file, src) {
+   return lines.join('\n');
+ }
+ 
+-/* 404.html is served for any missing address (/a/b/c), where "assets/…" would not resolve. A base element fixes that,
+-   but only when the page is not being opened at its own address (so local previews keep working). */
+-const baseBlock = () => `<script>(function(){if(/404\\.html$/.test(location.pathname))return;var b=document.createElement('base');b.href=${JSON.stringify(basePath)};document.head.appendChild(b);})();</script>`;
++/* 404.html is served for any missing address (/a/b/c), where "assets/…" would not resolve against the page's own address.
++   A static <base> fixes that. It must be in the HTML, not added by a script: the browser starts fetching stylesheets and fonts before any script runs.
++   The "#main" links are re-pointed at the page itself by the small script at the end of 404.html, since a <base> would send them to the home page. */
++const baseBlock = () => `<base href="${basePath}">`;
+ 
+ function rolesBlock() {
+   return (N.roles || []).map((r) => `      <li class="role" id="${esc(r.slug)}" data-reveal>
+diff --git a/studio.html b/studio.html
+index 330c01e..3fc84bf 100644
+--- a/studio.html
++++ b/studio.html
+@@ -115,7 +115,7 @@
+       <h2 class="sec-head__title h2" id="hubs-h" data-split>Two <em>hubs</em></h2>
+       <p class="sec-head__intro">Operations in the United States, engineering and research in Bangladesh.</p>
+     </div>
+-    <figure class="hubs-fig" role="group" aria-label="Map of the two Next Inc. hubs: Pennsylvania, USA and Rajshahi, Bangladesh">
++    <figure class="hubs-fig" aria-label="Map of the two Next Inc. hubs: Pennsylvania, USA and Rajshahi, Bangladesh">
+       <div data-mount="map"></div>
+       <figcaption class="cap mt-s hubs-caps">
+         <span class="cap__text"><b>Fig. 1.</b> Two hubs, one lab.</span>
+diff --git a/styleguide.html b/styleguide.html
+index 29aa463..d2ef636 100644
+--- a/styleguide.html
++++ b/styleguide.html
+@@ -70,7 +70,7 @@
+     <div style="background:var(--ink-3);color:var(--paper)"><b>--ink-3</b>#6B6254 · muted (5.3:1)</div>
+     <div style="background:var(--crimson);color:var(--paper)"><b>--crimson</b>#C0102C · brand (5.5:1)</div>
+     <div style="background:var(--indigo);color:var(--paper)"><b>--indigo</b>#24307A · cover only</div>
+-    <div style="background:var(--ochre)"><b>--ochre</b>#C58A1E · decoration</div>
++    <div style="background:var(--ochre);color:var(--ink)"><b>--ochre</b>#C58A1E · decoration</div>
+     <div style="background:var(--forest);color:var(--paper)"><b>--forest</b>#1F5D49 · "live"</div>
+     <div style="background:var(--room);color:var(--room-ink)"><b>--room</b>#0F0D0C · screening room</div>
+     <div style="background:var(--room-3);color:var(--room-ink)"><b>--room-3</b>#26211E</div>
+-- 
+2.43.0
+
+
+From 90ac9429f7e7298417fbca195fe299c1268f00fa Mon Sep 17 00:00:00 2001
+From: S7 <s7@local>
+Date: Sat, 7 Nov 2026 12:45:29 +0000
+Subject: [PATCH 3/3] S7: descriptions, ledger, sync
+
+---
+ index.html                 |  6 +++---
+ ledger/S7-polish-launch.md | 22 ++++++++++++++++++----
+ project.html               |  6 +++---
+ recognition.html           |  6 +++---
+ 4 files changed, 27 insertions(+), 13 deletions(-)
+
+diff --git a/index.html b/index.html
+index 913eae6..6e34a21 100644
+--- a/index.html
++++ b/index.html
+@@ -4,7 +4,7 @@
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1">
+ <title>Next Inc. — Where research becomes working software</title>
+-<meta name="description" content="Next Inc. is an innovation lab and full-stack technology partner. We design and build websites, mobile apps, enterprise SaaS and AI / LLM systems — from Pennsylvania, USA and Rajshahi, Bangladesh.">
++<meta name="description" content="Next Inc. is an innovation lab and full-stack technology partner building websites, mobile apps, SaaS platforms and AI systems from Pennsylvania and Rajshahi.">
+ <meta name="theme-color" content="#F5F0E6">
+ <link rel="preload" href="assets/fonts/cmu-serif-500-roman.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="preload" href="assets/fonts/cmu-serif-700-roman.woff2" as="font" type="font/woff2" crossorigin>
+@@ -21,7 +21,7 @@
+ <meta property="og:site_name" content="Next Inc.">
+ <meta property="og:locale" content="en_US">
+ <meta property="og:title" content="Next Inc. — Where research becomes working software">
+-<meta property="og:description" content="Next Inc. is an innovation lab and full-stack technology partner. We design and build websites, mobile apps, enterprise SaaS and AI / LLM systems — from Pennsylvania, USA and Rajshahi, Bangladesh.">
++<meta property="og:description" content="Next Inc. is an innovation lab and full-stack technology partner building websites, mobile apps, SaaS platforms and AI systems from Pennsylvania and Rajshahi.">
+ <meta property="og:url" content="https://www.wearenext.tech/">
+ <meta property="og:image" content="https://www.wearenext.tech/assets/img/og/og-default.png">
+ <meta property="og:image:width" content="1200">
+@@ -29,7 +29,7 @@
+ <meta property="og:image:alt" content="Next Inc. — Where research becomes working software.">
+ <meta name="twitter:card" content="summary_large_image">
+ <meta name="twitter:title" content="Next Inc. — Where research becomes working software">
+-<meta name="twitter:description" content="Next Inc. is an innovation lab and full-stack technology partner. We design and build websites, mobile apps, enterprise SaaS and AI / LLM systems — from Pennsylvania, USA and Rajshahi, Bangladesh.">
++<meta name="twitter:description" content="Next Inc. is an innovation lab and full-stack technology partner building websites, mobile apps, SaaS platforms and AI systems from Pennsylvania and Rajshahi.">
+ <meta name="twitter:image" content="https://www.wearenext.tech/assets/img/og/og-default.png">
+ <meta name="twitter:image:alt" content="Next Inc. — Where research becomes working software.">
+ <script type="application/ld+json">
+diff --git a/ledger/S7-polish-launch.md b/ledger/S7-polish-launch.md
+index a76fe87..338a9f9 100644
+--- a/ledger/S7-polish-launch.md
++++ b/ledger/S7-polish-launch.md
+@@ -1,18 +1,32 @@
+ ---
+ stage: S7
+ name: Polish & launch
+-status: pending
+-owner: —
++status: in-progress
++owner: Claude (session 2; session 1 lost its uncommitted work to a sandbox reset)
+ depends: S2–S6
+ ---
+ ## Done
+-(nothing yet)
++- Domain set: `NEXT.site.url = https://www.wearenext.tech`. `scripts/sync-site.mjs` writes per-page canonical, Open Graph, Twitter cards, icons, manifest link, Organization JSON-LD (home), `sitemap.xml`, `robots.txt`, and the careers list from `assets/data/roles.js`.
++- Brand: SVG favicon (+dark variant), apple-touch, 192/512/maskable icons, `favicon.ico`, `site.webmanifest`, 1200×630 OG card (24 KB). Regenerate with `npm run brand`.
++- `404.html` in site voice; static `<base>` so it works at any depth (tested `/a/b/c`, `/nope`).
++- `scripts/check-launch.mjs` launch gate wired into `npm run prelaunch` (passes).
++- Roles moved to `assets/data/roles.js`; `forms.js` no longer holds a list (S6 request done). Favicon request (S6) done.
++- Accessibility: axe-core clean on 13 pages × (1440, 390), with mobile menu open and with lightbox open. Menu makes page inert while open.
++- Compat: `matchMedia().addListener` fallback; `color-mix()` fallbacks; image width/height; bold-italic font preload.
++- Project page social meta (og:url, twitter, own cover) uses the public domain.
++- Home weight ≈ 205 KB raw / ≈ 136 KB transferred.
+ 
+ ## Changed
++Pages (seo/roles markers, descriptions, footer h2, menu foot inside nav, preload): all `*.html` except `products.html`. New: `404.html`, `favicon.ico`, `site.webmanifest`, `robots.txt`, `sitemap.xml`, `assets/data/roles.js`, `assets/img/icons/*`, `assets/img/og/og-default.png`, `scripts/sync-site.mjs`, `scripts/check-launch.mjs`, `scripts/brand/*`. Edited: `assets/css/site.css`, `assets/css/pages/films.css`, `assets/js/core.js`, `render.js`, `pages/forms.js`, `pages/work.js`, `assets/data/team.js`, `scripts/serve.mjs`, `package.json`, `partials/*`.
+ 
+ ## Decisions
++- `<base href="/">` is static in 404.html (generated); assumes the site is served at the domain root.
++- Sample projects stay in the data (marked `sample: true`); they are excluded from the sitemap.
++- Public email left as `ariblabib360@gmail.com` pending owner confirmation.
+ 
+ ## Left to do
+-See docs/stages/S7-polish-launch.md
++See `S7-HANDOFF.md` (delivered next to this patch) for the full list.
+ 
+ ## Requests
++- Owner: real projects/films/recognition (17 samples), Web3Forms key restriction, live-site form tests, email confirmation.
++- Owner wants these added as projects when ready: `github.com/Unavailable4u/spherex-blink`, `github.com/shaikh-dotcom/MiniLocker`.
+diff --git a/project.html b/project.html
+index baa93e8..2f05073 100644
+--- a/project.html
++++ b/project.html
+@@ -4,7 +4,7 @@
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1">
+ <title>Case study — Next Inc.</title>
+-<meta name="description" content="A Next Inc. case study.">
++<meta name="description" content="A Next Inc. case study: the brief, our approach and the outcome for one project, with its film and figures.">
+ <meta name="theme-color" content="#F5F0E6">
+ <link rel="preload" href="assets/fonts/cmu-serif-500-roman.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="preload" href="assets/fonts/cmu-serif-700-roman.woff2" as="font" type="font/woff2" crossorigin>
+@@ -21,7 +21,7 @@
+ <meta property="og:site_name" content="Next Inc.">
+ <meta property="og:locale" content="en_US">
+ <meta property="og:title" content="Case study — Next Inc.">
+-<meta property="og:description" content="A Next Inc. case study.">
++<meta property="og:description" content="A Next Inc. case study: the brief, our approach and the outcome for one project, with its film and figures.">
+ <meta property="og:url" content="https://www.wearenext.tech/project.html">
+ <meta property="og:image" content="https://www.wearenext.tech/assets/img/og/og-default.png">
+ <meta property="og:image:width" content="1200">
+@@ -29,7 +29,7 @@
+ <meta property="og:image:alt" content="Next Inc. — Where research becomes working software.">
+ <meta name="twitter:card" content="summary_large_image">
+ <meta name="twitter:title" content="Case study — Next Inc.">
+-<meta name="twitter:description" content="A Next Inc. case study.">
++<meta name="twitter:description" content="A Next Inc. case study: the brief, our approach and the outcome for one project, with its film and figures.">
+ <meta name="twitter:image" content="https://www.wearenext.tech/assets/img/og/og-default.png">
+ <meta name="twitter:image:alt" content="Next Inc. — Where research becomes working software.">
+ <!-- /seo -->
+diff --git a/recognition.html b/recognition.html
+index 14b2588..0a7e3c8 100644
+--- a/recognition.html
++++ b/recognition.html
+@@ -4,7 +4,7 @@
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1">
+ <title>Recognition — Next Inc.</title>
+-<meta name="description" content="Awards, press, grants and milestones for Next Inc.">
++<meta name="description" content="Awards, press, grants and milestones for Next Inc., listed as numbered references with the organisation, year and a link to each source.">
+ <meta name="theme-color" content="#F5F0E6">
+ <link rel="preload" href="assets/fonts/cmu-serif-500-roman.woff2" as="font" type="font/woff2" crossorigin>
+ <link rel="preload" href="assets/fonts/cmu-serif-700-roman.woff2" as="font" type="font/woff2" crossorigin>
+@@ -21,7 +21,7 @@
+ <meta property="og:site_name" content="Next Inc.">
+ <meta property="og:locale" content="en_US">
+ <meta property="og:title" content="Recognition — Next Inc.">
+-<meta property="og:description" content="Awards, press, grants and milestones for Next Inc.">
++<meta property="og:description" content="Awards, press, grants and milestones for Next Inc., listed as numbered references with the organisation, year and a link to each source.">
+ <meta property="og:url" content="https://www.wearenext.tech/recognition.html">
+ <meta property="og:image" content="https://www.wearenext.tech/assets/img/og/og-default.png">
+ <meta property="og:image:width" content="1200">
+@@ -29,7 +29,7 @@
+ <meta property="og:image:alt" content="Next Inc. — Where research becomes working software.">
+ <meta name="twitter:card" content="summary_large_image">
+ <meta name="twitter:title" content="Recognition — Next Inc.">
+-<meta name="twitter:description" content="Awards, press, grants and milestones for Next Inc.">
++<meta name="twitter:description" content="Awards, press, grants and milestones for Next Inc., listed as numbered references with the organisation, year and a link to each source.">
+ <meta name="twitter:image" content="https://www.wearenext.tech/assets/img/og/og-default.png">
+ <meta name="twitter:image:alt" content="Next Inc. — Where research becomes working software.">
+ <!-- /seo -->
+-- 
+2.43.0
+
