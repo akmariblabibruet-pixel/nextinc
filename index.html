@@ -133,12 +133,15 @@
     </div>
 
     <figure class="hero__fig" data-reveal>
-      <div class="plate hero__plate" aria-hidden="true">
+      <button type="button" class="plate hero__plate" data-film="minilocker-film" data-cursor="Play" aria-label="Play film: MiniLocker &mdash; Blast Radius Zero, 2:50">
         <span class="plate__frame">
-          <span class="hero__art" data-parallax=".05" data-mount="reelart"></span>
+          <span class="hero__art" data-parallax=".05"><picture><source media="(max-width:700px)" srcset="assets/img/projects/minilocker/cover.webp"><img src="assets/img/films/minilocker-film.webp" alt="" width="1600" height="900" decoding="async" fetchpriority="high"></picture></span>
+          <span class="film__play" aria-hidden="true"></span>
+          <span class="hero__lab" aria-hidden="true">CH1 &middot; film</span>
+          <span class="film__time">2:50</span>
         </span>
-      </div>
-      <figcaption class="cap"><span class="cap__text"><b>Fig. 1.</b> A generative figure, drawn in code.</span></figcaption>
+      </button>
+      <figcaption class="cap"><span class="cap__text"><b>Fig. 1.</b> MiniLocker &mdash; Blast Radius Zero, a film for the Vultr Agent Rush hackathon.</span></figcaption>
     </figure>
   </section>
 

@@ -29,6 +29,10 @@
     if (f) { ff.innerHTML = R.film(f, {}); NEXT.init(ff); }
   }
 
+  /* hero film: if the film is ever removed from films.js, drop the hero figure instead of leaving a dead play button */
+  var hp = document.querySelector('.hero__plate[data-film]');
+  if (hp && !(NEXT.films || []).some(function (x) { return x.id === hp.getAttribute('data-film'); })) { var hf = hp.closest('figure'); if (hf) hf.hidden = true; }
+
   /* §2 — no films yet: say so instead of showing an empty screen */
   if (ff && !(NEXT.films || []).length) {
     ff.innerHTML = '<p class="lede">No films yet. We will publish them here when they are ready.</p>';
