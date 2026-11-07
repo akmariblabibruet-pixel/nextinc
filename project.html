@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project — Next Inc.</title>
+<meta name="description" content="A Next Inc. case study.">
+<meta name="theme-color" content="#F5F0E6">
+<link rel="preload" href="assets/fonts/cmu-serif-500-roman.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/cmu-serif-700-roman.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<!-- shell:header -->
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap site-header__in">
+    <a class="wordmark" href="index.html" aria-label="Next Inc. — home"><span>Ne<i>x</i>t</span> <small>Inc.</small></a>
+    <nav class="nav" aria-label="Primary">
+      <a href="work.html" aria-current="page">Work</a>
+      <a href="films.html">Films</a>
+      <a href="studio.html">Studio</a>
+      <a href="recognition.html">Recognition</a>
+      <a href="career.html">Careers</a>
+      <a class="btn" href="contact.html">Start a project</a>
+    </nav>
+    <button class="burger" type="button" data-menu-toggle aria-expanded="false" aria-controls="menu"><span data-menu-label>Menu</span><i></i></button>
+  </div>
+</header>
+<div class="menu" id="menu" aria-hidden="true">
+  <nav aria-label="Mobile">
+    <a class="menu__link" href="work.html" aria-current="page"><span>01</span>Work</a>
+    <a class="menu__link" href="films.html"><span>02</span>Films</a>
+    <a class="menu__link" href="studio.html"><span>03</span>Studio</a>
+    <a class="menu__link" href="recognition.html"><span>04</span>Recognition</a>
+    <a class="menu__link" href="career.html"><span>05</span>Careers</a>
+    <a class="menu__link" href="contact.html"><span>06</span>Start a project</a>
+  </nav>
+  <p class="menu__foot">Pennsylvania, USA · Rajshahi, Bangladesh</p>
+</div>
+<!-- /shell:header -->
+<main id="main">
+  <!-- STUB:S3 — replace with the full case-study template; reads ?p=<slug> from assets/data/projects.js -->
+  <section class="wrap page-head" id="project-root">
+    <p class="crumbs"><a href="work.html">Work</a><span>/</span><span style="color:inherit;margin:0" id="crumb">Project</span></p>
+    <h1 class="h1" id="p-title">Project</h1>
+    <p class="lede" id="p-sum"></p>
+  </section>
+</main>
+<!-- shell:footer -->
+<footer class="site-footer room">
+  <div class="wrap">
+    <p class="footer__big">Have a problem worth <em>solving?</em> Let&rsquo;s talk.</p>
+    <p class="mt-s"><a class="btn btn--room" href="contact.html">Start a project</a></p>
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <h3>Next Inc.</h3>
+        <p style="max-width:30em">An innovation lab and full-stack technology partner &mdash; bridging cutting-edge research and practical application.</p>
+      </div>
+      <div>
+        <h3>Navigate</h3>
+        <ul class="footer__list">
+          <li><a href="work.html">Work</a></li>
+          <li><a href="films.html">Films</a></li>
+          <li><a href="studio.html">Studio</a></li>
+          <li><a href="recognition.html">Recognition</a></li>
+          <li><a href="career.html">Careers</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Hubs</h3>
+        <ul class="footer__list">
+          <li>Pennsylvania, USA<br><i>Operations</i></li>
+          <li>Vodra, Rajshahi, Bangladesh<br><i>Engineering &amp; R&amp;D</i></li>
+        </ul>
+        <p class="mt-s"><a class="link" href="mailto:ariblabib360@gmail.com">ariblabib360@gmail.com</a></p>
+      </div>
+    </div>
+    <div class="footer__legal">
+      <span>&copy; <span data-year>2026</span> Next Inc. All rights reserved.</span>
+      <span>Set in Computer Modern &middot; Typeset on the web</span>
+    </div>
+  </div>
+  <div class="footer__word" aria-hidden="true">Ne<i>x</i>t</div>
+</footer>
+<!-- /shell:footer -->
+<script src="assets/data/site.js"></script>
+<script src="assets/data/projects.js"></script>
+<script src="assets/data/films.js"></script>
+<script src="assets/data/recognition.js"></script>
+<script src="assets/data/team.js"></script>
+<script src="assets/data/world.js"></script>
+<script src="assets/js/art.js"></script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/render.js"></script>
+<script>
+(function(){var s=new URLSearchParams(location.search).get('p');var p=(NEXT.projects||[]).filter(function(x){return x.slug===s})[0];
+if(!p){document.getElementById('p-title').textContent='Project not found';return}
+document.title=p.title+' — Next Inc.';document.getElementById('crumb').textContent=p.title;
+document.getElementById('p-title').textContent=p.title;document.getElementById('p-sum').textContent=p.summary||''})();
+</script>
+</body>
+</html>

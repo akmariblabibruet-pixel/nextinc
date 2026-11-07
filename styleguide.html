@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Style guide — Next Inc.</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#F5F0E6">
+<link rel="preload" href="assets/fonts/cmu-serif-500-roman.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/cmu-serif-700-roman.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+  .sw{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gap)}
+  @media(min-width:860px){.sw{grid-template-columns:repeat(4,1fr)}}
+  .sw div{padding:3.2rem .9rem .8rem;border:1px solid var(--ink);font-size:.8rem;line-height:1.35}
+  .sw b{display:block;font-size:.95rem}
+  .sg-h{margin:0 0 1.4rem;padding-top:1rem;border-top:1px solid var(--ink);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+  .sg{padding-block:clamp(2.5rem,5vw,4.5rem)}
+</style>
+</head>
+<body>
+<!-- shell:header -->
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap site-header__in">
+    <a class="wordmark" href="index.html" aria-label="Next Inc. — home"><span>Ne<i>x</i>t</span> <small>Inc.</small></a>
+    <nav class="nav" aria-label="Primary">
+      <a href="work.html">Work</a>
+      <a href="films.html">Films</a>
+      <a href="studio.html">Studio</a>
+      <a href="recognition.html">Recognition</a>
+      <a href="career.html">Careers</a>
+      <a class="btn" href="contact.html">Start a project</a>
+    </nav>
+    <button class="burger" type="button" data-menu-toggle aria-expanded="false" aria-controls="menu"><span data-menu-label>Menu</span><i></i></button>
+  </div>
+</header>
+<div class="menu" id="menu" aria-hidden="true">
+  <nav aria-label="Mobile">
+    <a class="menu__link" href="work.html"><span>01</span>Work</a>
+    <a class="menu__link" href="films.html"><span>02</span>Films</a>
+    <a class="menu__link" href="studio.html"><span>03</span>Studio</a>
+    <a class="menu__link" href="recognition.html"><span>04</span>Recognition</a>
+    <a class="menu__link" href="career.html"><span>05</span>Careers</a>
+    <a class="menu__link" href="contact.html"><span>06</span>Start a project</a>
+  </nav>
+  <p class="menu__foot">Pennsylvania, USA · Rajshahi, Bangladesh</p>
+</div>
+<!-- /shell:header -->
+<main id="main">
+<section class="wrap page-head">
+  <p class="kicker kicker--crimson smcp">Design system · internal</p>
+  <h1 class="h1" data-split>The <em>Monograph</em> style guide.</h1>
+  <p class="lede">Every component other stages may use. If it is not here, ask S1 before inventing it. Rules live in <span class="mono">docs/DESIGN_SYSTEM.md</span>.</p>
+</section>
+
+<section class="wrap sg">
+  <h2 class="sg-h">1 · Colour — paper, ink, and one loud red</h2>
+  <div class="sw">
+    <div style="background:var(--paper)"><b>--paper</b>#F5F0E6 · page</div>
+    <div style="background:var(--paper-2)"><b>--paper-2</b>#ECE5D6 · bands, hover</div>
+    <div style="background:var(--ink);color:var(--paper)"><b>--ink</b>#16120E · text, rules</div>
+    <div style="background:var(--ink-3);color:var(--paper)"><b>--ink-3</b>#6B6254 · muted (5.3:1)</div>
+    <div style="background:var(--crimson);color:var(--paper)"><b>--crimson</b>#C0102C · brand (5.5:1)</div>
+    <div style="background:var(--indigo);color:var(--paper)"><b>--indigo</b>#24307A · cover only</div>
+    <div style="background:var(--ochre)"><b>--ochre</b>#C58A1E · decoration</div>
+    <div style="background:var(--forest);color:var(--paper)"><b>--forest</b>#1F5D49 · "live"</div>
+    <div style="background:var(--room);color:var(--room-ink)"><b>--room</b>#0F0D0C · screening room</div>
+    <div style="background:var(--room-3);color:var(--room-ink)"><b>--room-3</b>#26211E</div>
+    <div style="background:var(--crimson-hi);color:var(--room)"><b>--crimson-hi</b>#FF4660 · on dark only</div>
+    <div style="background:var(--room-ink);color:var(--room)"><b>--room-ink</b>#F1EADB</div>
+  </div>
+</section>
+
+<section class="wrap sg">
+  <h2 class="sg-h">2 · Type — CMU Serif &amp; CMU Typewriter Text</h2>
+  <p class="display">Research, <em>typeset.</em></p>
+  <p class="h1 mt-s">Heading one, 5.8rem max</p>
+  <p class="h2 mt-s">Heading two — the section title size</p>
+  <p class="h3 mt-s">Heading three, for cards and rows</p>
+  <p class="lede mt-m">Lede paragraph: slightly larger, used right under a headline. It should never run wider than about thirty-eight ems.</p>
+  <p class="measure mt-s dropcap">Body copy is CMU Serif at 17&ndash;18.5px with 1.55 leading, ragged right, hyphenated and balanced. Drop caps, <em>italics for emphasis</em>, <b>bold for labels</b>, and footnote marks<sup>1</sup> are all part of the voice. Numbers align: <span class="num">0123456789</span>.</p>
+  <p class="smcp mt-s">Small-caps label · letter-spaced</p>
+  <p class="mono mt-s">typewriter: project.html?p=mini-me &nbsp;·&nbsp; sha256: 9f2c…a41e</p>
+  <p class="note mt-m" style="max-width:26rem"><b>†</b> A marginal note, used for asides and sources. Italic, small, ruled above.</p>
+</section>
+
+<section class="wrap sg">
+  <h2 class="sg-h">3 · Buttons &amp; links</h2>
+  <div class="flex" style="--g:1.2rem">
+    <a class="btn" href="#">Primary action</a>
+    <a class="btn btn--ghost" href="#">Secondary</a>
+    <a class="btn btn--play" href="#">Watch showreel</a>
+    <a class="link link--arrow" href="#">Text link</a>
+  </div>
+</section>
+
+<section class="wrap sg">
+  <h2 class="sg-h">4 · Plates (projects) — generated covers, six motifs, six palettes</h2>
+  <div class="grid" data-mount="plates" style="row-gap:3rem"></div>
+  <div class="grid mt-l" id="motifs" style="row-gap:1.4rem"></div>
+</section>
+
+<section class="wrap sg">
+  <h2 class="sg-h">5 · Contents · Running head · Stats</h2>
+  <div class="toc">
+    <div class="toc__title">Contents</div>
+    <a href="#"><b>1</b><span>Selected work</span><span>01</span></a>
+    <a href="#"><b>2</b><span>Films</span><span>02</span></a>
+    <a href="#"><b>3</b><span>Method</span><span>03</span></a>
+  </div>
+</section>
+<div data-mount="runhead"></div>
+<section class="wrap sg"><div data-mount="stats"></div></section>
+
+<section class="wrap sg">
+  <h2 class="sg-h">6 · Algorithm (method) · Disciplines (booktabs rows)</h2>
+  <div class="grid">
+    <div class="c-6"><div data-mount="algo"></div></div>
+    <div class="c-6"><div data-mount="disciplines"></div></div>
+  </div>
+</section>
+
+<section class="wrap sg">
+  <h2 class="sg-h">7 · References (recognition) · Authors (team) · Figure (hubs)</h2>
+  <div data-mount="refs"></div>
+  <div class="mt-l" data-mount="authors"></div>
+  <figure class="mt-l"><div data-mount="map"></div><figcaption class="cap mt-s"><span class="cap__text"><b>Fig. 1.</b> Two hubs, one lab.</span></figcaption></figure>
+</section>
+
+<section class="room room--perf sec">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-head__no">§2</span><h2 class="sec-head__title h2">The screening <em>room</em></h2><p class="sec-head__intro">A dark band reserved for video. Click any film for the lightbox.</p></div>
+    <div class="grid">
+      <div class="c-8"><div id="feat"></div></div>
+      <div class="c-4"><div data-mount="reel" data-limit="5"></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap sg">
+  <h2 class="sg-h">8 · Form fields</h2>
+  <form class="measure" onsubmit="return false">
+    <label class="field"><span>Name</span><input type="text" placeholder="Your full name"></label>
+    <label class="field"><span>Message</span><textarea placeholder="Tell us what you are building…"></textarea></label>
+    <p class="mt-m"><button class="btn" type="submit">Send message</button></p>
+  </form>
+</section>
+</main>
+<!-- shell:footer -->
+<footer class="site-footer room">
+  <div class="wrap">
+    <p class="footer__big">Have a problem worth <em>solving?</em> Let&rsquo;s talk.</p>
+    <p class="mt-s"><a class="btn btn--room" href="contact.html">Start a project</a></p>
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <h3>Next Inc.</h3>
+        <p style="max-width:30em">An innovation lab and full-stack technology partner &mdash; bridging cutting-edge research and practical application.</p>
+      </div>
+      <div>
+        <h3>Navigate</h3>
+        <ul class="footer__list">
+          <li><a href="work.html">Work</a></li>
+          <li><a href="films.html">Films</a></li>
+          <li><a href="studio.html">Studio</a></li>
+          <li><a href="recognition.html">Recognition</a></li>
+          <li><a href="career.html">Careers</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Hubs</h3>
+        <ul class="footer__list">
+          <li>Pennsylvania, USA<br><i>Operations</i></li>
+          <li>Vodra, Rajshahi, Bangladesh<br><i>Engineering &amp; R&amp;D</i></li>
+        </ul>
+        <p class="mt-s"><a class="link" href="mailto:ariblabib360@gmail.com">ariblabib360@gmail.com</a></p>
+      </div>
+    </div>
+    <div class="footer__legal">
+      <span>&copy; <span data-year>2026</span> Next Inc. All rights reserved.</span>
+      <span>Set in Computer Modern &middot; Typeset on the web</span>
+    </div>
+  </div>
+  <div class="footer__word" aria-hidden="true">Ne<i>x</i>t</div>
+</footer>
+<!-- /shell:footer -->
+<script src="assets/data/site.js"></script>
+<script src="assets/data/projects.js"></script>
+<script src="assets/data/films.js"></script>
+<script src="assets/data/recognition.js"></script>
+<script src="assets/data/team.js"></script>
+<script src="assets/data/world.js"></script>
+<script src="assets/js/art.js"></script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/render.js"></script>
+<script>
+  /* style-guide only: show every motif × palette, and the featured film */
+  (function () {
+    var m = ['nodes','orbits','bars','waves','tiles','rings'], p = ['crimson','ink','indigo','ochre','forest','paper'], h = '';
+    m.forEach(function (mo, i) { h += '<div class="c-2 m-6"><div class="plate__frame" style="--ar:4/3">' + NEXT.art.cover({ slug: 'sg-' + mo, motif: mo, palette: p[i] }) + '</div><p class="mono mt-s mute">' + mo + ' / ' + p[i] + '</p></div>'; });
+    document.getElementById('motifs').innerHTML = h;
+    var f = NEXT.films.filter(function (x) { return x.featured; })[0];
+    document.getElementById('feat').innerHTML = NEXT.render.film(f);
+    NEXT.init(document);
+  })();
+</script>
+</body>
+</html>

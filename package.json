@@ -1,0 +1,12 @@
+{
+  "name": "nextinc",
+  "private": true,
+  "description": "Next Inc. website — static HTML/CSS/JS, no build step.",
+  "scripts": {
+    "serve": "node scripts/serve.mjs",
+    "sync": "node scripts/sync-shell.mjs",
+    "ledger": "node scripts/ledger.mjs",
+    "check": "node scripts/sync-shell.mjs --check && node scripts/check-samples.mjs",
+    "prelaunch": "node scripts/sync-shell.mjs --check && node scripts/check-samples.mjs --strict"
+  }
+}
