@@ -25,7 +25,7 @@ Order on the home page: 1 Mini Me · 2 SPHEREx Blink Comparator · 3 MiniLocker 
 
 ## 2. SPHEREx Blink Comparator — `spherex-blink`
 **Source:** `Unavailable4u/spherex-blink`. The entry in `projects.js` already matches its README and is complete (cover, two figures, live URL, repo).
-**Status:** `prototype`. Keep "nothing in it claims a detection".
+**Status:** `completed`. Keep "nothing in it claims a detection".
 **Needs from the owner:** a screen-captured demo (20–60 s) and, if wanted, a 3–5 s loop of the blink in action. Until then: thumbnail only, no hover effect, no screening-room slide.
 **Note:** the repo has blink GIFs of 0.5–1.5 MB. Do not use them as they are; they break the budget. A re-encoded WebM/MP4 of the same blink is roughly 100–200 KB.
 **More screenshots** can come from the app itself; each needs a caption that says what the viewer is looking at.
@@ -34,7 +34,7 @@ Order on the home page: 1 Mini Me · 2 SPHEREx Blink Comparator · 3 MiniLocker 
 
 ## 3. MiniLocker — `minilocker`
 **Source:** `shaikh-dotcom/MiniLocker`. The entry already matches its README.
-**Status:** `prototype`. Keep the sentence that the credential broker has only been exercised against a recorded upstream.
+**Status:** `completed`. Keep the sentence that the credential broker has only been exercised against a recorded upstream.
 **Films:** "Blast Radius Zero" (YouTube, 2:50) is already in `films.js` and is the full motion film (confirmed). Add any further video as another film with `project: "minilocker"`.
 **Needs from the owner:** a 3–5 s loop (cut later from the film) for the hover preview. Until it exists the plate is a still; screenshots (the repo's `images/browser` and `docs/assets` are starting points) with captions.
 **Links:** repo only. No live URL exists; do not add a "Visit" button.

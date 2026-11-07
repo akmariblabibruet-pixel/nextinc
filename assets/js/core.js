@@ -141,18 +141,25 @@
     window.addEventListener('resize', run); run();
   }
 
-  /* ---- cursor label over [data-cursor] (desktop pointers only) */
+  /* ---- cursor label over [data-cursor] (desktop pointers only).
+     The label is re-checked on scroll too: when the page moves under a still pointer no pointermove fires,
+     so the element under the pointer is looked up again (elementFromPoint) and the label hides or shows to match. */
   function initCursor() {
     if (!window.matchMedia || window.matchMedia('(hover:none),(pointer:coarse)').matches) return;
     var c = d.createElement('div'); c.className = 'cursor'; c.setAttribute('aria-hidden', 'true'); d.body.appendChild(c);
-    var x = 0, y = 0, raf = 0, on = null;
-    d.addEventListener('pointermove', function (e) {
-      x = e.clientX; y = e.clientY;
-      var t = e.target.closest ? e.target.closest('[data-cursor]') : null;
+    var x = 0, y = 0, raf = 0, sraf = 0, on = null, inside = false;
+    function paint() { raf = 0; c.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0) scale(' + (on ? 1 : 0) + ')'; }
+    function update(el) {
+      var t = inside && el && el.closest ? el.closest('[data-cursor]') : null;
       if (t !== on) { on = t; if (t) { c.textContent = t.getAttribute('data-cursor') || 'View'; c.classList.add('is-on'); } else c.classList.remove('is-on'); }
-      if (!raf) raf = requestAnimationFrame(function () { raf = 0; c.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0) scale(' + (on ? 1 : 0) + ')'; });
+      if (!raf) raf = requestAnimationFrame(paint);
+    }
+    d.addEventListener('pointermove', function (e) { x = e.clientX; y = e.clientY; inside = true; update(e.target); }, { passive: true });
+    window.addEventListener('scroll', function () {
+      if (!inside || sraf) return;
+      sraf = requestAnimationFrame(function () { sraf = 0; update(d.elementFromPoint(x, y)); });
     }, { passive: true });
-    d.addEventListener('mouseleave', function () { c.classList.remove('is-on'); c.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0) scale(0)'; });
+    root.addEventListener('mouseleave', function () { inside = false; update(null); });
   }
 
   /* ---- film lightbox: <dialog>, YouTube (privacy mode) / Vimeo / mp4 / "coming soon" */

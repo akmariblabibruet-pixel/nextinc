@@ -4,20 +4,15 @@
   'use strict';
   var NEXT = window.NEXT, R = NEXT.render, e = NEXT.esc, d = document, films = NEXT.films || [];
 
-  /* §1 — four slots: lead plate wide, then three offsets */
+  /* §1 — up to four projects as rows: picture left and text right, then text left and picture right, and so on.
+     Every picture sits in the same 16:9 frame and is shown whole (see .prow in home.css). */
   var host = d.getElementById('work-grid');
   if (host) {
     var feat = NEXT.projects.filter(function (p) { return p.featured; });
     var rest = NEXT.projects.filter(function (p) { return !p.featured; });
     var list = feat.concat(rest).slice(0, 4);
-    var slots = [
-      { cls: 'c-8 w-1', ar: '16/10' },
-      { cls: 'c-4 s-9 w-2', ar: '4/5' },
-      { cls: 'c-5 s-2 w-3', ar: '4/3' },
-      { cls: 'c-6 s-7 w-4', ar: '16/10' }
-    ];
     host.innerHTML = list.map(function (p, i) {
-      return '<div class="' + slots[i].cls + '">' + R.plate(p, { no: i + 1, ar: slots[i].ar, role: i === 0, delay: i % 2 }) + '</div>';
+      return R.row(p, { no: i + 1, ar: '16/9', flip: i % 2 === 1 });
     }).join('');
     NEXT.init(host);
     /* hover loops (preview.js): arms only plates whose project has `preview`, and only on hover devices; the hint follows the same rule */

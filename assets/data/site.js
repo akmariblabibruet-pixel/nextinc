@@ -55,7 +55,7 @@ NEXT.site = {
     { n: 2,  label: "Operating hubs",   tag: "USA · Bangladesh" },
     { n: 3,  label: "Founders",         tag: "CEO · CTO · COO" },
     { n: 4,  label: "Disciplines",      tag: "Web · AI · SaaS · R&D" },
-    { n: 2,  label: "Public prototypes", tag: "SPHEREx · MiniLocker" }
+    { n: 2,  label: "Completed projects", tag: "SPHEREx · MiniLocker" }
   ],
 
   marquee: ["Websites & web apps", "Mobile applications", "Enterprise SaaS", "AI & LLM systems", "Agents & automation", "Research & prototyping", "Design systems"]

@@ -4,7 +4,7 @@
    Fields
      slug      url-safe id            title     display name
      year      number                 category  web | app | ai | saas | research
-     status    live | beta | coming-soon | prototype
+     status    live | beta | coming-soon | prototype | completed
      summary   ONE line for the plate caption (≤ 90 chars)
      abstract  2–4 sentences for the case-study page
      role      what Next Inc. did     tags      string[]
@@ -40,13 +40,13 @@ NEXT.projects = [
     palette: "ink", motif: "nodes" },
 
   /* Real entries below were written from each repo's README. Work is credited to the team, so there is no `role`. */
-  { slug: "spherex-blink", title: "SPHEREx Blink Comparator", year: 2026, category: "research", status: "prototype", featured: true,
+  { slug: "spherex-blink", title: "SPHEREx Blink Comparator", year: 2026, category: "research", status: "completed", featured: true,
     cover: "assets/img/projects/spherex-blink/cover.webp",
     summary: "An interactive blink comparator for real SPHEREx infrared images of the sky.",
     abstract: "A public web app built for the NASA Space Apps 2026 challenge Planet X and SPHEREx. It blinks real SPHEREx infrared images of one patch of sky taken on different dates, so anything that moves stands out, the technique used to find Pluto. It then helps you decide what moved and how far away it is, and lets visitors flag candidates for follow-up.",
     brief: "The challenge asked for four things: multi-epoch comparison, spectral band navigation, interactive data and metadata, and crowdsourced anomaly flagging.",
     approach: "Blink and overlay controls for two frames, band plates for each detector, click-to-inspect coordinates and metadata with a mover check, and a flagging panel that exports CSV or JSON. A Planet X lab adds exact parallax and a distance range with error bars.",
-    outcome: "20 real fields (219 frames) built from SPHEREx Quick Release 2, plus one clearly labelled simulated practice field. Across the 16 asteroid fields the known object is found in 148 of 150 frames. It is a prototype: nothing in it claims a detection.",
+    outcome: "20 real fields (219 frames) built from SPHEREx Quick Release 2, plus one clearly labelled simulated practice field. Across the 16 asteroid fields the known object is found in 148 of 150 frames. Nothing in it claims a detection.",
     tags: ["NASA Space Apps", "SPHEREx", "astronomy", "web app"],
     gallery: [
       { src: "assets/img/projects/spherex-blink/astraea-d3-epochs.webp", alt: "Seven greyscale infrared frames of the same star field, taken on different dates, each labelled with its date and wavelength.", caption: "Seven epochs of the asteroid Astraea's field, detector D3, 28 to 31 July 2025. A blink comparator flips between them so anything that moves stands out." },
@@ -55,7 +55,7 @@ NEXT.projects = [
     palette: "indigo", motif: "orbits",
     links: { live: "https://spherex-blink-web.vercel.app/", repo: "https://github.com/Unavailable4u/spherex-blink" } },
 
-  { slug: "minilocker", title: "MiniLocker", year: 2026, category: "ai", status: "prototype", featured: true,
+  { slug: "minilocker", title: "MiniLocker", year: 2026, category: "ai", status: "completed", featured: true,
     cover: "assets/img/projects/minilocker/cover.webp",
     summary: "A sandbox for AI agents that logs every action and measures what a run could touch.",
     abstract: "MiniLocker gives an AI agent a shell and a web browser while keeping what it can break small, visible and provable. Every task runs in a fresh locked-down Docker container with no network route, and the only way out is an allowlisting proxy. Every action goes into a hash-chained ledger, and a Blast Radius report measured from that ledger shows what the run could and could not touch.",

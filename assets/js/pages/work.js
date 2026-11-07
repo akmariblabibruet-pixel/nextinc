@@ -71,7 +71,7 @@
         '<p class="lede">We could not find that project. It may have been renamed.</p><p class="mt-m"><a class="btn" href="work.html">See all work</a></p></section>';
       d.documentElement.classList.add('case-ready');
     } else {
-      var i = idx(p), next = all[i % all.length];
+      var i = idx(p);
       var pf = (NEXT.films || []).filter(function (f) { return f.project === p.slug && f.id !== p.video; });   /* films of this project, array order */
       var lead = (NEXT.films || []).filter(function (f) { return f.id === p.video; })[0];
       if (lead) pf.unshift(lead);
@@ -147,8 +147,12 @@
       if (safe(L.repo)) links += btn('btn--ghost', L.repo, 'View on GitHub');
       if (safe(L.docs)) links += btn('btn--ghost', L.docs, 'Documentation');
       (L.more || []).forEach(function (m) { if (m && m.label && safe(m.url)) links += btn('btn--ghost', m.url, m.label); });
-      var linksHtml = links ? '<section class="wrap sec--tight"><div class="flex cs-links">' + links + '</div></section>' : '';
+      var linksHtml = links ? '<div class="flex cs-links">' + links + '</div>' : '';   /* sits under the abstract */
       var dev = p.status === 'coming-soon' ? '<p class="note cs-dev"><b>&dagger; In development.</b> This project has not launched yet. We will publish the full case study when it does.</p>' : '';
+      /* the next two or three other projects, in order, wrapping round at the end; small plates that show the whole cover */
+      var others = [], q;
+      for (var n = 1; n < all.length && others.length < 3; n++) { q = all[(i - 1 + n) % all.length]; if (q !== p) others.push(q); }
+      var nextHtml = others.map(function (q, k) { return '<div class="c-4">' + R.plate(q, { no: idx(q), ar: '16/9', fit: true, role: false, delay: k }) + '</div>'; }).join('');
       var specHtml = rows ? '<div class="c-4 s-9" data-reveal style="--d:2"><table class="tab cs-spec"><tbody>' + rows + '</tbody></table><p class="note mt-s"><b>Table 1.</b> Project facts.</p></div>' : '';
 
       root.innerHTML =
@@ -159,11 +163,11 @@
           '<p class="lede">' + e(p.summary || '') + '</p>' + dev + '</section>' +
         '<section class="wrap"><figure class="cs-hero" data-reveal>' + hero + '</figure></section>' +
         '<section class="wrap sec--tight"><div class="grid">' +
-          '<div class="c-7" data-reveal><p class="smcp mute">Abstract</p><p class="lede dropcap mt-s">' + e(p.abstract || p.summary || '') + '</p></div>' + specHtml +
-        '</div></section>' + partsHtml + filmsHtml + galHtml + secsHtml + linksHtml +
-        '<section class="wrap sec"><div class="sec-head"><span class="sec-head__no">&rarr;</span><h2 class="sec-head__title h3">Next plate</h2><p class="sec-head__intro"><a class="link link--arrow" href="work.html">All work</a></p></div>' +
-          '<div class="grid"><div class="c-8">' + R.plate(next, { no: idx(next), ar: '16/9', role: true }) + '</div>' +
-          '<div class="c-4 cs-cta" data-reveal><p class="h3">Want something <em>like this?</em></p><p class="mt-s"><a class="btn" href="contact.html">Start a project</a></p></div></div></section>';
+          '<div class="c-7" data-reveal><p class="smcp mute">Abstract</p><p class="lede dropcap mt-s">' + e(p.abstract || p.summary || '') + '</p>' + linksHtml + '</div>' + specHtml +
+        '</div></section>' + partsHtml + filmsHtml + galHtml + secsHtml +
+        '<section class="wrap sec"><div class="sec-head"><span class="sec-head__no">&rarr;</span><h2 class="sec-head__title h3">Next plates</h2><p class="sec-head__intro"><a class="link link--arrow" href="work.html">All work</a></p></div>' +
+          '<div class="grid cs-next">' + nextHtml + '</div>' +
+          '<div class="cs-more" data-reveal><p class="h3">Want something <em>like this?</em></p><a class="btn" href="contact.html">Start a project</a></div></section>';
       NEXT.init(root);
       d.documentElement.classList.add('case-ready');   /* see work.css: the footer waits for the case study so it is not pushed down */
 

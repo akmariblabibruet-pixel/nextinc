@@ -18,11 +18,24 @@
 .hero__lab{position:absolute;left:1rem;bottom:.9rem;z-index:3;font-family:var(--mono);font-size:.74rem;color:var(--room-ink-2);letter-spacing:.04em}
 .hero__fig .cap{margin-top:1.4rem}
 
-/* selected work — asymmetric plate layout */
-.work-grid{row-gap:clamp(3rem,6vw,5.5rem)}
+/* selected work: one row per project, picture and text on alternating sides; every picture in the same 16:9 frame, shown whole */
+.prow-list{display:grid;row-gap:clamp(3rem,6vw,5.5rem)}
+.prow{display:grid;gap:1.4rem;align-items:center}
+.prow__plate{--ar:16/9}
+.prow__title{font-size:var(--s-3,clamp(1.8rem,3vw,2.5rem));font-weight:700;letter-spacing:-.016em;line-height:1.06}
+.prow__title a{color:var(--ink)}
+.prow__title .arrow{display:inline-block;color:var(--crimson);transition:transform .35s var(--ease)}
+.prow__title a:hover .arrow{transform:translate(.15em,-.15em)}
+.prow__no{font-family:var(--mono);font-size:.74rem;letter-spacing:.06em;color:var(--crimson);margin-bottom:.8rem}
+.prow__sum{margin-top:1rem;font-size:1.05rem;line-height:1.5;font-style:italic;color:var(--ink-2)}
+.prow__meta{margin-top:1rem}
+.prow__go{margin-top:1.4rem}
 @media(min-width:860px){
-  .w-2{margin-top:7rem}
-  .w-4{margin-top:-1rem}
+  .prow{grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap)}
+  .prow__plate{grid-column:1/span 7;grid-row:1}
+  .prow__text{grid-column:9/span 4;grid-row:1}
+  .prow--flip .prow__plate{grid-column:6/span 7}
+  .prow--flip .prow__text{grid-column:1/span 4}
 }
 .more{margin-top:clamp(2.5rem,5vw,4rem);display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:1rem;padding-top:1.2rem;border-top:1px solid var(--ink)}
 

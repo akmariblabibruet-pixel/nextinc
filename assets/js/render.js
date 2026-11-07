@@ -10,7 +10,7 @@
   'use strict';
   var NEXT = (window.NEXT = window.NEXT || {}), e = NEXT.esc;
   var CAT = { web: 'Web', app: 'Mobile', ai: 'AI & LLM', saas: 'SaaS', research: 'Research' };
-  var STATUS = { live: 'Live', beta: 'Beta', 'coming-soon': 'Coming soon', prototype: 'Prototype' };
+  var STATUS = { live: 'Live', beta: 'Beta', 'coming-soon': 'Coming soon', prototype: 'Prototype', completed: 'Completed' };
   var KIND = { award: 'Award', press: 'Press', grant: 'Grant', certification: 'Certification', milestone: 'Milestone' };
   function pad(n) { return (n < 10 ? '0' : '') + n; }
   function d(i, step) { return ' style="--d:' + (i * (step || 1)) + '"'; }
@@ -18,19 +18,42 @@
   var R = (NEXT.render = {
     CAT: CAT, STATUS: STATUS,
 
-    /* one project as a Plate. o: {no, ar:'4/3', reveal:true, delay:0} */
+    /* the picture part of a plate: image or generated art, logo, plate number, status badge. o: {no, ar} */
+    frame: function (p, o) {
+      o = o || {};
+      var media = p.cover ? '<img src="' + e(p.cover) + '" alt="" loading="lazy" decoding="async">' : NEXT.art.cover(p);
+      var logo = p.logo ? '<img class="plate__logo" src="' + e(p.logo) + '" alt="' + e(p.title) + ' logo" width="512" height="512" loading="lazy" decoding="async">' : '';
+      return '<span class="plate__frame"' + (o.ar ? ' style="--ar:' + e(o.ar) + '"' : '') + '>' + media + logo +
+        (o.no ? '<span class="plate__no">Pl. ' + pad(o.no) + '</span>' : '') +
+        (p.status ? '<span class="plate__status' + (p.status === 'live' ? ' plate__status--live' : '') + '">' + e(STATUS[p.status] || p.status) + '</span>' : '') + '</span>';
+    },
+
+    /* one project as a Plate. o: {no, ar:'4/3', reveal:true, delay:0, fit:true}
+       fit: show the whole cover inside the frame (never cropped or zoomed); the frame colour fills any spare space */
     plate: function (p, o) {
       o = o || {};
       var href = 'project.html?p=' + encodeURIComponent(p.slug);
-      var media = p.cover ? '<img src="' + e(p.cover) + '" alt="" loading="lazy" decoding="async">' : NEXT.art.cover(p);
-      var logo = p.logo ? '<img class="plate__logo" src="' + e(p.logo) + '" alt="' + e(p.title) + ' logo" width="512" height="512" loading="lazy" decoding="async">' : '';
-      return '<a class="plate' + (p.sample ? ' is-sample' : '') + '" href="' + href + '" data-cursor="View"' + (o.reveal === false ? '' : ' data-reveal') + d(o.delay || 0) + '>' +
-        '<span class="plate__frame"' + (o.ar ? ' style="--ar:' + e(o.ar) + '"' : '') + '>' + media + logo +
-        (o.no ? '<span class="plate__no">Pl. ' + pad(o.no) + '</span>' : '') +
-        (p.status ? '<span class="plate__status' + (p.status === 'live' ? ' plate__status--live' : '') + '">' + e(STATUS[p.status] || p.status) + '</span>' : '') +
-        '</span><span class="cap"><span class="cap__title">' + e(p.title) + ' <span class="arrow" aria-hidden="true">↗</span></span>' +
+      return '<a class="plate' + (o.fit ? ' plate--fit' : '') + (p.sample ? ' is-sample' : '') + '" href="' + href + '" data-cursor="View"' + (o.reveal === false ? '' : ' data-reveal') + d(o.delay || 0) + '>' +
+        R.frame(p, o) +
+        '<span class="cap"><span class="cap__title">' + e(p.title) + ' <span class="arrow" aria-hidden="true">↗</span></span>' +
         '<span class="cap__text">' + (o.no ? '<b>Plate ' + o.no + '.</b> ' : '') + e(p.summary || '') + '</span>' +
         '<span class="cap__meta"><span>' + e(CAT[p.category] || p.category || '') + '</span>' + (p.year ? '<span class="num">' + e(p.year) + '</span>' : '') + (p.role && o.role ? '<span>' + e(p.role) + '</span>' : '') + '</span></span></a>';
+    },
+
+    /* one project as a Row: the picture on one side, name and text on the other. o: {no, ar:'16/9', flip:true (text left, picture right), role}
+       The picture is a link that screen readers and Tab skip (the title is the same link); the cursor label is on the picture only. */
+    row: function (p, o) {
+      o = o || {};
+      var href = 'project.html?p=' + encodeURIComponent(p.slug);
+      return '<article class="prow' + (o.flip ? ' prow--flip' : '') + (p.sample ? ' is-sample' : '') + '" data-reveal' + d(o.delay || 0) + '>' +
+        '<a class="plate plate--fit prow__plate" href="' + href + '" data-cursor="View" tabindex="-1" aria-hidden="true">' + R.frame(p, { no: o.no, ar: o.ar }) + '</a>' +
+        '<div class="prow__text">' +
+          (o.no ? '<p class="prow__no">Plate ' + pad(o.no) + '</p>' : '') +
+          '<h3 class="prow__title"><a href="' + href + '">' + e(p.title) + ' <span class="arrow" aria-hidden="true">↗</span></a></h3>' +
+          '<p class="prow__sum">' + e(p.summary || '') + '</p>' +
+          '<p class="cap__meta prow__meta"><span>' + e(CAT[p.category] || p.category || '') + '</span>' + (p.year ? '<span class="num">' + e(p.year) + '</span>' : '') + (p.role && o.role ? '<span>' + e(p.role) + '</span>' : '') + '</p>' +
+          '<p class="prow__go"><a class="link link--arrow" href="' + href + '" tabindex="-1" aria-hidden="true">Read the case study</a></p>' +
+        '</div></article>';
     },
 
     /* one film as a card (opens the lightbox). o: {ar, reveal} */
