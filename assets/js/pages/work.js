@@ -68,6 +68,7 @@
       setMeta('meta[name=robots]', 'content', 'noindex', { tag: 'meta', attrs: { name: 'robots', content: 'noindex' } });
       root.innerHTML = '<section class="wrap page-head"><p class="crumbs"><a href="work.html">Work</a></p><h1 class="h1">Plate not <em>found.</em></h1>' +
         '<p class="lede">We could not find that project. It may have been renamed.</p><p class="mt-m"><a class="btn" href="work.html">See all work</a></p></section>';
+      d.documentElement.classList.add('case-ready');
     } else {
       var i = idx(p), next = all[i % all.length];
       var film = (NEXT.films || []).filter(function (f) { return f.id === p.video; })[0] || (NEXT.films || []).filter(function (f) { return f.project === p.slug; })[0];
@@ -139,6 +140,7 @@
           '<div class="grid"><div class="c-8">' + R.plate(next, { no: idx(next), ar: '16/9', role: true }) + '</div>' +
           '<div class="c-4 cs-cta" data-reveal><p class="h3">Want something <em>like this?</em></p><p class="mt-s"><a class="btn" href="contact.html">Start a project</a></p></div></div></section>';
       NEXT.init(root);
+      d.documentElement.classList.add('case-ready');   /* see work.css: the footer waits for the case study so it is not pushed down */
 
       /* figure lightbox */
       var gi = 0, dlg;

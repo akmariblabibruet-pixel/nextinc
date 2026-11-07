@@ -282,9 +282,9 @@
   function start() {
     if (!films.length) {
       var h = $('#feat-film'); if (h) h.innerHTML = '<p class="lede">No films yet. Add one in <span class="mono">assets/data/films.js</span>.</p>';
-      var s = $('#all'); if (s) s.hidden = true; return;
+      var s = $('#all'); if (s) s.hidden = true; document.documentElement.classList.add('films-ready'); return;
     }
-    renderFeatured(); renderGroups();
+    try { renderFeatured(); renderGroups(); } finally { document.documentElement.classList.add('films-ready'); }   /* see films.css: the parts below the head stay unpainted until now */
     var id = hashId(); if (id && byId[id]) NEXT.openFilm(id, cardFor(id));   // films.html#<id>
   }
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', start); else start();

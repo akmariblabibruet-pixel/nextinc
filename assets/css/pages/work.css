@@ -38,3 +38,10 @@ button.cs-plate{display:block;width:100%;padding:0;border:0;background:none;curs
 .work-list{padding-bottom:clamp(3rem,6vw,5rem)}
 .cs-gal+*,.cs-links{margin-top:0}
 .cs-cta{margin-top:2rem}@media(min-width:860px){.cs-cta{margin-top:0}}
+
+/* project.html: the footer stays unpainted until the case study has been rendered into #case, so it is not pushed down (layout shift).
+   It shows again by itself after 5 s if the script never runs. */
+@media (scripting:enabled){
+  html:not(.case-ready) main:has(#case) ~ .site-footer{visibility:hidden;animation:case-failsafe 0s linear 5s forwards}
+}
+@keyframes case-failsafe{to{visibility:visible}}

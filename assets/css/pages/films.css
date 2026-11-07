@@ -8,6 +8,17 @@
 .films-hint kbd{font:inherit;color:var(--room-ink);border:1px solid var(--room-rule);padding:.02em .45em;border-radius:var(--radius)}
 @media(hover:none),(pointer:coarse){.films-hint kbd,.films-hint{font-size:.74rem}}
 
+/* Until films.js has rendered the featured film and the programme, the parts below the page head are not painted, so nothing visible
+   gets pushed down when they arrive (that was a 0.27 layout shift). A hidden element still keeps its space, and shows again by itself
+   after 5 s if the script never runs. Browsers without the scripting media feature just skip this. */
+@media (scripting:enabled){
+  html:not(.films-ready) .films .feat,
+  html:not(.films-ready) .films #all,
+  html:not(.films-ready) .films .perf--end,
+  html:not(.films-ready) .films ~ .site-footer{visibility:hidden;animation:films-failsafe 0s linear 5s forwards}
+}
+@keyframes films-failsafe{to{visibility:visible}}
+
 /* film-strip perforations (same geometry as .room--perf, usable as a divider) */
 .perf{position:relative;height:14px;pointer-events:none;
   background:repeating-linear-gradient(90deg,transparent 0 14px,var(--room-3) 14px 26px,transparent 26px 40px) 0 3px/auto 8px no-repeat}
