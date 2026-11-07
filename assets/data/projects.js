@@ -33,10 +33,10 @@
 window.NEXT = window.NEXT || {};
 NEXT.projects = [
   { slug: "mini-me", title: "Mini Me", year: 2026, category: "ai", status: "coming-soon", featured: true,
-    summary: "The revolutionary AI that changes the future — multiple agents working together to futurize engineering.",
-    abstract: "Mini Me connects multiple AI agents into one system that plans, builds and checks engineering work. It is our flagship product: fast execution, detailed results, and customization for the way each team works.",
+    summary: "A personal AI workspace where specialised agents work on the task you describe.",
+    abstract: "Mini Me is a personal, workspace-centred AI environment built around chat. You describe a task, and specialised agents for research, writing, review and testing work on it inside a workspace that keeps your context, sources and notes. It is our flagship product.",
     role: "Flagship product — concept, design, engineering", tags: ["multi-agent", "LLM", "engineering"],
-    palette: "ink", motif: "nodes", logo: "assets/img/brand/mini-me-logo.webp", links: {} },
+    palette: "ink", motif: "nodes", logo: "assets/img/brand/mini-me-logo.webp" },
 
   /* Real entries below were written from each repo's README. Work is credited to the team, so there is no `role`. */
   { slug: "spherex-blink", title: "SPHEREx Blink Comparator", year: 2026, category: "research", status: "prototype", featured: true,
@@ -63,5 +63,14 @@ NEXT.projects = [
     outcome: "Each Attack Lab run is reported as contained, breached or inconclusive. The sandbox, egress control, ledger and report, Attack Lab and deployment are working and tested end to end; the credential broker has so far only been exercised against a recorded upstream.",
     tags: ["AI agents", "sandboxing", "security"],
     palette: "forest", motif: "rings",
-    links: { repo: "https://github.com/shaikh-dotcom/MiniLocker" } }
+    links: { repo: "https://github.com/shaikh-dotcom/MiniLocker" } },
+
+  /* Facts: package.json of the repo and the owner's screenshot of the hero. The repo README is still the Vite template. */
+  { slug: "next-inc-immersive", title: "Next Inc. Immersive", year: 2026, category: "web", status: "prototype", featured: true,
+    cover: "assets/img/projects/next-inc-immersive/cover.webp",
+    summary: "A showcase build of our website for 3D and high-graphics animation.",
+    abstract: "Next Inc. Immersive is a showcase build of our website that demonstrates 3D and high-graphics animation. It is not our production site, which is the one you are reading. It is built with React and Vite, draws its 3D scenes with Three.js through react-three-fiber, adds particle effects with tsparticles, and uses Tailwind for the layout.",
+    tags: ["3D", "WebGL", "React", "Three.js"],
+    palette: "crimson", motif: "waves",
+    links: { live: "https://next-in-c.onrender.com/", repo: "https://github.com/shaikh-dotcom/Next-In-C" } }
 ];

@@ -71,7 +71,11 @@
       d.documentElement.classList.add('case-ready');
     } else {
       var i = idx(p), next = all[i % all.length];
-      var film = (NEXT.films || []).filter(function (f) { return f.id === p.video; })[0] || (NEXT.films || []).filter(function (f) { return f.project === p.slug; })[0];
+      var pf = (NEXT.films || []).filter(function (f) { return f.project === p.slug && f.id !== p.video; });   /* films of this project, array order */
+      var lead = (NEXT.films || []).filter(function (f) { return f.id === p.video; })[0];
+      if (lead) pf.unshift(lead);
+      var film = pf[0];                                                                                         /* the hero film */
+      function safe(u) { return /^https?:\/\//i.test(u || ''); }
       var base = ((NEXT.site && NEXT.site.url) || location.origin).replace(/\/+$/, '');      /* the public address, not localhost or a preview host */
       var url = base + '/project.html?p=' + encodeURIComponent(p.slug);
       d.title = p.title + ' — case study — Next Inc.';
@@ -88,15 +92,19 @@
         ['og:image:width', 'og:image:height'].forEach(function (k) { var m = d.querySelector('meta[property="' + k + '"]'); if (m) m.remove(); });   /* size of the default card no longer applies */
       }
 
-      var cover = p.cover ? '<img src="' + e(p.cover) + '" alt="" decoding="async">' : NEXT.art.cover(p);
+      /* width/height only tell the browser the frame's ratio; the image fills the frame, so nothing can shift. The hero is the one eager image. */
+      function pic(src, w, h, eager) { return '<img src="' + e(src) + '" alt="" width="' + w + '" height="' + h + '"' + (eager ? ' fetchpriority="high"' : ' loading="lazy"') + ' decoding="async">'; }
       var logo = p.logo ? '<img class="plate__logo" src="' + e(p.logo) + '" alt="' + e(p.title) + ' logo" width="512" height="512">' : '';
       var hero;
       if (film) {
-        hero = '<button type="button" class="plate cs-plate" data-film="' + e(film.id) + '" data-cursor="Play" aria-label="Play film: ' + e(film.title + (film.duration ? ', ' + film.duration : '')) + '"><span class="plate__frame" style="--ar:16/9">' + cover + logo +
+        /* the film's poster carries its own branding, so the project logo is only added when we fall back to the cover or generated art */
+        var fm = film.poster ? pic(film.poster, 1600, 900, true) : (p.cover ? pic(p.cover, 1600, 900, true) : NEXT.art.cover(p)) + logo;
+        var ft = film.title.indexOf(p.title) === 0 ? e(film.title) : e(p.title) + ' &mdash; ' + e(film.title);   /* do not repeat the project name */
+        hero = '<button type="button" class="plate cs-plate" data-film="' + e(film.id) + '" data-cursor="Play" aria-label="Play film: ' + e(film.title + (film.duration ? ', ' + film.duration : '')) + '"><span class="plate__frame" style="--ar:16/9">' + fm +
           '<span class="film__play" aria-hidden="true"></span><span class="film__time">' + e(film.duration || '') + '</span></span></button>' +
-          '<figcaption class="cap"><span class="cap__text"><b>Fig. 1.</b> ' + e(p.title) + ' &mdash; ' + e(film.title) + '.</span></figcaption>';
+          '<figcaption class="cap"><span class="cap__text"><b>Fig. 1.</b> ' + ft + '.</span></figcaption>';
       } else {
-        hero = '<div class="plate cs-plate"><span class="plate__frame" style="--ar:21/9">' + cover + logo + '</span></div>' +
+        hero = '<div class="plate cs-plate"><span class="plate__frame" style="--ar:21/9">' + (p.cover ? pic(p.cover, 2100, 900, true) : NEXT.art.cover(p)) + logo + '</span></div>' +
           '<figcaption class="cap"><span class="cap__text"><b>Fig. 1.</b> ' + e(p.title) + (p.year ? ', ' + e(p.year) : '') + '.</span></figcaption>';
       }
 
@@ -113,29 +121,45 @@
       var gal = (p.gallery || []);
       var galHtml = gal.length ? '<section class="wrap sec--tight"><div class="sec-head"><span class="sec-head__no">&sect;</span><h2 class="sec-head__title h3">Figures</h2></div><div class="grid cs-gal">' +
         gal.map(function (g, k) {
-          var m = g.src ? '<img src="' + e(g.src) + '" alt="' + e(g.alt || '') + '" loading="lazy" decoding="async">' : NEXT.art.cover({ slug: p.slug + '-g' + k, motif: g.art && g.art.motif, palette: g.art && g.art.palette });
+          var m = g.src ? '<img src="' + e(g.src) + '" alt="' + e(g.alt || '') + '" width="1600" height="1000" loading="lazy" decoding="async">' : NEXT.art.cover({ slug: p.slug + '-g' + k, motif: g.art && g.art.motif, palette: g.art && g.art.palette });
           return '<figure class="c-6" data-reveal style="--d:' + (k % 2) + '"><button type="button" class="plate cs-plate" data-gal="' + k + '" data-cursor="View" aria-label="Open figure ' + (k + 2) + '"><span class="plate__frame" style="--ar:16/10">' + m + '</span></button>' +
             '<figcaption class="cap"><span class="cap__text"><b>Fig. ' + (k + 2) + '.</b> ' + e(g.caption || '') + '</span></figcaption></figure>';
         }).join('') + '</div></section>' : '';
 
-      var links = '';
-      if (p.links && p.links.live) links += '<a class="btn" href="' + e(p.links.live) + '" target="_blank" rel="noopener">Visit the live project</a>';
-      if (p.links && p.links.repo) links += '<a class="btn btn--ghost" href="' + e(p.links.repo) + '" target="_blank" rel="noopener">View the source</a>';
-      if (film) links += '<button type="button" class="btn btn--play btn--ghost" data-film="' + e(film.id) + '">Watch the film</button>';
+      /* Films: a list only when there are two or more (with one, the hero already is the film). Rows open the lightbox. */
+      var filmsHtml = pf.length > 1 ? '<section class="wrap sec--tight cs-films"><div class="sec-head"><span class="sec-head__no">&para;</span><h2 class="sec-head__title h3">Films</h2></div>' +
+        '<div class="grid"><div class="c-8">' + R.reel(pf) + '</div></div></section>' : '';
+
+      /* Extra sections: plain editorial blocks. A block with no title, or with neither text nor list, is skipped. */
+      var secs = (p.sections || []).map(function (s) {
+        var body = [].concat(s && s.body != null ? s.body : []).filter(Boolean), items = ((s && s.list) || []).filter(Boolean);
+        if (!s || !s.title || (!body.length && !items.length)) return '';
+        return '<div class="cs-sec"><h2 class="h3">' + e(s.title) + '</h2>' + body.map(function (t) { return '<p>' + e(t) + '</p>'; }).join('') +
+          (items.length ? '<ul class="cs-list">' + items.map(function (t) { return '<li>' + e(t) + '</li>'; }).join('') + '</ul>' : '') + '</div>';
+      }).filter(Boolean);
+      var secsHtml = secs.length ? '<section class="wrap sec--tight"><div class="grid"><div class="c-7" data-reveal>' + secs.join('') + '</div></div></section>' : '';
+
+      /* Links: one button per key; nothing at all when there are none. Only http(s) addresses are rendered. */
+      var L = p.links || {}, links = '';
+      function btn(cls, href, label) { return '<a class="btn ' + cls + '" href="' + e(href) + '" target="_blank" rel="noopener">' + e(label) + '</a>'; }
+      if (safe(L.live)) links += btn('', L.live, 'Visit');
+      if (safe(L.repo)) links += btn('btn--ghost', L.repo, 'View on GitHub');
+      if (safe(L.docs)) links += btn('btn--ghost', L.docs, 'Documentation');
+      (L.more || []).forEach(function (m) { if (m && m.label && safe(m.url)) links += btn('btn--ghost', m.url, m.label); });
+      var linksHtml = links ? '<section class="wrap sec--tight"><div class="flex cs-links">' + links + '</div></section>' : '';
       var dev = p.status === 'coming-soon' ? '<p class="note cs-dev"><b>&dagger; In development.</b> This project has not launched yet. We will publish the full case study when it does.</p>' : '';
-      var linksHtml = (links || dev) ? '<section class="wrap sec--tight">' + dev + (links ? '<div class="flex cs-links">' + links + '</div>' : '') + '</section>' : '';
+      var specHtml = rows ? '<div class="c-4 s-9" data-reveal style="--d:2"><table class="tab cs-spec"><tbody>' + rows + '</tbody></table><p class="note mt-s"><b>Table 1.</b> Project facts.</p></div>' : '';
 
       root.innerHTML =
         '<section class="wrap page-head cs-head">' +
           '<p class="crumbs"><a href="work.html">Work</a><span>/</span><span class="cur">' + e(p.title) + '</span></p>' +
           (p.sample ? '<p class="cs-sample">Sample case study &mdash; placeholder content</p>' : '') +
           '<div class="cs-title"><h1 class="h1">' + e(p.title) + '</h1>' + chip + '</div>' +
-          '<p class="lede">' + e(p.summary || '') + '</p></section>' +
+          '<p class="lede">' + e(p.summary || '') + '</p>' + dev + '</section>' +
         '<section class="wrap"><figure class="cs-hero" data-reveal>' + hero + '</figure></section>' +
         '<section class="wrap sec--tight"><div class="grid">' +
-          '<div class="c-7" data-reveal><p class="smcp mute">Abstract</p><p class="lede dropcap mt-s">' + e(p.abstract || p.summary || '') + '</p></div>' +
-          '<div class="c-4 s-9" data-reveal style="--d:2"><table class="tab cs-spec"><tbody>' + rows + '</tbody></table><p class="note mt-s"><b>Table 1.</b> Project facts.</p></div>' +
-        '</div></section>' + partsHtml + galHtml + linksHtml +
+          '<div class="c-7" data-reveal><p class="smcp mute">Abstract</p><p class="lede dropcap mt-s">' + e(p.abstract || p.summary || '') + '</p></div>' + specHtml +
+        '</div></section>' + partsHtml + filmsHtml + galHtml + secsHtml + linksHtml +
         '<section class="wrap sec"><div class="sec-head"><span class="sec-head__no">&rarr;</span><h2 class="sec-head__title h3">Next plate</h2><p class="sec-head__intro"><a class="link link--arrow" href="work.html">All work</a></p></div>' +
           '<div class="grid"><div class="c-8">' + R.plate(next, { no: idx(next), ar: '16/9', role: true }) + '</div>' +
           '<div class="c-4 cs-cta" data-reveal><p class="h3">Want something <em>like this?</em></p><p class="mt-s"><a class="btn" href="contact.html">Start a project</a></p></div></div></section>';

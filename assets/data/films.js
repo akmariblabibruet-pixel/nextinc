@@ -12,5 +12,9 @@ window.NEXT = window.NEXT || {};
 NEXT.films = [
   { id: "minilocker-film", title: "MiniLocker — Blast Radius Zero", sub: "The film for the Vultr Agent Rush hackathon", duration: "2:50", year: 2026,
     kind: "launch", project: "minilocker", provider: "youtube", src: "q5bYqguilGs",
-    poster: "assets/img/films/minilocker-film.webp", featured: true, palette: "forest", motif: "rings" }
+    poster: "assets/img/films/minilocker-film.webp", featured: true, palette: "forest", motif: "rings" },
+
+  { id: "mini-me-chat-film", title: "Mini Me — The Chat tab", sub: "A first look at the Chat tab", duration: "1:03", year: 2026,
+    kind: "walkthrough", project: "mini-me", provider: "youtube", src: "4fNrtf8CX_o",
+    poster: "assets/img/films/mini-me-chat-film.webp", palette: "ink", motif: "nodes" }
 ];

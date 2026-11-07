@@ -35,6 +35,19 @@ button.cs-plate{display:block;width:100%;padding:0;border:0;background:none;curs
 .cs-lb__media{position:relative;aspect-ratio:16/10}
 .cs-lb__media img{width:100%;height:100%;object-fit:contain}
 .cs-lb__nav{white-space:nowrap}
+/* S9: the Films list is the .reel component recoloured for the light page (same tokens as the rest of this page); extra sections are plain editorial text */
+.cs-films .reel{border-top-color:var(--ink)}
+.cs-films .reel__item{border-bottom-color:var(--rule)}
+.cs-films .reel__item,.cs-films .reel__item:hover{color:var(--ink-2)}
+.cs-films .reel__no{color:var(--crimson)}
+.cs-films .reel__name{color:var(--ink)}
+.cs-films .reel__name small,.cs-films .reel__time{color:var(--ink-3)}
+.cs-sec+.cs-sec{margin-top:clamp(2rem,4vw,3rem)}
+.cs-sec p,.cs-sec ul{margin-top:1rem}
+.cs-list{list-style:disc;padding-left:1.2em}
+.cs-list li+li{margin-top:.4rem}
+.cs-list li::marker{color:var(--crimson)}
+.cs-head .cs-dev{margin-top:1.4rem}
 .work-list{padding-bottom:clamp(3rem,6vw,5rem)}
 .cs-gal+*,.cs-links{margin-top:0}
 .cs-cta{margin-top:2rem}@media(min-width:860px){.cs-cta{margin-top:0}}
