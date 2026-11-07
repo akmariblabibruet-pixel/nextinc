@@ -28,8 +28,27 @@
 
 /* screening room */
 .room .sec-head__intro{color:var(--room-ink-3)}
-.feat-film .film__ttl{font-size:var(--s-2)}
 .room-cta{margin-top:2.4rem}
+
+/* screening room slideshow (S10): all slides share one grid cell, so the section is as tall as the tallest slide and never shifts */
+.show{margin-top:clamp(1.6rem,3vw,2.6rem)}
+.show__bar{display:flex;flex-wrap:wrap;align-items:center;gap:.2rem 1.8rem;margin-bottom:clamp(1.4rem,3vw,2.2rem);border-bottom:1px solid var(--room-rule)}
+.show__bar[hidden]{display:none}
+.show__tabs{display:flex;flex-wrap:wrap;gap:0 1.8rem;margin-right:auto}
+.show__bar button{position:relative;min-height:44px;color:var(--room-ink-3);transition:color .2s}
+.show__bar button:hover,.show__bar [aria-current=true]{color:var(--room-ink)}
+.show__tabs button::after{content:"";position:absolute;left:0;right:0;bottom:.5rem;height:1px;background:var(--crimson-hi);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease)}
+.show__tabs button:hover::after,.show__tabs [aria-current=true]::after{transform:scaleX(1)}
+.show__ctl button{min-width:44px;padding:0 .5rem}
+.show__stage{display:grid;touch-action:pan-y}
+.show__slide{grid-area:1/1;align-items:start;opacity:0;visibility:hidden;transition:opacity .25s,visibility 0s .25s}
+.show__slide.is-on{opacity:1;visibility:visible;transition-delay:0s}
+.show__line{height:1px;margin-top:clamp(1.4rem,3vw,2.2rem);background:var(--room-rule)}
+.show__line i{display:block;height:100%;background:var(--crimson-hi);transform:scaleX(0);transform-origin:left}
+.is-auto .show__line i{animation:show-fill 8s linear forwards}
+.is-held .show__line i{animation-play-state:paused}
+@keyframes show-fill{to{transform:scaleX(1)}}
+@media(prefers-reduced-motion:reduce){.is-auto .show__line i{animation-duration:8s!important}}   /* only after the visitor presses Play: the global rule would make 8 s last no time */
 
 /* method */
 .method-notes>*+*{margin-top:1.6rem}

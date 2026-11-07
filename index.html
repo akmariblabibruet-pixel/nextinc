@@ -132,17 +132,8 @@
       </nav>
     </div>
 
-    <figure class="hero__fig" data-reveal>
-      <button type="button" class="plate hero__plate" data-film="minilocker-film" data-cursor="Play" aria-label="Play film: MiniLocker &mdash; Blast Radius Zero, 2:50">
-        <span class="plate__frame">
-          <span class="hero__art" data-parallax=".05"><picture><source media="(max-width:700px)" srcset="assets/img/projects/minilocker/cover.webp"><img src="assets/img/films/minilocker-film.webp" alt="" width="1600" height="900" decoding="async" fetchpriority="high"></picture></span>
-          <span class="film__play" aria-hidden="true"></span>
-          <span class="hero__lab" aria-hidden="true">CH1 &middot; film</span>
-          <span class="film__time">2:50</span>
-        </span>
-      </button>
-      <figcaption class="cap"><span class="cap__text"><b>Fig. 1.</b> MiniLocker &mdash; Blast Radius Zero, a film for the Vultr Agent Rush hackathon.</span></figcaption>
-    </figure>
+    <!-- Fig. 1: the company reel. home.js fills and shows this figure when the film "next-inc-reel" exists in assets/data/films.js (see the note there); until then it stays hidden, so there is no dead play button. -->
+    <figure class="hero__fig" id="hero-reel" data-reel="next-inc-reel" data-reveal hidden></figure>
   </section>
 
   <!-- ───────────── RUNNING HEAD ───────────── -->
@@ -170,9 +161,13 @@
         <h2 class="sec-head__title h2" id="films-h" data-split>The screening <em>room</em></h2>
         <p class="sec-head__intro">Motion films about what we make &mdash; launch films, walkthroughs, and the people behind them.</p>
       </div>
-      <div class="grid">
-        <div class="c-8 feat-film" id="feat-film"></div>
-        <div class="c-4"><div data-mount="reel" data-limit="5"></div></div>
+      <div class="show" id="show" role="region" aria-roledescription="carousel" aria-label="Project films">
+        <div class="show__bar" hidden>
+          <div class="show__tabs"></div><span class="mono mute num"></span>
+          <span class="show__ctl"><button type="button" class="smcp" data-a="-1" aria-label="Previous project">&larr;</button><button type="button" class="smcp" data-a="0"></button><button type="button" class="smcp" data-a="1" aria-label="Next project">&rarr;</button></span>
+        </div>
+        <div class="show__stage"></div>
+        <div class="show__line" aria-hidden="true" hidden><i></i></div>
       </div>
       <p class="room-cta"><a class="btn btn--room" href="films.html">All films</a></p>
     </div>
@@ -292,6 +287,7 @@
 <script src="assets/js/art.js"></script>
 <script src="assets/js/core.js"></script>
 <script src="assets/js/render.js"></script>
+<script src="assets/js/preview.js"></script>
 <script src="assets/js/pages/home.js"></script>
 </body>
 </html>

@@ -50,6 +50,7 @@
       }).join('');
       count.textContent = items.length + (items.length === 1 ? ' plate' : ' plates') + (cat === 'all' ? '' : ' · ' + R.CAT[cat]);
       NEXT.init(lead); NEXT.init(list);
+      if (NEXT.preview) { NEXT.preview.bind(lead); NEXT.preview.bind(list); }   /* S10: hover loops, only for projects that have `preview` */
     }
     filters.addEventListener('click', function (ev) { var b = ev.target.closest('.filter'); if (b) render(b.getAttribute('data-cat'), true); });
     d.addEventListener('click', function (ev) { if (ev.target.closest('[data-reset]')) render('all', true); });

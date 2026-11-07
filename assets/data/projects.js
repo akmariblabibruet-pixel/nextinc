@@ -36,7 +36,8 @@ NEXT.projects = [
     summary: "A personal AI workspace where specialised agents work on the task you describe.",
     abstract: "Mini Me is a personal, workspace-centred AI environment built around chat. You describe a task, and specialised agents for research, writing, review and testing work on it inside a workspace that keeps your context, sources and notes. It is our flagship product.",
     role: "Flagship product — concept, design, engineering", tags: ["multi-agent", "LLM", "engineering"],
-    palette: "ink", motif: "nodes", logo: "assets/img/brand/mini-me-logo.webp" },
+    cover: "assets/img/projects/mini-me/cover.webp",
+    palette: "ink", motif: "nodes" },
 
   /* Real entries below were written from each repo's README. Work is credited to the team, so there is no `role`. */
   { slug: "spherex-blink", title: "SPHEREx Blink Comparator", year: 2026, category: "research", status: "prototype", featured: true,
@@ -52,7 +53,7 @@ NEXT.projects = [
       { src: "assets/img/projects/spherex-blink/astraea-d6-epochs.webp", alt: "Four greyscale infrared frames of the same star field from detector D6, each labelled with its date and wavelength.", caption: "The same field through detector D6. Each detector sees a different range of wavelengths, so the app warns when two frames are too different in colour to compare brightness." }
     ],
     palette: "indigo", motif: "orbits",
-    links: { live: "https://unavailable4u.github.io/spherex-blink/", repo: "https://github.com/Unavailable4u/spherex-blink" } },
+    links: { live: "https://spherex-blink-web.vercel.app/", repo: "https://github.com/Unavailable4u/spherex-blink" } },
 
   { slug: "minilocker", title: "MiniLocker", year: 2026, category: "ai", status: "prototype", featured: true,
     cover: "assets/img/projects/minilocker/cover.webp",
