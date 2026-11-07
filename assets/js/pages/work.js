@@ -97,7 +97,7 @@
           '<figcaption class="cap"><span class="cap__text"><b>Fig. 1.</b> ' + e(p.title) + ' &mdash; ' + e(film.title) + '.</span></figcaption>';
       } else {
         hero = '<div class="plate cs-plate"><span class="plate__frame" style="--ar:21/9">' + cover + logo + '</span></div>' +
-          '<figcaption class="cap"><span class="cap__text"><b>Fig. 1.</b> ' + e(p.title) + ', ' + e(p.year || '') + '.</span></figcaption>';
+          '<figcaption class="cap"><span class="cap__text"><b>Fig. 1.</b> ' + e(p.title) + (p.year ? ', ' + e(p.year) : '') + '.</span></figcaption>';
       }
 
       var chip = p.status ? '<span class="chip chip--' + e(p.status) + '">' + e(R.STATUS[p.status] || p.status) + '</span>' : '';

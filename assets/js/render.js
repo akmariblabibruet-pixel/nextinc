@@ -30,7 +30,7 @@
         (p.status ? '<span class="plate__status' + (p.status === 'live' ? ' plate__status--live' : '') + '">' + e(STATUS[p.status] || p.status) + '</span>' : '') +
         '</span><span class="cap"><span class="cap__title">' + e(p.title) + ' <span class="arrow" aria-hidden="true">↗</span></span>' +
         '<span class="cap__text">' + (o.no ? '<b>Plate ' + o.no + '.</b> ' : '') + e(p.summary || '') + '</span>' +
-        '<span class="cap__meta"><span>' + e(CAT[p.category] || p.category || '') + '</span><span class="num">' + e(p.year || '') + '</span>' + (p.role && o.role ? '<span>' + e(p.role) + '</span>' : '') + '</span></span></a>';
+        '<span class="cap__meta"><span>' + e(CAT[p.category] || p.category || '') + '</span>' + (p.year ? '<span class="num">' + e(p.year) + '</span>' : '') + (p.role && o.role ? '<span>' + e(p.role) + '</span>' : '') + '</span></span></a>';
     },
 
     /* one film as a card (opens the lightbox). o: {ar, reveal} */
