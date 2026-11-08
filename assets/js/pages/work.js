@@ -16,7 +16,7 @@
   /* ======================= work.html ======================= */
   var list = d.getElementById('list');
   if (list) {
-    var filters = d.getElementById('filters'), lead = d.getElementById('lead'), count = d.getElementById('count'), empty = d.getElementById('empty');
+    var filters = d.getElementById('filters'), count = d.getElementById('count'), empty = d.getElementById('empty');
     var cats = ORDER.filter(function (c) { return all.some(function (p) { return p.category === c; }); });
     var current = 'all';
 
@@ -25,32 +25,17 @@
       return '<button type="button" class="filter" data-cat="' + c + '" aria-pressed="false">' + (c === 'all' ? 'All' : e(R.CAT[c])) + '<sup class="num">' + n + '</sup></button>';
     }).join('');
 
-    var leadHtml = function (p) {
-      var tags = (p.tags || []).map(function (t) { return '<li>' + e(t) + '</li>'; }).join('');
-      return '<div class="grid lead">' +
-        '<div class="c-8">' + R.plate(p, { no: idx(p), ar: '16/10', role: false, delay: 0 }) + '</div>' +
-        '<div class="c-4 lead__side" data-reveal style="--d:2">' +
-          '<p class="smcp mute">Featured plate</p>' +
-          '<p class="lede">' + e(p.abstract || p.summary || '') + '</p>' +
-          (p.role ? '<p class="note"><b>Role.</b> ' + e(p.role) + '</p>' : '') +
-          (tags ? '<ul class="tags">' + tags + '</ul>' : '') +
-          '<p><a class="btn btn--ghost" href="project.html?p=' + encodeURIComponent(p.slug) + '">Read the case study</a></p>' +
-        '</div></div>';
-    };
-
     function render(cat, push) {
       current = cat;
       var items = cat === 'all' ? all.slice() : all.filter(function (p) { return p.category === cat; });
       NEXT.$$('.filter', filters).forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-cat') === cat ? 'true' : 'false'); });
       if (push) { try { history.replaceState(null, '', cat === 'all' ? location.pathname + location.search : '#' + cat); } catch (x) {} }
       empty.hidden = items.length > 0;
-      lead.innerHTML = items.length ? leadHtml(items[0]) : '';
-      list.innerHTML = items.slice(1).map(function (p, i) {
-        return '<div class="c-6 ' + (i % 2 ? 'work-list__odd' : '') + '">' + R.plate(p, { no: idx(p), ar: '4/3', role: true, delay: i % 2 }) + '</div>';
-      }).join('');
+      /* the same rows as the home page: picture left and text right, then text left and picture right, every picture in a 16:9 frame */
+      list.innerHTML = items.map(function (p, i) { return R.row(p, { no: idx(p), ar: '16/9', flip: i % 2 === 1 }); }).join('');
       count.textContent = items.length + (items.length === 1 ? ' plate' : ' plates') + (cat === 'all' ? '' : ' · ' + R.CAT[cat]);
-      NEXT.init(lead); NEXT.init(list);
-      if (NEXT.preview) { NEXT.preview.bind(lead); NEXT.preview.bind(list); }   /* S10: hover loops, only for projects that have `preview` */
+      NEXT.init(list);
+      if (NEXT.preview) NEXT.preview.bind(list);   /* S10: hover loops, only for projects that have `preview` */
     }
     filters.addEventListener('click', function (ev) { var b = ev.target.closest('.filter'); if (b) render(b.getAttribute('data-cat'), true); });
     d.addEventListener('click', function (ev) { if (ev.target.closest('[data-reset]')) render('all', true); });
@@ -101,7 +86,7 @@
         /* the film's poster carries its own branding, so the project logo is only added when we fall back to the cover or generated art */
         var fm = film.poster ? pic(film.poster, 1600, 900, true) : (p.cover ? pic(p.cover, 1600, 900, true) : NEXT.art.cover(p)) + logo;
         var ft = film.title.indexOf(p.title) === 0 ? e(film.title) : e(p.title) + ' &mdash; ' + e(film.title);   /* do not repeat the project name */
-        hero = '<button type="button" class="plate cs-plate" data-film="' + e(film.id) + '" data-cursor="Play" aria-label="Play film: ' + e(film.title + (film.duration ? ', ' + film.duration : '')) + '"><span class="plate__frame" style="--ar:16/9">' + fm +
+        hero = '<button type="button" class="plate cs-plate" data-film="' + e(film.id) + '" aria-label="Play film: ' + e(film.title + (film.duration ? ', ' + film.duration : '')) + '"><span class="plate__frame" style="--ar:16/9">' + fm +
           '<span class="film__play" aria-hidden="true"></span><span class="film__time">' + e(film.duration || '') + '</span></span></button>' +
           '<figcaption class="cap"><span class="cap__text"><b>Fig. 1.</b> ' + ft + '.</span></figcaption>';
       } else {
@@ -123,7 +108,7 @@
       var galHtml = gal.length ? '<section class="wrap sec--tight"><div class="sec-head"><span class="sec-head__no">&sect;</span><h2 class="sec-head__title h3">Figures</h2></div><div class="grid cs-gal">' +
         gal.map(function (g, k) {
           var m = g.src ? '<img src="' + e(g.src) + '" alt="' + e(g.alt || '') + '" width="1600" height="1000" loading="lazy" decoding="async">' : NEXT.art.cover({ slug: p.slug + '-g' + k, motif: g.art && g.art.motif, palette: g.art && g.art.palette });
-          return '<figure class="c-6" data-reveal style="--d:' + (k % 2) + '"><button type="button" class="plate cs-plate" data-gal="' + k + '" data-cursor="View" aria-label="Open figure ' + (k + 2) + '"><span class="plate__frame" style="--ar:16/10">' + m + '</span></button>' +
+          return '<figure class="c-6" data-reveal style="--d:' + (k % 2) + '"><button type="button" class="plate cs-plate" data-gal="' + k + '" aria-label="Open figure ' + (k + 2) + '"><span class="plate__frame" style="--ar:16/10">' + m + '</span></button>' +
             '<figcaption class="cap"><span class="cap__text"><b>Fig. ' + (k + 2) + '.</b> ' + e(g.caption || '') + '</span></figcaption></figure>';
         }).join('') + '</div></section>' : '';
 
@@ -165,9 +150,9 @@
         '<section class="wrap sec--tight"><div class="grid">' +
           '<div class="c-7" data-reveal><p class="smcp mute">Abstract</p><p class="lede dropcap mt-s">' + e(p.abstract || p.summary || '') + '</p>' + linksHtml + '</div>' + specHtml +
         '</div></section>' + partsHtml + filmsHtml + galHtml + secsHtml +
-        '<section class="wrap sec"><div class="sec-head"><span class="sec-head__no">&rarr;</span><h2 class="sec-head__title h3">Next plates</h2><p class="sec-head__intro"><a class="link link--arrow" href="work.html">All work</a></p></div>' +
+        '<section class="wrap sec cta--or"><div class="sec-head"><span class="sec-head__no">&rarr;</span><h2 class="sec-head__title h3">Next plates</h2><p class="sec-head__intro"><a class="link link--arrow" href="work.html">All work</a></p></div>' +
           '<div class="grid cs-next">' + nextHtml + '</div>' +
-          '<div class="cs-more" data-reveal><p class="h3">Want something <em>like this?</em></p><a class="btn" href="contact.html">Start a project</a></div></section>';
+          '<h2 class="h2 cs-ask" data-reveal>Want something <em>like this?</em></h2><p class="or">Or,</p></section>';
       NEXT.init(root);
       d.documentElement.classList.add('case-ready');   /* see work.css: the footer waits for the case study so it is not pushed down */
 

@@ -33,7 +33,7 @@
     plate: function (p, o) {
       o = o || {};
       var href = 'project.html?p=' + encodeURIComponent(p.slug);
-      return '<a class="plate' + (o.fit ? ' plate--fit' : '') + (p.sample ? ' is-sample' : '') + '" href="' + href + '" data-cursor="View"' + (o.reveal === false ? '' : ' data-reveal') + d(o.delay || 0) + '>' +
+      return '<a class="plate' + (o.fit ? ' plate--fit' : '') + (p.sample ? ' is-sample' : '') + '" href="' + href + '"' + (o.reveal === false ? '' : ' data-reveal') + d(o.delay || 0) + '>' +
         R.frame(p, o) +
         '<span class="cap"><span class="cap__title">' + e(p.title) + ' <span class="arrow" aria-hidden="true">↗</span></span>' +
         '<span class="cap__text">' + (o.no ? '<b>Plate ' + o.no + '.</b> ' : '') + e(p.summary || '') + '</span>' +
@@ -41,12 +41,12 @@
     },
 
     /* one project as a Row: the picture on one side, name and text on the other. o: {no, ar:'16/9', flip:true (text left, picture right), role}
-       The picture is a link that screen readers and Tab skip (the title is the same link); the cursor label is on the picture only. */
+       The picture is a link that screen readers and Tab skip (the title is the same link). */
     row: function (p, o) {
       o = o || {};
       var href = 'project.html?p=' + encodeURIComponent(p.slug);
       return '<article class="prow' + (o.flip ? ' prow--flip' : '') + (p.sample ? ' is-sample' : '') + '" data-reveal' + d(o.delay || 0) + '>' +
-        '<a class="plate plate--fit prow__plate" href="' + href + '" data-cursor="View" tabindex="-1" aria-hidden="true">' + R.frame(p, { no: o.no, ar: o.ar }) + '</a>' +
+        '<a class="plate plate--fit prow__plate" href="' + href + '" tabindex="-1" aria-hidden="true">' + R.frame(p, { no: o.no, ar: o.ar }) + '</a>' +
         '<div class="prow__text">' +
           (o.no ? '<p class="prow__no">Plate ' + pad(o.no) + '</p>' : '') +
           '<h3 class="prow__title"><a href="' + href + '">' + e(p.title) + ' <span class="arrow" aria-hidden="true">↗</span></a></h3>' +
@@ -60,7 +60,7 @@
     film: function (f, o) {
       o = o || {};
       var media = f.poster ? '<img src="' + e(f.poster) + '" alt="" loading="lazy" decoding="async">' : NEXT.art.cover(f);
-      return '<button type="button" class="film' + (f.sample ? ' is-sample' : '') + '" data-film="' + e(f.id) + '" data-cursor="Play"' + (o.reveal === false ? '' : ' data-reveal') + d(o.delay || 0) + '>' +
+      return '<button type="button" class="film' + (f.sample ? ' is-sample' : '') + '" data-film="' + e(f.id) + '"' + (o.reveal === false ? '' : ' data-reveal') + d(o.delay || 0) + '>' +
         '<span class="sr-only">Play' + (o.bare ? ': ' + e(f.title) + '. ' : ' ') + '</span>' +     /* part of the name, so the name always contains the visible text */
         '<span class="film__frame">' + media + '<span class="film__play" aria-hidden="true"></span><span class="film__time">' + e(f.duration || '') + '</span></span>' +
         (o.bare ? '' : '<span class="film__ttl">' + e(f.title) + '</span><span class="film__sub">' + e(f.sub || '') + '</span>') + '</button>';

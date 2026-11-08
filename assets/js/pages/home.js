@@ -28,7 +28,7 @@
   var rf = hf && films.filter(function (x) { return x.id === hf.getAttribute('data-reel'); })[0];
   if (rf && rf.poster) {
     var rt = rf.duration ? '<span class="film__time">' + e(rf.duration) + '</span>' : '';
-    hf.innerHTML = '<button type="button" class="plate hero__plate" data-film="' + e(rf.id) + '" data-cursor="Play" aria-label="Play film: ' + e(rf.title + (rf.duration ? ', ' + rf.duration : '')) + '">' +
+    hf.innerHTML = '<button type="button" class="plate hero__plate" data-film="' + e(rf.id) + '" aria-label="Play film: ' + e(rf.title + (rf.duration ? ', ' + rf.duration : '')) + '">' +
       '<span class="plate__frame"><span class="hero__art" data-parallax=".05"><img src="' + e(rf.poster) + '" alt="" width="1600" height="900" decoding="async" fetchpriority="high"></span>' +
       '<span class="film__play" aria-hidden="true"></span><span class="hero__lab" aria-hidden="true">CH1 &middot; film</span>' + rt + '</span></button>' +
       '<figcaption class="cap"><span class="cap__text"><b>Fig. 1.</b> ' + e(rf.title) + (rf.duration ? ', ' + e(rf.duration) : '') + '.</span></figcaption>';

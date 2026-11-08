@@ -1,11 +1,11 @@
 /* ==========================================================================
    core.js — behaviour shared by every page. Owned by S1. No dependencies.
    Provides: header state, mobile menu, scroll reveals, headline word-rise,
-   count-up numbers, parallax, cursor label, algorithm highlighter, and the
+   count-up numbers, parallax, algorithm highlighter, and the
    film lightbox (NEXT.openFilm).
    Page scripts call NEXT.init(scope) after inserting new DOM.
    Markup hooks:  data-reveal  data-split  data-count="12" data-suffix="+"
-                  data-parallax=".06"  data-cursor="View"  data-film="<id>"  data-algo
+                  data-parallax=".06"  data-film="<id>"  data-algo
    ========================================================================== */
 (function () {
   'use strict';
@@ -141,27 +141,6 @@
     window.addEventListener('resize', run); run();
   }
 
-  /* ---- cursor label over [data-cursor] (desktop pointers only).
-     The label is re-checked on scroll too: when the page moves under a still pointer no pointermove fires,
-     so the element under the pointer is looked up again (elementFromPoint) and the label hides or shows to match. */
-  function initCursor() {
-    if (!window.matchMedia || window.matchMedia('(hover:none),(pointer:coarse)').matches) return;
-    var c = d.createElement('div'); c.className = 'cursor'; c.setAttribute('aria-hidden', 'true'); d.body.appendChild(c);
-    var x = 0, y = 0, raf = 0, sraf = 0, on = null, inside = false;
-    function paint() { raf = 0; c.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0) scale(' + (on ? 1 : 0) + ')'; }
-    function update(el) {
-      var t = inside && el && el.closest ? el.closest('[data-cursor]') : null;
-      if (t !== on) { on = t; if (t) { c.textContent = t.getAttribute('data-cursor') || 'View'; c.classList.add('is-on'); } else c.classList.remove('is-on'); }
-      if (!raf) raf = requestAnimationFrame(paint);
-    }
-    d.addEventListener('pointermove', function (e) { x = e.clientX; y = e.clientY; inside = true; update(e.target); }, { passive: true });
-    window.addEventListener('scroll', function () {
-      if (!inside || sraf) return;
-      sraf = requestAnimationFrame(function () { sraf = 0; update(d.elementFromPoint(x, y)); });
-    }, { passive: true });
-    root.addEventListener('mouseleave', function () { inside = false; update(null); });
-  }
-
   /* ---- film lightbox: <dialog>, YouTube (privacy mode) / Vimeo / mp4 / "coming soon" */
   NEXT.openFilm = function (id, opener) {
     var f = (NEXT.films || []).filter(function (x) { return x.id === id; })[0]; if (!f) return;
@@ -184,7 +163,7 @@
   });
 
   function boot() {
-    initHeader(); initMenu(); initCursor(); NEXT.init(d); initParallax();
+    initHeader(); initMenu(); NEXT.init(d); initParallax();
     NEXT.$$('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
   }
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', boot); else boot();

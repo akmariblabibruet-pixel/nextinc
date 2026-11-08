@@ -8,7 +8,7 @@ depends: —
 ## Done
 - **Design system "The Monograph"** (`assets/css/site.css`): tokens, CMU Serif / Typewriter (self-hosted, subset 110 KB), 12-col grid, buttons, header + mobile menu, footer, plates with crop marks, captions, TOC, algorithm block, booktabs table/rows, references, authors, stats, marquee, screening room + lightbox, forms, print styles, reduced-motion handling.
 - **Generative art** (`assets/js/art.js`): 6 motifs × 6 palettes for project/film covers, hero "oscilloscope" figure, dot-matrix hubs map (land mask from Natural Earth, `assets/data/world.js`).
-- **Behaviour** (`assets/js/core.js`): header hide/show, mobile menu, reveal-on-scroll, headline word-rise, count-up, parallax, cursor label, algorithm stepper, film lightbox (YouTube-nocookie / Vimeo / MP4 / "coming soon").
+- **Behaviour** (`assets/js/core.js`): header hide/show, mobile menu, reveal-on-scroll, headline word-rise, count-up, parallax, algorithm stepper, film lightbox (YouTube-nocookie / Vimeo / MP4 / "coming soon").
 - **Renderers** (`assets/js/render.js`): `data-mount` for plates, films, reel, refs, authors, stats, disciplines, algo, runhead, map.
 - **Data layer** (`assets/data/*.js`) seeded with real facts from the old site (hubs, four pillars, founders, Mini Me) and clearly-marked `sample:true` placeholders.
 - **Shared shell**: `partials/header.html`, `partials/footer.html`, `scripts/sync-shell.mjs`.

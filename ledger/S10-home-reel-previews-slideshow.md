@@ -46,7 +46,7 @@ Edited: `assets/js/pages/home.js`, `assets/css/pages/home.css`, `index.html`, `a
   Static figure for `index.html` (see Decisions; use the real duration):
   ```html
   <figure class="hero__fig" data-reveal>
-    <button type="button" class="plate hero__plate" data-film="next-inc-reel" data-cursor="Play" aria-label="Play film: Next Inc. — what we have built so far, 1:30">
+    <button type="button" class="plate hero__plate" data-film="next-inc-reel" aria-label="Play film: Next Inc. — what we have built so far, 1:30">
       <span class="plate__frame">
         <span class="hero__art" data-parallax=".05"><img src="assets/img/films/next-inc-reel.webp" alt="" width="1600" height="900" decoding="async" fetchpriority="high"></span>
         <span class="film__play" aria-hidden="true"></span>

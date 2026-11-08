@@ -15,6 +15,8 @@
                `project` equals this slug is listed on the case-study page)
      links     { live, repo, docs, more }   see "Motion and extras" below      featured  show on home (max 4)
      sample    true = placeholder, shows an ochre SAMPLE tag
+     car       colour of the project's car on work.html: red | indigo | forest | ochre | silver (default: from palette)
+     carLogo   image shown on the car's roof (assets/img/projects/<slug>/car-logo.svg); leave it out for a blank roof
    Case-study fields (all optional — missing ones are simply not shown):
      brief     what the client needed / the problem        (1–3 sentences)
      approach  what we did and why                         (1–3 sentences)
@@ -37,7 +39,8 @@ NEXT.projects = [
     abstract: "Mini Me is a personal, workspace-centred AI environment built around chat. You describe a task, and specialised agents for research, writing, review and testing work on it inside a workspace that keeps your context, sources and notes. It is our flagship product.",
     role: "Flagship product — concept, design, engineering", tags: ["multi-agent", "LLM", "engineering"],
     cover: "assets/img/projects/mini-me/cover.webp",
-    palette: "ink", motif: "nodes" },
+    palette: "ink", motif: "nodes",
+    car: "red", carLogo: "assets/img/projects/mini-me/car-logo.svg" },
 
   /* Real entries below were written from each repo's README. Work is credited to the team, so there is no `role`. */
   { slug: "spherex-blink", title: "SPHEREx Blink Comparator", year: 2026, category: "research", status: "completed", featured: true,
@@ -53,6 +56,7 @@ NEXT.projects = [
       { src: "assets/img/projects/spherex-blink/astraea-d6-epochs.webp", alt: "Four greyscale infrared frames of the same star field from detector D6, each labelled with its date and wavelength.", caption: "The same field through detector D6. Each detector sees a different range of wavelengths, so the app warns when two frames are too different in colour to compare brightness." }
     ],
     palette: "indigo", motif: "orbits",
+    car: "indigo", carLogo: "assets/img/projects/spherex-blink/car-logo.svg",
     links: { live: "https://spherex-blink-web.vercel.app/", repo: "https://github.com/Unavailable4u/spherex-blink" } },
 
   { slug: "minilocker", title: "MiniLocker", year: 2026, category: "ai", status: "completed", featured: true,
@@ -64,6 +68,7 @@ NEXT.projects = [
     outcome: "Each Attack Lab run is reported as contained, breached or inconclusive. The sandbox, egress control, ledger and report, Attack Lab and deployment are working and tested end to end; the credential broker has so far only been exercised against a recorded upstream.",
     tags: ["AI agents", "sandboxing", "security"],
     palette: "forest", motif: "rings",
+    car: "forest", carLogo: "assets/img/projects/minilocker/car-logo.svg",
     links: { repo: "https://github.com/shaikh-dotcom/MiniLocker" } },
 
   /* Facts: package.json of the repo and the owner's screenshot of the hero. The repo README is still the Vite template. */
@@ -73,5 +78,6 @@ NEXT.projects = [
     abstract: "Next Inc. Immersive is a showcase build of our website that demonstrates 3D and high-graphics animation. It is not our production site, which is the one you are reading. It is built with React and Vite, draws its 3D scenes with Three.js through react-three-fiber, adds particle effects with tsparticles, and uses Tailwind for the layout.",
     tags: ["3D", "WebGL", "React", "Three.js"],
     palette: "crimson", motif: "waves",
+    car: "ochre",
     links: { live: "https://next-in-c.onrender.com/", repo: "https://github.com/shaikh-dotcom/Next-In-C" } }
 ];

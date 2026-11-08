@@ -39,6 +39,7 @@ for (const p of projects) {
   const who = `project ${p.slug}`;
   use('cover', p.cover, who);
   use('logo', p.logo, who);
+  use('car logo', p.carLogo, who);                   /* roof logo of the project's car on work.html */
   (p.gallery || []).forEach((g) => use('screenshot', g && g.src, who));
   if ('preview' in p) {
     const v = p.preview || {};

@@ -215,6 +215,11 @@ body.menu-open .wordmark small{color:var(--room-ink-2)}
 body.menu-open .burger i{border-color:var(--paper)}
 main{padding-top:var(--header-h);display:block}
 
+/* "Or," on the line where the page ends and the footer begins: the closing section of work, studio and project pages ends exactly at the footer's top edge,
+   and the word sits half above it (crimson on paper) and half below it (the footer's crimson on the dark), so the page's question and the footer's invitation read as one sentence */
+.cta--or{padding-bottom:0}
+.or{display:block;position:relative;z-index:2;width:fit-content;margin-top:clamp(2.5rem,5vw,4rem);font-size:var(--s-4);font-style:italic;font-weight:700;letter-spacing:-.018em;line-height:1;
+  transform:translateY(50%);color:transparent;background:linear-gradient(var(--crimson) 50%,var(--crimson-hi) 50%);-webkit-background-clip:text;background-clip:text}
 .site-footer{background:var(--room);color:var(--room-ink-2);padding-top:clamp(4rem,8vw,7rem);position:relative;overflow:hidden}
 .site-footer a:hover{color:var(--room-ink)}
 .site-footer h2{font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--room-ink-3);font-weight:700;margin-bottom:1rem}
@@ -279,12 +284,25 @@ a.plate:hover .cap__title .arrow{transform:translate(.15em,-.15em)}
 /* the "sample" guard — makes placeholder content impossible to miss */
 .is-sample{position:relative}
 .is-sample .plate__frame::after,.is-sample.film::after{content:"SAMPLE — replace";position:absolute;left:0;bottom:0;z-index:4;padding:.35em .8em;background:var(--ochre);color:var(--ink);font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
-/* custom cursor label over [data-cursor] */
-.cursor{position:fixed;left:0;top:0;z-index:150;pointer-events:none;width:5.2rem;height:5.2rem;margin:-2.6rem 0 0 -2.6rem;border-radius:50%;
-  background:var(--crimson);color:var(--paper);display:grid;place-items:center;font-size:.64rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
-  transform:translate3d(-100px,-100px,0) scale(0);transition:transform .35s var(--ease),opacity .2s;opacity:0}
-.cursor.is-on{opacity:1}
-@media(hover:none),(pointer:coarse){.cursor{display:none}}
+/* project rows (R.row in render.js; home page and work.html): one row per project, picture and text on alternating sides; every picture in the same 16:9 frame, shown whole */
+.prow-list{display:grid;row-gap:clamp(3rem,6vw,5.5rem)}
+.prow{display:grid;gap:1.4rem;align-items:center}
+.prow__plate{--ar:16/9}
+.prow__title{font-size:var(--s-3,clamp(1.8rem,3vw,2.5rem));font-weight:700;letter-spacing:-.016em;line-height:1.06}
+.prow__title a{color:var(--ink)}
+.prow__title .arrow{display:inline-block;color:var(--crimson);transition:transform .35s var(--ease)}
+.prow__title a:hover .arrow{transform:translate(.15em,-.15em)}
+.prow__no{font-family:var(--mono);font-size:.74rem;letter-spacing:.06em;color:var(--crimson);margin-bottom:.8rem}
+.prow__sum{margin-top:1rem;font-size:1.05rem;line-height:1.5;font-style:italic;color:var(--ink-2)}
+.prow__meta{margin-top:1rem}
+.prow__go{margin-top:1.4rem}
+@media(min-width:860px){
+  .prow{grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap)}
+  .prow__plate{grid-column:1/span 7;grid-row:1}
+  .prow__text{grid-column:9/span 4;grid-row:1}
+  .prow--flip .prow__plate{grid-column:6/span 7}
+  .prow--flip .prow__text{grid-column:1/span 4}
+}
 
 /* 9 · EDITORIAL PARTS */
 /* table of contents with dotted leaders */
@@ -447,7 +465,7 @@ a.refs__item:hover .refs__title{color:var(--crimson)}
 }
 @media print{
   :root{--paper:#fff}
-  body::before,.site-header,.menu,.cursor,.runhead,.room::before{display:none!important}
+  body::before,.site-header,.menu,.runhead,.room::before{display:none!important}
   main{padding-top:0}.room{background:#fff;color:#000}.room *{color:#000!important}
   a[href^="http"]::after{content:" (" attr(href) ")";font-size:.8em;color:#555}
   .sec{padding-block:1.5rem;break-inside:avoid}

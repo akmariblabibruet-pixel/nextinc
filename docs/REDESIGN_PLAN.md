@@ -64,7 +64,7 @@ asymmetric editorial grid, real typography.
 | Screening room | `#0F0D0C` | dark band reserved for **video** |
 | Type | **CMU Serif** (all text) + **CMU Typewriter Text** (meta, code) | self-hosted woff2, Latin subset, 110 KB total |
 | Base size | 17 px (18.5 px ≥1500 px wide) | measure ≤ 38 em; headings balanced; hyphenation on |
-| Motion | reveal-on-scroll, headline word-rise, count-up, slow drifting art, cursor "View/Play" label | all disabled under `prefers-reduced-motion` |
+| Motion | reveal-on-scroll, headline word-rise, count-up, slow drifting art | all disabled under `prefers-reduced-motion` |
 
 ---
 
